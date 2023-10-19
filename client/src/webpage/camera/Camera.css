@@ -1,0 +1,188 @@
+.screencamera{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.appvide {
+  display: flex;
+  align-items: center;
+}
+
+.appcanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.myapp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  overflow: hidden;
+  background-color: black; /* Karena load dari kamera lama */
+}
+
+.text-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.cameratext {
+  font-weight: 300;
+  font-family: 'Work Sans', sans-serif;
+  position: absolute;
+  top: 40px;
+  color: white;
+  user-select: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.closebtn {
+  position: absolute;
+  top: 30px;
+  right: 80%;
+  background: none;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border: none;
+}
+
+.closebtnimg {
+  width: 30px;
+  height: 30px;
+  border: none;
+}
+
+.capturebtn {
+  position: absolute;
+  bottom: 10%;
+  background-color: #F09E54;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 20px;
+  cursor: pointer;
+  outline: 5px solid #F09E54;
+  outline-offset: 3px;
+  width: 60px;
+  height: 60px;
+  border: none;
+}
+
+.lightningbtn {
+  position: absolute;
+  top: 30px;
+  left: 80%;
+  background: none;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border: none;
+}
+
+.lightningbtnimg {
+  width: 50px;
+  height: 50px;
+  border: none;
+}
+
+.switchbtn {
+  position: absolute;
+  bottom: 10%;
+  left: 67%;
+  background: none;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border: none;
+}
+
+.switchbtnimg {
+  width: 80px;
+  border: none;
+  height: 80px;
+}
+
+.gallerybtn {
+  position: absolute;
+  bottom: 10%;
+  right: 67%;
+  background: none;
+  cursor: pointer;
+  width: 60px;
+  border: none;
+  height: 60px;
+}
+
+.gallerybtnimg {
+  width: 80px;
+  border: none;
+  height: 80px;
+}
+
+/* Small devices (Phones, 576px and down) */
+@media (max-width: 576px){
+  .cameratext{
+    font-size: 24px;
+    top: 45px;
+  }
+
+  .lightningbtnimg{
+    height: 40px;
+  }
+
+  .closebtnimg{
+    width: 30px;
+  }
+
+  .switchbtn{
+    left: 74%;
+  }
+
+  .switchbtnimg{
+    width: 60px;
+  }
+
+  .gallerybtn{
+    right: 74%;
+  }
+
+  .gallerybtnimg{
+    width: 60px;
+  }
+}
+
+@media (min-width: 821px){
+  .lightningbtn{
+    left: 90%;
+  }
+
+  .closebtn{
+    right: 90%;
+  }
+
+  .switchbtn{
+    left: 70%;
+  }
+
+  .gallerybtn{
+    right: 70%;
+  }
+}

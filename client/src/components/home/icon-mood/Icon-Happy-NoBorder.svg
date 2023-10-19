@@ -1,0 +1,20 @@
+<svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="43.5" cy="43.5" r="43.5" fill="#EAC73D"/>
+<g filter="url(#filter0_i_40_92)">
+<path d="M21 52C21 78.3966 66 78.9353 66 52H21Z" fill="white"/>
+</g>
+<ellipse cx="27.8847" cy="32.9038" rx="5.57692" ry="8.36539" fill="white"/>
+<ellipse cx="60.7884" cy="32.9038" rx="5.01923" ry="8.36539" fill="white"/>
+<defs>
+<filter id="filter0_i_40_92" x="21" y="52" width="45" height="20" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_40_92"/>
+</filter>
+</defs>
+</svg>

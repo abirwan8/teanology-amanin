@@ -1,0 +1,30 @@
+import './App.css';
+import '../components/BottomNavbar.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+import BottomNavbar from '../components/neutral/BottomNavbarNeutral';
+import TopBar from '../components/TopBar2';
+import Breadcrumbs from '../components/BreadCrumbs';
+import MoodDetected from '../components/neutral/MoodNeutral';
+import TeaMenus from '../components/neutral/TeaMenusNeutral';
+
+function Neutral() {
+
+  const items = [
+    { label: 'Home', link: '/' },
+    { label: 'Mood Neutral', link: '/neutral'},
+  ];
+
+    return (
+      <div className="App mt-4" style={{ marginBottom: "95px" }}>
+        <BottomNavbar />
+        <TopBar />
+        <Breadcrumbs items={items} />
+        <MoodDetected />
+        <TeaMenus />
+      </div>
+    );
+  }
+  
+  export default Neutral;

@@ -1,0 +1,229 @@
+:root {
+  --floralwhite: #fdf6ec;
+  --fear: #f09e54;
+}
+
+/* Top Border */
+.line-fear {
+  border-bottom: 2px solid #e5e5e5;
+  margin-top: 28px;
+}
+
+.line-fear:after {
+  content: "";
+  display: block;
+  border-bottom: 2px solid var(--fear);
+  margin-bottom: -2px;
+  max-width: 50%;
+}
+
+.mood__box-fear {
+  margin-top: 24px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fear {
+  font-weight: 800;
+  font-size: 30px;
+  color: var(--fear);
+}
+
+.sub-title {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.link-fear {
+  font-weight: 600;
+  color: var(--fear);
+}
+
+.attention {
+  text-align: center;
+  font-size: 8px;
+  margin-top: 30px;
+  margin-bottom: 24px;
+}
+
+/* Menu Box */
+.menu__box-fear {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.type-menu-fear {
+  font-weight: 600;
+  font-size: 22px;
+  margin-top: 16px;
+  color: var(--fear);
+}
+
+.code-name-fear {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fear);
+}
+
+.dash-fear {
+  border-bottom: 2px dashed #e5e5e5;
+  margin-top: 12px;
+  border-color: var(--fear);
+}
+
+/* Carousel */
+.carousel {
+  margin-top: 30px;
+}
+
+.carousel-indicators {
+  margin-bottom: 50px;
+}
+
+.carousel-indicators button {
+  background-color: #f09e54 !important;
+  border: none !important;
+  border-radius: 100px;
+  width: 18px !important;
+  height: 5px;
+}
+
+.carousel-control-prev {
+  visibility: hidden;
+}
+
+.carousel-control-next {
+  visibility: hidden;
+}
+
+.cropped-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Descryption */
+.desc-box {
+  margin-top: -40px;
+}
+
+.desc-body {
+  border: none;
+  background-color: var(--floralwhite);
+  border-top-right-radius: 45.6px;
+  border-top-left-radius: 45.6px;
+}
+
+.badge-custom-fear {
+  background-color: var(--fear) !important;
+  border-radius: 6px;
+}
+
+.type {
+  display: inline-block;
+}
+
+.type:not(:last-child)::after {
+  content: "•";
+  margin-right: 5px;
+}
+
+.ings ul li {
+  list-style: none;
+}
+
+.btn-pairing-fear{
+  border: 2px solid var(--fear);
+  background-color: rgba(240, 158, 84, 0.8);
+  color: #FDF6EC;
+  border-radius: 40px;
+  font-weight: 500;
+  height: 50px;
+  width: 100%;
+}
+
+.btn-pairing-fear:hover{
+  border: 2px solid var(--fear);
+  background-color: rgba(240, 158, 84, 0.8);
+  color: #FDF6EC;
+}
+
+@media (min-width: 768px) {
+  .fear {
+    margin-left: 22px;
+  }
+
+  .sub-title {
+    margin-left: 22px;
+  }
+
+  .link-fear {
+    margin-left: 22px;
+  }
+
+  .attention {
+    font-size: 12px;
+  }
+
+  .re-scan {
+    margin-right: 22px;
+  }
+
+  /* Menu Box */
+  .menu__box {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 16px;
+  }
+
+  .list-menu-fear {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .type-menu-fear {
+    font-weight: 600;
+    font-size: 22px;
+    margin-left: 22px;
+    padding-top: 12px;
+    color: var(--fear);
+  }
+}
+
+@media (max-width: 767px){
+  .type-menu-fear{
+    padding-top: 16px;
+  }
+
+  .emote{
+    margin-right: auto;
+    margin-top: 20px;
+  }
+
+  .position-relative img{
+    margin-right: 8px;
+  }
+
+  .btn-pairing-fear{
+    position: fixed; 
+    bottom: 120px;
+    width: 92%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1020px){
+  .btn-pairing-fear{
+    position: fixed; 
+    bottom: 120px;
+    width: 96%;
+  }
+}
+
+/* Food Pairing */
+.header-fear{
+  color: var(--fear);
+  margin-left: 20px;
+}
+
+@media (max-width: 767px){
+  .header-fear{
+    margin-left: 2px;
+  }
+}

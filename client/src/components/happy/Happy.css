@@ -1,0 +1,234 @@
+:root {
+  --floralwhite: #fdf6ec;
+  --happy: #eda80a;
+}
+
+/* Top Border */
+.line-happy {
+  border-bottom: 2px solid #e5e5e5;
+  margin-top: 28px;
+}
+
+.line-happy:after {
+  content: "";
+  display: block;
+  border-bottom: 2px solid var(--happy);
+  margin-bottom: -2px;
+  max-width: 50%;
+}
+
+.mood__box-happy {
+  margin-top: 24px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.happy {
+  font-weight: 800;
+  font-size: 30px;
+  color: var(--happy);
+}
+
+.sub-title {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.link-happy {
+  font-weight: 600;
+  color: var(--happy);
+}
+
+.attention {
+  text-align: center;
+  font-size: 8px;
+  margin-top: 30px;
+  margin-bottom: 24px;
+}
+
+/* Menu Box */
+.menu__box-happy {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.type-menu-happy {
+  font-weight: 600;
+  font-size: 22px;
+  margin-top: 16px;
+  color: var(--happy);
+}
+
+.code-name-happy {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--happy);
+}
+
+.dash-happy {
+  border-bottom: 2px dashed #e5e5e5;
+  margin-top: 12px;
+  border-color: var(--happy);
+}
+
+/* Carousel */
+.carousel {
+  margin-top: 30px;
+}
+
+.carousel-indicators {
+  margin-bottom: 50px;
+}
+
+.carousel-indicators button {
+  background-color: #f09e54 !important;
+  border: none !important;
+  border-radius: 100px;
+  width: 18px !important;
+  height: 5px;
+}
+
+.carousel-control-prev {
+  visibility: hidden;
+}
+
+.carousel-control-next {
+  visibility: hidden;
+}
+
+.cropped-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Descryption */
+.desc-box {
+  margin-top: -40px;
+}
+
+.desc-body {
+  border: none;
+  background-color: var(--floralwhite);
+  border-top-right-radius: 45.6px;
+  border-top-left-radius: 45.6px;
+}
+
+.badge-custom-happy {
+  background-color: var(--happy) !important;
+  border-radius: 6px;
+}
+
+.type {
+  display: inline-block;
+}
+
+.type:not(:last-child)::after {
+  content: "•";
+  margin-right: 5px;
+}
+
+.ings ul li {
+  list-style: none;
+}
+
+
+.btn-pairing-happy{
+  border: 2px solid var(--happy);
+  background-color: rgba(237, 168, 10, 0.8);
+  color: #FDF6EC;
+  border-radius: 40px;
+  font-weight: 500;
+  height: 50px;
+  width: 100%;
+}
+
+.btn-pairing-happy:hover{
+  border: 2px solid var(--happy);
+  background-color: rgba(237, 168, 10, 0.8);
+  color: #FDF6EC;
+}
+
+@media (min-width: 768px) {
+  .happy {
+    margin-left: 22px;
+  }
+
+  .sub-title {
+    margin-left: 22px;
+  }
+  
+  .link-happy {
+    margin-left: 22px;
+  }
+
+  .attention {
+    font-size: 12px;
+  }
+
+  .re-scan {
+    margin-right: 22px;
+  }
+
+  /* Menu Box */
+  .menu__box {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 16px;
+  }
+
+  .list-menu-happy {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .type-menu-happy {
+    font-weight: 600;
+    font-size: 22px;
+    margin-left: 22px;
+    padding-top: 12px;
+    color: var(--happy);
+  }
+}
+
+@media (max-width: 767px){
+  .type-menu-happy{
+    padding-top: 16px;
+  }
+
+  .emote{
+    margin-right: auto;
+    margin-top: 20px;
+  }
+
+  .position-relative img{
+    margin-right: 8px;
+  }
+
+  .ings ul li{
+    font-size: 10px;
+  }
+
+  .btn-pairing-happy{
+    position: fixed; 
+    bottom: 120px;
+    width: 92%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1020px){
+  .btn-pairing-happy{
+    position: fixed; 
+    bottom: 120px;
+    width: 96%;
+  }
+}
+
+/* Food Pairing */
+.header-happy{
+  color: var(--happy);
+  margin-left: 20px;
+}
+
+@media (max-width: 767px){
+  .header-happy{
+    margin-left: 2px;
+  }
+}

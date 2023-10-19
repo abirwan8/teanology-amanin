@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600;700;800&display=swap');
+.App {
+  font-family: 'Work Sans', sans-serif;
+}
+
+html a{
+  color: black;
+}
+
+html a:hover{
+  color: black;
+}
