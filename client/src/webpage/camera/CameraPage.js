@@ -12,14 +12,15 @@ import btn_gallery from './icons/btn_gallery.svg';
 let maxProbability = 0;
 let maxExpression = "";
 
-const LOCAL_STORAGE_KEY = 'maxExpressions';
+// const LOCAL_STORAGE_KEY = 'maxExpressions';
 
-const storedExpressions = localStorage.getItem(LOCAL_STORAGE_KEY);
-const maxExpressions = storedExpressions ? JSON.parse(storedExpressions) : [];
+// const storedExpressions = localStorage.getItem(LOCAL_STORAGE_KEY);
+// const maxExpressions = storedExpressions ? JSON.parse(storedExpressions) : [];
 
 function Camera() {
   const videoRef = useRef()
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [currentExpression, setCurrentExpression] = useState("");
 
   // Load useEffect
   useEffect(() => {
@@ -56,76 +57,103 @@ function Camera() {
 
   const faceMyDetect = () => {
     setInterval(async () => {
-
+      maxProbability = 0;
+      maxExpression = "";
+  
       const detections = await faceapi
         .detectSingleFace(videoRef.current)
         .withFaceLandmarks()
         .withFaceExpressions();
-
-      // Mencari ekspresi dengan probabilitas tertinggi
-      Object.entries(detections.expressions).forEach(([expression, probability]) => {
-        if (probability > maxProbability) {
-          maxProbability = probability;
-          maxExpression = expression;
-        }
-      });
+  
+      // Pastikan 'detections' tidak null atau undefined sebelum mengakses 'expressions'
+      if (detections && detections.expressions) {
+        // Mencari ekspresi dengan probabilitas tertinggi
+        Object.entries(detections.expressions).forEach(([expression, probability]) => {
+          if (probability > maxProbability) {
+            maxProbability = probability;
+            maxExpression = expression;
+          }
+        });
+      }else{
+        maxProbability = 0;
+        maxExpression = "Tidak Terdeteksi";
+      }  
 
       console.log(`Ekspresi : ${maxExpression} (${maxProbability})`);
+      console.log(1);
 
-      // Menambahkan nilai ke dalam array maxExpressions
-      if (maxExpressions.length < 100) {
-        maxExpressions.push(maxExpression);
-      } else {
-        maxExpressions.shift();
-        maxExpressions.push(maxExpression);
-      }
+      // // Menambahkan nilai ke dalam array maxExpressions
+      // if (maxExpressions.length < 100) {
+      //   maxExpressions.push(maxExpression);
+      // } else {
+      //   maxExpressions.shift();
+      //   maxExpressions.push(maxExpression);
+      // }
 
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maxExpressions));
+      // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maxExpressions));
 
-      console.log(maxExpressions);
-
-    }, 1000)
+      // console.log(maxExpressions);
+      const percentage = (maxProbability * 100).toFixed(2);
+      setCurrentExpression(`${maxExpression} (${percentage}%)`);
+    }, 3000)
   }
 
   function processExpression() {
-    let expressionCounts = {
-      "neutral": 0,
-      "happy": 0,
-      "sad": 0,
-      "angry": 0,
-      "fearful": 0,
-      "disgusted": 0,
-      "surprised": 0,
-    };
+    // let expressionCounts = {
+    //   "neutral": 0,
+    //   "happy": 0,
+    //   "sad": 0,
+    //   "angry": 0,
+    //   "fearful": 0,
+    //   "disgusted": 0,
+    //   "surprised": 0,
+    // };
 
-    // Mencari jumlah kemunculan setiap jenis ekspresi dalam array maxExpressions
-    maxExpressions.forEach(expression => {
-      expressionCounts[expression]++;
-    });
+    // // Mencari jumlah kemunculan setiap jenis ekspresi dalam array maxExpressions
+    // maxExpressions.forEach(expression => {
+    //   expressionCounts[expression]++;
+    // });
 
-    // Mencari jenis ekspresi terbanyak
-    let modusExpression = Object.keys(expressionCounts).reduce((a, b) => expressionCounts[a] > expressionCounts[b] ? a : b);
+    // // Mencari jenis ekspresi terbanyak
+    // let modusExpression = Object.keys(expressionCounts).reduce((a, b) => expressionCounts[a] > expressionCounts[b] ? a : b);
+
+    // // Pindah ke halaman sesuai dengan jenis ekspresi terbanyak
+    // if (modusExpression === "neutral") {
+    //   window.location.href = "neutral";
+    // } else if (modusExpression === "happy") {
+    //   window.location.href = "happy";
+    // } else if (modusExpression === "sad") {
+    //   window.location.href = "sad";
+    // } else if (modusExpression === "angry") {
+    //   window.location.href = "angry";
+    // } else if (modusExpression === "fearful") {
+    //   window.location.href = "fear";
+    // } else if (modusExpression === "disgusted") {
+    //   window.location.href = "disgust";
+    // } else if (modusExpression === "surprised") {
+    //   window.location.href = "surprise";
+    // }
+
+    // localStorage.removeItem('maxExpressions');
 
     // Pindah ke halaman sesuai dengan jenis ekspresi terbanyak
-    if (modusExpression === "neutral") {
-
+    if (maxExpression === "neutral") {
       window.location.href = "neutral";
-    } else if (modusExpression === "happy") {
+    } else if (maxExpression === "happy") {
       window.location.href = "happy";
-    } else if (modusExpression === "sad") {
+    } else if (maxExpression === "sad") {
       window.location.href = "sad";
-    } else if (modusExpression === "angry") {
+    } else if (maxExpression === "angry") {
       window.location.href = "angry";
-    } else if (modusExpression === "fearful") {
+    } else if (maxExpression === "fearful") {
       window.location.href = "fear";
-    } else if (modusExpression === "disgusted") {
+    } else if (maxExpression === "disgusted") {
       window.location.href = "disgust";
-    } else if (modusExpression === "surprised") {
+    } else if (maxExpression === "surprised") {
       window.location.href = "surprise";
     }
 
-    localStorage.removeItem('maxExpressions');
-
+    // localStorage.removeItem('maxExpressions');
   }
 
   const navigate = useNavigate();
@@ -135,11 +163,11 @@ function Camera() {
         <video className="screencamera" crossOrigin="anonymous" ref={videoRef} autoPlay></video>
       </div>
       <div className='text-container'>
-      <h1 className='cameratext'>SCAN YOUR MOOD</h1>
+      <h1 className='cameratext'>{currentExpression}</h1>
       </div>
       <div className='button-container'>
       <button className="closebtn"><img onClick={() => navigate(-1)} className="closebtnimg" src={ btn_close }/></button>
-      <button className="lightningbtn"onClick={() => { setButtonClicked(true); localStorage.removeItem('maxExpressions') }}><img className="lightningbtnimg" src={ btn_lightning }/></button>
+      {/* <button className="lightningbtn"onClick={() => { setButtonClicked(true); localStorage.removeItem('maxExpressions') }}><img className="lightningbtnimg" src={ btn_lightning }/></button> */}
       <button className="switchbtn"><img className="switchbtnimg" src={ btn_switch }/></button>
       <button className="capturebtn" onClick={() => { setButtonClicked(true); processExpression() }}></button>
       <button className="gallerybtn"><img className="gallerybtnimg" src={ btn_gallery }/></button>

@@ -40,11 +40,11 @@
 }
 
 .cameratext {
-  font-weight: 300;
+  font-weight: 3000;
   font-family: 'Work Sans', sans-serif;
   position: absolute;
   top: 40px;
-  color: white;
+  color: black;
   user-select: none;
 }
 
