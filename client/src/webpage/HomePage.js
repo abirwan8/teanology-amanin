@@ -26,86 +26,86 @@ import Neutral from "../components/home/icon-mood/Icon-Neutral.svg";
 import Sad from "../components/home/icon-mood/Icon-Sad.svg";
 import Surprised from "../components/home/icon-mood/Icon-Surprised.svg";
 
-let maxProbability = 0;
-let maxExpression = "";
+// let maxProbability = 0;
+// let maxExpression = "";
 
-const LOCAL_STORAGE_KEY = 'maxExpressions';
+// const LOCAL_STORAGE_KEY = 'maxExpressions';
 
-const storedExpressions = localStorage.getItem(LOCAL_STORAGE_KEY);
-const maxExpressions = storedExpressions ? JSON.parse(storedExpressions) : [];
+// const storedExpressions = localStorage.getItem(LOCAL_STORAGE_KEY);
+// const maxExpressions = storedExpressions ? JSON.parse(storedExpressions) : [];
 
 const Home = () => {
   const appRef = useRef(null);
-  const videoRef = useRef()
+  // const videoRef = useRef()
   const [activeSection, setActiveSection] = useState(0);
 
-  useEffect(() => {
-    startVideo()
-    videoRef && loadModels()
+  // useEffect(() => {
+  //   startVideo()
+  //   videoRef && loadModels()
 
-  }, [])
+  // }, [])
 
-  const startVideo = () => {
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then((currentStream) => {
-        videoRef.current.srcObject = currentStream
-        videoRef.current.setAttribute('autoplay', '');
-        videoRef.current.setAttribute('muted', '');
-        videoRef.current.setAttribute('playsinline', '');
-        videoRef.current.setAttribute('width', '0');
-        videoRef.current.setAttribute('height', '0');
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+  // const startVideo = () => {
+  //   navigator.mediaDevices.getUserMedia({ video: true })
+  //     .then((currentStream) => {
+  //       videoRef.current.srcObject = currentStream
+  //       videoRef.current.setAttribute('autoplay', '');
+  //       videoRef.current.setAttribute('muted', '');
+  //       videoRef.current.setAttribute('playsinline', '');
+  //       videoRef.current.setAttribute('width', '0');
+  //       videoRef.current.setAttribute('height', '0');
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }
 
-  const loadModels = () => {
-    Promise.all([
-      // Mengambil model
-      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-      faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
-      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-      faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
-      faceapi.nets.faceExpressionNet.loadFromUri("/models")
+  // const loadModels = () => {
+  //   Promise.all([
+  //     // Mengambil model
+  //     faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+  //     faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
+  //     faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+  //     faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+  //     faceapi.nets.faceExpressionNet.loadFromUri("/models")
 
-    ]).then(() => {
-      faceMyDetect()
-    })
-  }
+  //   ]).then(() => {
+  //     faceMyDetect()
+  //   })
+  // }
 
-  const faceMyDetect = () => {
-    setInterval(async () => {
+  // const faceMyDetect = () => {
+  //   setInterval(async () => {
 
-      const detections = await faceapi
-        .detectSingleFace(videoRef.current)
-        .withFaceLandmarks()
-        .withFaceExpressions();
+  //     const detections = await faceapi
+  //       .detectSingleFace(videoRef.current)
+  //       .withFaceLandmarks()
+  //       .withFaceExpressions();
 
-      // Mencari ekspresi dengan probabilitas tertinggi
-      Object.entries(detections.expressions).forEach(([expression, probability]) => {
-        if (probability > maxProbability) {
-          maxProbability = probability;
-          maxExpression = expression;
-        }
-      });
+  //     // Mencari ekspresi dengan probabilitas tertinggi
+  //     Object.entries(detections.expressions).forEach(([expression, probability]) => {
+  //       if (probability > maxProbability) {
+  //         maxProbability = probability;
+  //         maxExpression = expression;
+  //       }
+  //     });
 
-      console.log(`Ekspresi : ${maxExpression} (${maxProbability})`);
+  //     console.log(`Ekspresi : ${maxExpression} (${maxProbability})`);
 
-      // Menambahkan nilai ke dalam array maxExpressions
-      if (maxExpressions.length < 60) {
-        maxExpressions.push(maxExpression);
-      } else {
-        maxExpressions.shift();
-        maxExpressions.push(maxExpression);
-      }
+  //     // Menambahkan nilai ke dalam array maxExpressions
+  //     if (maxExpressions.length < 60) {
+  //       maxExpressions.push(maxExpression);
+  //     } else {
+  //       maxExpressions.shift();
+  //       maxExpressions.push(maxExpression);
+  //     }
 
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maxExpressions));
+  //     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maxExpressions));
 
-      console.log(maxExpressions);
+  //     console.log(maxExpressions);
 
-    }, 1000)
-  }
+  //   }, 1000)
+  // }
 
   useEffect(() => {
     const appElement = appRef.current;
@@ -249,7 +249,7 @@ const Home = () => {
         </div>
         <BottomNavbar />
         <div className="dot-indicator">
-          <video ref={videoRef} autoPlay></video>
+          {/* <video ref={videoRef} autoPlay></video> */}
           <div className={`dot ${activeSection === 0 ? "active" : ""}`} onClick={() => handleDotClick(0)}></div>
           <div className={`dot ${activeSection === 1 ? "active" : ""}`} onClick={() => handleDotClick(1)}></div>
           <div className={`dot ${activeSection === 2 ? "active" : ""}`} onClick={() => handleDotClick(2)}></div>
