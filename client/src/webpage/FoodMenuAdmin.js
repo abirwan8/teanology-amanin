@@ -194,41 +194,41 @@ const TeaMenuAdmin = () => {
             <Modal.Body>
               <Form>
                 <Row>
-                <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                <Form.Group className="col-6 mb-2" controlId="formBasicName">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     className="form-data"
                     type="text"
-                    placeholder="Enter name"
+                    placeholder="Enter Name"
                     onChange={(e) => {
                       setName(e.target.value);
                     }}
                   />
                 </Form.Group>
-                <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                <Form.Group className="col-6 mb-2" controlId="formBasicPrice">
                   <Form.Label>Price</Form.Label>
                   <Form.Control
                     className="form-data"
                     type="text"
-                    placeholder="Enter price"
+                    placeholder="Enter Price"
                     onChange={(e) => {
                       setPrice(e.target.value);
                     }}
                   />
                 </Form.Group>
                 </Row>
-                <Form.Group className="mb-2" controlId="formBasicEmail">
+                <Form.Group className="mb-2" controlId="formBasicIngredients">
                   <Form.Label>Ingredients</Form.Label>
                   <Form.Control
                     className="form-data"
                     type="text"
-                    placeholder="Enter ingredients"
+                    placeholder="Enter Ingredients"
                     onChange={(e) => {
                       setIngs(e.target.value);
                     }}
                   />
                 </Form.Group>
-                <Form.Group className="mb-2" controlId="formBasicEmail">
+                <Form.Group className="mb-2" controlId="formBasicImage1">
                   <Form.Label>Image 1</Form.Label>
                   <Form.Control
                     className="form-data"
@@ -240,7 +240,7 @@ const TeaMenuAdmin = () => {
                   />
                 </Form.Group>
                 <Row>
-                <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                <Form.Group className="col-6 mb-2" controlId="formBasicImage2">
                   <Form.Label>Image 2</Form.Label>
                   <Form.Control
                     className="form-data"
@@ -251,7 +251,7 @@ const TeaMenuAdmin = () => {
                     }}
                   />
                 </Form.Group>
-                <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                <Form.Group className="col-6 mb-2" controlId="formBasicImage3">
                   <Form.Label>Image 3</Form.Label>
                   <Form.Control
                     className="form-data"
@@ -263,12 +263,13 @@ const TeaMenuAdmin = () => {
                   />
                 </Form.Group>
                 </Row>
-                <Form.Group className="mb-2" controlId="formBasicEmail">
+                <Form.Group className="mb-2" controlId="formBasicDescription">
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     style={{ borderRadius: "20px" }}
                     as="textarea"
                     rows={3}
+                    placeholder="Enter Description"
                     onChange={(e) => {
                       setDesc(e.target.value);
                     }}
@@ -368,36 +369,36 @@ const TeaMenuAdmin = () => {
                       <Modal.Body>
                         <Form>
                           <Row>
-                          <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                          <Form.Group className="col-6 mb-2" controlId="formBasicName">
                             <Form.Label>Name</Form.Label>
-                            <Form.Control className="form-data" type="text" placeholder="Enter name" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })} />
+                            <Form.Control className="form-data" type="text" placeholder="Enter Name" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })} />
                           </Form.Group>
-                          <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                          <Form.Group className="col-6 mb-2" controlId="formBasicPrice">
                             <Form.Label>Price</Form.Label>
-                            <Form.Control className="form-data" type="text" placeholder="Enter price" value={editData.price} onChange={(e) => setEditData({ ...editData, price: e.target.value })} />
+                            <Form.Control className="form-data" type="text" placeholder="Enter Price" value={editData.price} onChange={(e) => setEditData({ ...editData, price: e.target.value })} />
                           </Form.Group>
                           </Row>
-                          <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Group className="mb-2" controlId="formBasicIngredients">
                             <Form.Label>Ingredients</Form.Label>
-                            <Form.Control className="form-data" type="text" placeholder="Enter ingredients" value={editData.ings} onChange={(e) => setEditData({ ...editData, ings: e.target.value })} />
+                            <Form.Control className="form-data" type="text" placeholder="Enter Ingredients" value={editData.ings} onChange={(e) => setEditData({ ...editData, ings: e.target.value })} />
                           </Form.Group>
-                          <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Group className="mb-2" controlId="formBasicImage1">
                             <Form.Label>Image 1</Form.Label>
                             <Form.Control className="form-data" type="file" onChange={(e) => setEditData({ ...editData, img1: e.target.files[0] })} />
                           </Form.Group>
                           <Row>
-                          <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                          <Form.Group className="col-6 mb-2" controlId="formBasicImage2">
                             <Form.Label>Image 2</Form.Label>
                             <Form.Control className="form-data" type="file" onChange={(e) => setEditData({ ...editData, img2: e.target.files[0] })} />
                           </Form.Group>
-                          <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                          <Form.Group className="col-6 mb-2" controlId="formBasicImage3">
                             <Form.Label>Image 3</Form.Label>
                             <Form.Control className="form-data" type="file" onChange={(e) => setEditData({ ...editData, img3: e.target.files[0] })} />
                           </Form.Group>
                           </Row>
-                          <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Group className="mb-2" controlId="formBasicDescription">
                             <Form.Label>Description</Form.Label>
-                            <Form.Control style={{ borderRadius: "20px" }} as="textarea" rows={3} placeholder="Enter description" value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })} />
+                            <Form.Control style={{ borderRadius: "20px" }} as="textarea" rows={3} placeholder="Enter Description" value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })} />
                           </Form.Group>
                         </Form>
                       </Modal.Body>

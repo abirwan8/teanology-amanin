@@ -225,41 +225,41 @@ const TeaMenuAdmin = () => {
             <Modal.Body>
               <Form>
                 <Row>
-                  <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-6 mb-2" controlId="formBasicName">
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="Enter name"
+                      placeholder="Enter Name"
                       onChange={(e) => {
                         setName(e.target.value);
                       }}
                     />
                   </Form.Group>
-                  <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-6 mb-2" controlId="formBasicPrice">
                     <Form.Label>Price</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="Price"
+                      placeholder="Enter Price"
                       onChange={(e) => {
                         setPrice(e.target.value);
                       }}
                     />
                   </Form.Group>
                 </Row>
-                <Form.Group className="mb-2" controlId="formBasicEmail">
+                <Form.Group className="mb-2" controlId="formBasicIngredients">
                   <Form.Label>Ingredients</Form.Label>
                   <Form.Control
                     className="form-data"
                     type="text"
-                    placeholder="Ingredients"
+                    placeholder="Enter Ingredients"
                     onChange={(e) => {
                       setIngs(e.target.value);
                     }}
                   />
                 </Form.Group>
-                <Form.Group className="mb-2" controlId="formBasicEmail">
+                <Form.Group className="mb-2" controlId="formBasicImg1">
                   <Form.Label>Image1</Form.Label>
                   <Form.Control
                     className="form-data"
@@ -271,7 +271,7 @@ const TeaMenuAdmin = () => {
                   />
                 </Form.Group>
                 <Row>
-                  <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-6 mb-2" controlId="formBasicImg2">
                     <Form.Label>Image2</Form.Label>
                     <Form.Control
                       className="form-data"
@@ -282,7 +282,7 @@ const TeaMenuAdmin = () => {
                       }}
                     />
                   </Form.Group>
-                  <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-6 mb-2" controlId="formBasicImg3">
                     <Form.Label>Image3</Form.Label>
                     <Form.Control
                       className="form-data"
@@ -295,34 +295,34 @@ const TeaMenuAdmin = () => {
                   </Form.Group>
                 </Row>
                 <Row>
-                  <Form.Group className="col-5 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-5 mb-2" controlId="formBasicHighlight">
                     <Form.Label>Highlight</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="Enter highlight"
+                      placeholder="Enter Highlight"
                       onChange={(e) => {
                         setHighlight(e.target.value);
                       }}
                     />
                   </Form.Group>
-                  <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-4 mb-2" controlId="formBasicTeaspoon">
                     <Form.Label>Teaspoon</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="Enter teaspoon"
+                      placeholder="Enter Teaspoon"
                       onChange={(e) => {
                         setTsp(e.target.value);
                       }}
                     />
                   </Form.Group>
-                  <Form.Group className="col-3 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-3 mb-2" controlId="formBasicGram">
                     <Form.Label>Gram</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="2 gram"
+                      placeholder="Enter Teaspoon(gram)"
                       onChange={(e) => {
                         setTspg(e.target.value);
                       }}
@@ -330,57 +330,58 @@ const TeaMenuAdmin = () => {
                   </Form.Group>
                   </Row>
                   <Row>
-                  <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-4 mb-2" controlId="formBasicWater">
                     <Form.Label>Water</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="Enter water"
+                      placeholder="Enter Water"
                       onChange={(e) => {
                         setWater(e.target.value);
                       }}
                     />
                   </Form.Group>
-                  <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-4 mb-2" controlId="formBasicTemp">
                     <Form.Label>Temp</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="Enter temp"
+                      placeholder="Enter Temp"
                       onChange={(e) => {
                         setTemp(e.target.value);
                       }}
                     />
                   </Form.Group>
-                  <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                  <Form.Group className="col-4 mb-2" controlId="formBasicTime">
                     <Form.Label>Time</Form.Label>
                     <Form.Control
                       className="form-data"
                       type="text"
-                      placeholder="Enter time"
+                      placeholder="Enter Time"
                       onChange={(e) => {
                         setTime(e.target.value);
                       }}
                     />
                   </Form.Group>
                 </Row>
-                <Form.Group className="mb-2" controlId="formBasicEmail">
+                <Form.Group className="mb-2" controlId="formBasicDescription">
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     style={{ borderRadius: "20px" }}
                     as="textarea"
                     rows={3}
+                    placeholder="Enter Description"
                     onChange={(e) => {
                       setDesc(e.target.value);
                     }}
                   />
                 </Form.Group>
-                <Form.Group className="mb-2" controlId="formBasicEmail">
+                <Form.Group className="mb-2" controlId="formBasicType">
                   <Form.Label>Type</Form.Label>
                   <Form.Control
                     className="form-data"
                     type="text"
-                    placeholder="Enter type"
+                    placeholder="Enter Type"
                     onChange={(e) => {
                       setType(e.target.value);
                     }}
@@ -485,7 +486,7 @@ const TeaMenuAdmin = () => {
                   </td>
                   <td>{val.highlight}</td>
                   <td>{val.tsp} ({val.tspg}g)</td>
-                  <td>{val.water} Ml</td>
+                  <td>{val.water} ml</td>
                   <td>{val.temp} °C</td>
                   <td>{val.time} Mins</td>
                   <td>{val.desc.split(' ').slice(0, 4).join(' ')}...</td>
@@ -504,38 +505,38 @@ const TeaMenuAdmin = () => {
                       <Modal.Body>
                         <Form>
                           <Row>
-                            <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-6 mb-2" controlId="formBasicName">
                               <Form.Label>Name</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Enter name"
+                                placeholder="Enter Name"
                                 value={editData.name} 
                                 onChange={(e) => setEditData({ ...editData, name: e.target.value })}
                               />
                             </Form.Group>
-                            <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-6 mb-2" controlId="formBasicPrice">
                               <Form.Label>Price</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Price"
+                                placeholder="Enter Price"
                                 value={editData.price}
                                 onChange={(e) => setEditData({ ...editData, price: e.target.value })}
                               />
                             </Form.Group>
                           </Row>
-                          <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Group className="mb-2" controlId="formBasicIngredients">
                             <Form.Label>Ingredients</Form.Label>
                             <Form.Control
                               className="form-data"
                               type="text"
-                              placeholder="Ingredients"
+                              placeholder="Enter Ingredients"
                               value={editData.ings}
                               onChange={(e) => setEditData({ ...editData, ings: e.target.value })}
                             />
                           </Form.Group>
-                          <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Group className="mb-2" controlId="formBasicImage1">
                             <Form.Label>Image1</Form.Label>
                             <Form.Control className="form-data" type="file" placeholder="Choose Image" 
                               onChange={(e) => 
@@ -543,7 +544,7 @@ const TeaMenuAdmin = () => {
                              />
                           </Form.Group>
                           <Row>
-                            <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-6 mb-2" controlId="formBasicImage2">
                               <Form.Label>Image2</Form.Label>
                               <Form.Control
                                 className="form-data"
@@ -553,7 +554,7 @@ const TeaMenuAdmin = () => {
                                   setEditData({ ...editData, img2: e.target.files[0] })}
                               />
                             </Form.Group>
-                            <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-6 mb-2" controlId="formBasicImage3">
                               <Form.Label>Image3</Form.Label>
                               <Form.Control
                                 className="form-data"
@@ -565,80 +566,81 @@ const TeaMenuAdmin = () => {
                             </Form.Group>
                           </Row>
                           <Row>
-                            <Form.Group className="col-5 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-5 mb-2" controlId="formBasicHighlight">
                               <Form.Label>Highlight</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Enter highlight"
+                                placeholder="Enter Highlight"
                                 value={editData.highlight}
                                 onChange={(e) => setEditData({ ...editData, highlight: e.target.value })}
                               />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-4 mb-2" controlId="formBasicTeaspoon">
                               <Form.Label>Teaspoon</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Enter teaspoon"
+                                placeholder="Enter Teaspoon"
                                 value={editData.tsp}
                                 onChange={(e) => setEditData({ ...editData, tsp: e.target.value })}
                               />
                             </Form.Group>
-                            <Form.Group className="col-3 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-3 mb-2" controlId="formBasicGram">
                               <Form.Label>Gram</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Enter teaspoon(gram)"
+                                placeholder="Enter Teaspoon(gram)"
                                 value={editData.tspg}
                                 onChange={(e) => setEditData({ ...editData, tspg: e.target.value })}
                               />
                             </Form.Group>
                             </Row>
                             <Row>
-                            <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-4 mb-2" controlId="formBasicWater">
                               <Form.Label>Water</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Enter water"
+                                placeholder="Enter Water"
                                 value={editData.water}
                                 onChange={(e) => setEditData({ ...editData, water: e.target.value })}
                               />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-4 mb-2" controlId="formBasicTemp">
                               <Form.Label>Temp</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Enter temp"
+                                placeholder="Enter Temp"
                                 value={editData.temp}
                                 onChange={(e) => setEditData({ ...editData, temp: e.target.value })}
                               />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
+                            <Form.Group className="col-4 mb-2" controlId="formBasicTime">
                               <Form.Label>Time</Form.Label>
                               <Form.Control
                                 className="form-data"
                                 type="text"
-                                placeholder="Enter time"
+                                placeholder="Enter Time"
                                 value={editData.time}
                                 onChange={(e) => setEditData({ ...editData, time: e.target.value })}
                               />
                             </Form.Group>
                           </Row>
-                          <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Group className="mb-2" controlId="formBasicDescription">
                             <Form.Label>Description</Form.Label>
                             <Form.Control
                               style={{ borderRadius: "20px" }}
                               as="textarea"
                               rows={3}
+                              placeholder="Enter Description"
                               value={editData.desc}
                               onChange={(e) => setEditData({ ...editData, desc: e.target.value })}
                             />
                           </Form.Group>
-                          <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Group className="mb-2" controlId="formBasicType">
                             <Form.Label>Type</Form.Label>
                             <Form.Control
                               className="form-data"
