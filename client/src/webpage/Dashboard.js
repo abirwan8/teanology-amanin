@@ -9,9 +9,8 @@ import Food from "../components/dashboard/Food.svg";
 import FoodPairing from "../components/dashboard/FoodPairing.svg";
 import Staff from "../components/dashboard/Staff.svg";
 import Tea from "../components/dashboard/Tea.svg";
-import Dropdown from 'react-bootstrap/Dropdown';
-import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import Dropdown from "react-bootstrap/Dropdown";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, ResponsiveContainer, LabelList } from "recharts";
 
 import Neutral from "../components/home/icon-mood/Icon-Neutral-NoBorder.svg";
 import Happy from "../components/home/icon-mood/Icon-Happy-NoBorder.svg";
@@ -20,6 +19,72 @@ import Angry from "../components/home/icon-mood/Icon-Angry-NoBorder.svg";
 import Fear from "../components/home/icon-mood/Icon-Fear-NoBorder.svg";
 import Disgust from "../components/home/icon-mood/Icon-Disgust-NoBorder.svg";
 import Surprised from "../components/home/icon-mood/Icon-Surprise-NoBorder.svg";
+
+const dataMood = [
+  {
+    name: "Angry",
+    percentage: "(10%)",
+    klik: 240,
+    color: "#AB594E",
+  },
+  {
+    name: "Happy",
+    percentage: "(15%)",
+    klik: 139,
+    color: "#EAC73D",
+  },
+  {
+    name: "Fear",
+    percentage: "(19%)",
+    klik: 390,
+    color: "#F09E54",
+  },
+  {
+    name: "Sad",
+    percentage: "(20%)",
+    klik: 180,
+    color: "#75A1D9",
+  },
+  {
+    name: "Disgust",
+    percentage: "(40%)",
+    klik: 480,
+    color: "#7A6ACE",
+  },
+  {
+    name: "Surprise",
+    percentage: "(30%)",
+    klik: 380,
+    color: "#F4AFB2",
+  },
+  {
+    name: "Neutral",
+    percentage: "(10%)",
+    klik: 430,
+    color: "#539E6D",
+  },
+];
+
+// Fungsi untuk menghasilkan warna berdasarkan data atau indeks
+function getCustomColor(entry) {
+  // Anda dapat menyesuaikan logika untuk menghasilkan warna sesuai dengan data
+  // Misalnya, berdasarkan kategori atau nilai tertentu
+  if (entry.name === "Angry") {
+    return "#AB594E";
+  } else if (entry.name === "Happy") {
+    return "#EAC73D";
+  } else if (entry.name === "Sad") {
+    return "#75A1D9";
+  } else if (entry.name === "Fear") {
+    return "#F09E54";
+  } else if (entry.name === "Disgust") {
+    return "#7A6ACE";
+  } else if (entry.name === "Surprise") {
+    return "#F4AFB2";
+  } else {
+    return "#539E6D"; // Warna neutral
+  }
+}
 
 const Dashboard = () => {
   const userRole = localStorage.getItem("role");
@@ -32,11 +97,11 @@ const Dashboard = () => {
   // Mengambil data makanan dari backend
   useEffect(() => {
     Axios.get("http://localhost:5000/foods")
-      .then(response => {
+      .then((response) => {
         setTotalFoods(response.data);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, []);
 
@@ -45,11 +110,11 @@ const Dashboard = () => {
   // Mengambil data staff dari backend
   useEffect(() => {
     Axios.get("http://localhost:5000/users")
-      .then(response => {
+      .then((response) => {
         setTotalStaff(response.data);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, []);
 
@@ -58,11 +123,11 @@ const Dashboard = () => {
   // Mengambil data FP dari backend
   useEffect(() => {
     Axios.get("http://localhost:5000/bevs")
-      .then(response => {
+      .then((response) => {
         setTotalBevs(response.data);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, []);
 
@@ -71,17 +136,17 @@ const Dashboard = () => {
   // Mengambil data FP dari backend
   useEffect(() => {
     Axios.get("http://localhost:5000/foodpairings")
-      .then(response => {
+      .then((response) => {
         setTotalFP(response.data);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, []);
 
   const totalFPData = foodpairing.length;
 
-  // Log Out 
+  // Log Out
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -97,15 +162,15 @@ const Dashboard = () => {
     }
   };
 
-  const percentage = 83;
-  const colorHappy = "#EAC73D";
-  const colorAngry = "#AB594E";
-  const colorFear = "#F09E54";
-  const colorSad = "#75A1D9";
-  const colorDisgust = "#7A6ACE";
-  const colorSurprise = "#F4AFB2";
-  const colorNeutral = "#539E6D";
-  const size = "100px";
+  // const percentage = 83;
+  // const colorHappy = "#EAC73D";
+  // const colorAngry = "#AB594E";
+  // const colorFear = "#F09E54";
+  // const colorSad = "#75A1D9";
+  // const colorDisgust = "#7A6ACE";
+  // const colorSurprise = "#F4AFB2";
+  // const colorNeutral = "#539E6D";
+  // const size = "100px";
 
   return (
     <Sidebar>
@@ -131,15 +196,55 @@ const Dashboard = () => {
               <Dropdown.Menu>
                 <p className="ms-3 fw-bold fs-6 text-muted text-uppercase">{userRole}</p>
                 <Dropdown.Divider style={{ marginTop: "-10px" }} />
-                <Dropdown.Item href="/login-page" className="text-danger item-drop" onClick={handleLogout}><i class="bi bi-box-arrow-left me-2"></i>Keluar</Dropdown.Item>
+                <Dropdown.Item href="/login-page" className="text-danger item-drop" onClick={handleLogout}>
+                  <i class="bi bi-box-arrow-left me-2"></i>Keluar
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
         </Row>
 
         {/* Moods Statistic */}
-        <h4 style={{ marginLeft: "3%" }} className="mt-4 mb-4">Statistik Mood</h4>
+        <h4 style={{ marginLeft: "3%" }} className="mt-4 mb-4">
+          Statistik Mood
+        </h4>
+
         <Row style={{ marginLeft: "2%", marginRight: "2%" }}>
+          <Col md={12} lg={8}>
+            <Card className="px-4 box-stats" style={{ background: "rgba(83, 158, 109, 0.1)" }}>
+              <Card.Title className="pt-4 ms-5">Mood paling banyak diperoleh</Card.Title>
+              <Card.Body className="d-flex justify-content-center">
+                <div style={{ width: "100%", maxWidth: "100%" }}>
+                  <BarChart
+                    width={"100%"}
+                    height={"100%"}
+                    data={dataMood}
+                    margin={{
+                      top: 20,
+                      right: 20,
+                      left: 0,
+                      bottom: 5,
+                    }}
+                  >
+                    <XAxis axisLine={false} tickLine={{ display: "none" }} dataKey="name" scale="" padding={{ left: 20, right: 20 }} />
+                    <YAxis axisLine={false} tickLine={{ display: "none" }} />
+                    <Tooltip />
+                    <CartesianGrid vertical={false} stroke="#ccc" strokeDasharray="" />
+                    <Bar radius={6} dataKey="klik" barSize={35} animationDuration={1000}>
+                      {dataMood.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={getCustomColor(entry)} />
+                      ))}
+                      <LabelList dataKey="percentage" position="top" className="fw-bold" style={{ fontSize: 12 }} />
+                      <LabelList dataKey="klik" position="top" dy={-20} style={{ fontSize: 12 }} />
+                    </Bar>
+                  </BarChart>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* <Row style={{ marginLeft: "2%", marginRight: "2%" }}>
           <Col lg={4}>
              <Card className="px-4 box-stats main-stats" style={{ background : "rgba(234, 199, 61, 0.1)" }}>
               <Card.Title className="text-center pt-2">Happy</Card.Title>
@@ -343,45 +448,46 @@ const Dashboard = () => {
               </Col>
             </Row>
           </Col>
-        </Row>
-
+        </Row> */}
 
         {/* Menu Data Statistic */}
-        <h4 style={{ marginLeft: "3%" }} className="mt-4">Data Menu Statistik</h4>
+        <h4 style={{ marginLeft: "3%" }} className="mt-4">
+          Data Menu Statistik
+        </h4>
         <Row style={{ marginLeft: "1%", marginRight: "4%" }} className="mt-4">
           <Col lg={6} md={12} xs={12}>
             <Card className="box-dashboard2">
-            <Card.Body>
-              <Row>
-                <Col xs={4}>
-                  <div className="oval-icon">
-                    <img className="icon" alt="oval-tea" src={Tea} />
-                  </div>
-                </Col>
-                <Col xs={8}>
-                  <h4 className="text-total">Total Beverage Menu</h4>
-                  <h3 className="total">{totalBevsData}</h3>
-                </Col>
-              </Row>
-            </Card.Body>
+              <Card.Body>
+                <Row>
+                  <Col xs={4}>
+                    <div className="oval-icon">
+                      <img className="icon" alt="oval-tea" src={Tea} />
+                    </div>
+                  </Col>
+                  <Col xs={8}>
+                    <h4 className="text-total">Total Beverage Menu</h4>
+                    <h3 className="total">{totalBevsData}</h3>
+                  </Col>
+                </Row>
+              </Card.Body>
             </Card>
           </Col>
 
           <Col lg={6} md={12} xs={12}>
             <Card className="box-dashboard2">
-            <Card.Body>
-              <Row>
-                <Col xs={4}>
-                  <div className="oval-icon">
-                    <img className="icon" alt="oval-food" src={Food} />
-                  </div>
-                </Col>
-                <Col xs={8}>
-                  <h4 className="text-total">Total Food Menu</h4>
-                  <h3 className="total">{totalFoodData}</h3>
-                </Col>
-              </Row>
-            </Card.Body>
+              <Card.Body>
+                <Row>
+                  <Col xs={4}>
+                    <div className="oval-icon">
+                      <img className="icon" alt="oval-food" src={Food} />
+                    </div>
+                  </Col>
+                  <Col xs={8}>
+                    <h4 className="text-total">Total Food Menu</h4>
+                    <h3 className="total">{totalFoodData}</h3>
+                  </Col>
+                </Row>
+              </Card.Body>
             </Card>
           </Col>
         </Row>
@@ -389,42 +495,42 @@ const Dashboard = () => {
         <Row style={{ marginLeft: "1%", marginRight: "4%" }} className="mt-4 mb-5">
           <Col lg={6} md={12} xs={12}>
             <Card className="box-dashboard2">
-            <Card.Body>
-              <Row>
-                <Col xs={4}>
-                  <div className="oval-icon">
-                    <img className="icon" alt="oval-foodpairing" src={FoodPairing} />
-                  </div>
-                </Col>
-                <Col xs={8}>
-                  <h4 className="text-total">Total Food Pairing</h4>
-                  <h3 className="total">{totalFPData}</h3>
-                </Col>
-              </Row>
-            </Card.Body>
+              <Card.Body>
+                <Row>
+                  <Col xs={4}>
+                    <div className="oval-icon">
+                      <img className="icon" alt="oval-foodpairing" src={FoodPairing} />
+                    </div>
+                  </Col>
+                  <Col xs={8}>
+                    <h4 className="text-total">Total Food Pairing</h4>
+                    <h3 className="total">{totalFPData}</h3>
+                  </Col>
+                </Row>
+              </Card.Body>
             </Card>
           </Col>
 
           <Col lg={6} md={12} xs={12}>
             <Card className="box-dashboard2">
-            <Card.Body>
-              <Row>
-                <Col xs={4}>
-                  <div className="oval-icon">
-                    <img className="icon" alt="oval-staff" src={Staff} />
-                  </div>
-                </Col>
-                <Col xs={8}>
-                  <h4 className="text-total">Total Staff</h4>
-                  <h3 className="total">{totalStaffData}</h3>
-                </Col>
-              </Row>
-            </Card.Body>
+              <Card.Body>
+                <Row>
+                  <Col xs={4}>
+                    <div className="oval-icon">
+                      <img className="icon" alt="oval-staff" src={Staff} />
+                    </div>
+                  </Col>
+                  <Col xs={8}>
+                    <h4 className="text-total">Total Staff</h4>
+                    <h3 className="total">{totalStaffData}</h3>
+                  </Col>
+                </Row>
+              </Card.Body>
             </Card>
           </Col>
         </Row>
       </Container>
-      
+
       {/*}
       <div className="flex-containerrr">
         <Card className="box-dashboard2">
