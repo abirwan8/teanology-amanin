@@ -37,7 +37,7 @@ const TopBar1 = ({ name, ...props }) => {
 
           <Col xs={2} md={1}>
             <a href="#" onClick={handleShow}>
-              <i className="bi bi-list fs-3 float-end text-light res-topbar_right"></i>
+              <i className="bi bi-list fs-3 float-end text-dark res-topbar_right"></i>
             </a>
           </Col>
         </Row>
