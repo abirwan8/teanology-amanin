@@ -6,10 +6,7 @@ const HeadLibrary = () => {
             <Row>
                 <Col md={12}>
                     <h2 className="neutral">Library Teanology</h2>
-                    <p className='sub-title'>Here are your personalised menu recommendation based on your emotion!</p>
-                    <a href='camera'>
-                        <p className='link-neutral'>Not feeling Happy? Scan again!</p>
-                    </a>
+                    <p className='sub-title'>Ketahui lebih banyak mengenai Teanology</p>
                 </Col>
             </Row>
         </Container>

@@ -7,10 +7,7 @@ const HeadCatalogue = () => {
             <Row>
                 <Col md={12}>
                     <h2 className="neutral">Katalog Teanology</h2>
-                    <p className='sub-title'>Here are your personalised menu recommendation based on your emotion!</p>
-                    <a href='camera'>
-                        <p className='link-neutral'>Not feeling Happy? Scan again!</p>
-                    </a>
+                    <p className='sub-title'>Berikut semua katalog yang tersedia di Teanology</p>
                 </Col>
             </Row>
         </Container>
