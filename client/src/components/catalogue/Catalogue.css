@@ -8,11 +8,6 @@
   padding-left: 32px;
 }
 
-/* Menu Box */
-.menu__box-green {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
 .type-menu-green {
   font-weight: 600;
   font-size: 22px;

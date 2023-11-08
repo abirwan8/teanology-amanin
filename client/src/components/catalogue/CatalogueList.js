@@ -25,7 +25,7 @@ const CatalogueList = () => {
 
   return (
     <>
-    <h2 className="header container-fluid mt-2 fw-bold">Our Catalogue</h2>
+    {/* <h2 className="header container-fluid mt-2 fw-bold">Our Catalogue</h2> */}
       {bevList.map((val, index) => {
         if (val.type !== currentType) {
           currentType = val.type;

@@ -1,10 +1,10 @@
 import { Container } from "react-bootstrap";
 
-import home from "./icon-green/home.svg";
-import teagreen from "./icon-green/teanology_scan.svg";
-import library from "./icon-green/library.svg";
-import catalogue from "./icon-green/catalogue.svg";
-import inbox from "./icon-green/inbox.svg";
+import home from "./icon/home-outline.svg";
+import scanicon from "../home/icon-green/teanology_scan.svg";
+import catalogue from "./icon/catalogue-fill.svg";
+import library from "../home/icon-green/library.svg";
+import inbox from "../home/icon-green/inbox.svg";
 
 const BottomNavbar = () => {
   return (
@@ -20,8 +20,8 @@ const BottomNavbar = () => {
           <span className="nav__text">Library</span>
         </a>
         <a href="/camera" className="nav__link ps-3 pb-3">
-          <img className="nav__icon icon-tea" alt="nav-teagreen" src={teagreen} />
-          <span className="nav__text">Scan Me!</span>
+          <img className="nav__icon icon-scan" alt="nav-scan" src={scanicon} />
+          <span className="nav__text" style={{ marginLeft: "8px" }}>Scan Me!</span>
         </a>
         <a href="/catalogue" className="nav__link">
           <img className="nav__icon" alt="nav-catalogue" src={catalogue} />

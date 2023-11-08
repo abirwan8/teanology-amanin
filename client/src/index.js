@@ -7,6 +7,7 @@ import App from './webpage/App';
 import reportWebVitals from './reportWebVitals';
 import Home from './webpage/HomePage';
 import Catalogue from './webpage/CataloguePage';
+import Library from './webpage/LibraryPage';
 import Camera from './webpage/camera/CameraPage';
 import Angry from './webpage/MoodAngryPage';
 import Disgust from './webpage/MoodDisgustPage';
@@ -60,6 +61,7 @@ ReactDOM.createRoot(rootElement).render(
         <Route path="camera" element={<Camera />} />
 
         <Route path="/catalogue" element={<Catalogue />} />
+        <Route path="/library" element={<Library />} />
         <Route path="/product-details-catalogue" element={<DetailProductCatalogue />} >
             {/* Memanggil product angry base id */}
             <Route path=":id" element={<DetailProductCatalogue />} /> 

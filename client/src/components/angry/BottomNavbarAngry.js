@@ -16,7 +16,7 @@ const BottomNavbarAngry = () => {
                 <img className="nav__icon" alt="nav-home" src={ home }/>
                 <span className="nav__text">Home</span>
             </a>
-            <a href="#" className="nav__link nav__link--active">
+            <a href="/library" className="nav__link nav__link--active">
                 <img className="nav__icon" alt="nav-library" src={ library }/>
                 <span className="nav__text">Library</span>
             </a>
