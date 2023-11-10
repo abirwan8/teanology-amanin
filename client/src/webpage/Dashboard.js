@@ -209,20 +209,52 @@ const Dashboard = () => {
           Statistik Mood
         </h4>
 
-        <Row style={{ marginLeft: "2%", marginRight: "2%" }}>
-          <Col md={12} lg={8}>
-            <Card className="px-4 box-stats" style={{ background: "rgba(83, 158, 109, 0.1)" }}>
-              <Card.Title className="pt-4 ms-5">Mood paling banyak diperoleh</Card.Title>
+        <Row style={{ marginLeft: "1%", marginRight: "4%" }}>
+          <Col md={12} lg={6}>
+            <Card className="px-4 box-stats box-dashboard2" style={{ background: "rgba(83, 158, 109, 0.1)" }}>
+              <Card.Title className="pt-4 ms-4">Berdasarkan Scan</Card.Title>
               <Card.Body className="d-flex justify-content-center">
                 <div style={{ width: "100%", maxWidth: "100%" }}>
                   <BarChart
-                    width={"100%"}
-                    height={"100%"}
+                    width={510}
+                    height={300}
                     data={dataMood}
                     margin={{
                       top: 20,
                       right: 20,
-                      left: 0,
+                      left: -15,
+                      bottom: 5,
+                    }}
+                  >
+                    <XAxis axisLine={false} tickLine={{ display: "none" }} dataKey="name" scale="" padding={{ left: 20, right: 20 }} />
+                    <YAxis axisLine={false} tickLine={{ display: "none" }} />
+                    <Tooltip />
+                    <CartesianGrid vertical={false} stroke="#ccc" strokeDasharray="" />
+                    <Bar radius={6} dataKey="klik" barSize={35} animationDuration={1000}>
+                      {dataMood.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={getCustomColor(entry)} />
+                      ))}
+                      <LabelList dataKey="percentage" position="top" className="fw-bold" style={{ fontSize: 12 }} />
+                      <LabelList dataKey="klik" position="top" dy={-20} style={{ fontSize: 12 }} />
+                    </Bar>
+                  </BarChart>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={12} lg={6}>
+            <Card className="px-4 box-stats box-dashboard2" style={{ background: "rgba(83, 158, 109, 0.1)" }}>
+              <Card.Title className="pt-4 ms-4">Berdasarkan Pilihan</Card.Title>
+              <Card.Body className="d-flex justify-content-center">
+                <div style={{ width: "100%", maxWidth: "100%" }}>
+                  <BarChart
+                    width={510}
+                    height={300}
+                    data={dataMood}
+                    margin={{
+                      top: 20,
+                      right: 20,
+                      left: -15,
                       bottom: 5,
                     }}
                   >
@@ -243,212 +275,6 @@ const Dashboard = () => {
             </Card>
           </Col>
         </Row>
-
-        {/* <Row style={{ marginLeft: "2%", marginRight: "2%" }}>
-          <Col lg={4}>
-             <Card className="px-4 box-stats main-stats" style={{ background : "rgba(234, 199, 61, 0.1)" }}>
-              <Card.Title className="text-center pt-2">Happy</Card.Title>
-              <Card.Body className="d-flex justify-content-center">
-                <Row>
-                  <div style={{ width: "250px", height: "250px" }}>
-                    <CircularProgressbarWithChildren
-                      styles={buildStyles({
-                        pathColor: colorHappy,
-                        textColor: colorHappy
-                      })}
-                      maxValue={100}
-                      strokeWidth={8}
-                      value={percentage}
-                    >
-                    <img
-                      style={{ width: 80, marginTop: -5 }}
-                      src={Happy}
-                      alt="happy"
-                    />
-                    <div style={{ fontSize: 24, marginTop: 4 }}>
-                      <strong>{`${percentage}%`}</strong> 
-                    </div>
-                    </CircularProgressbarWithChildren>
-                  </div>
-                </Row>
-              </Card.Body>
-            </Card> 
-          </Col>
-
-          <Col lg={8}>
-            <Row style={{ marginRight: "1%" }} className="row1-moodstats">
-              <Col md={4}>
-                <Card className="px-4 box-stats" style={{ background : "rgba(171, 89, 78, 0.1)" }}>
-                <Card.Title className="text-center pt-2">Angry</Card.Title>
-                <Card.Body className="d-flex justify-content-center">
-                    <div style={{ width: size, height: size }}>
-                      <CircularProgressbarWithChildren
-                        styles={buildStyles({
-                          pathColor: colorAngry,
-                          textColor: colorAngry
-                        })}
-                        maxValue={100}
-                        strokeWidth={8}
-                        value={percentage}
-                      >
-                      <img
-                        style={{ width: 30, marginTop: -5 }}
-                        src={Angry}
-                        alt="angry"
-                      />
-                      <div style={{ fontSize: 12, marginTop: 2 }}>
-                        <strong>{`${percentage}%`}</strong> 
-                      </div>
-                      </CircularProgressbarWithChildren>
-                    </div>
-                  </Card.Body>
-                </Card> 
-              </Col>
-
-              <Col md={4}>
-                <Card className="px-4 box-stats" style={{ background : "rgba(240, 158, 84, 0.1)" }}>
-                  <Card.Title className="text-center pt-2">Fear</Card.Title>
-                  <Card.Body className="d-flex justify-content-center">
-                      <div style={{ width: size, height: size }}>
-                        <CircularProgressbarWithChildren
-                          styles={buildStyles({
-                            pathColor: colorFear,
-                            textColor: colorFear
-                          })}
-                          maxValue={100}
-                          strokeWidth={8}
-                          value={percentage}
-                        >
-                        <img
-                          style={{ width: 30, marginTop: -5 }}
-                          src={Fear}
-                          alt="fear"
-                        />
-                        <div style={{ fontSize: 12, marginTop: 2 }}>
-                          <strong>{`${percentage}%`}</strong> 
-                        </div>
-                        </CircularProgressbarWithChildren>
-                      </div>
-                  </Card.Body>
-                </Card> 
-              </Col>
-
-              <Col md={4}>
-                <Card className="px-4 box-stats" style={{ background : "rgba(117, 161, 217, 0.1)"}}>
-                  <Card.Title className="text-center pt-2">Sad</Card.Title>
-                  <Card.Body className="d-flex justify-content-center">
-                      <div style={{ width: size, height: size }}>
-                        <CircularProgressbarWithChildren
-                          styles={buildStyles({
-                            pathColor: colorSad,
-                            textColor: colorSad
-                          })}
-                          maxValue={100}
-                          strokeWidth={8}
-                          value={percentage}
-                        >
-                        <img
-                          style={{ width: 30, marginTop: -5 }}
-                          src={Sad}
-                          alt="sad"
-                        />
-                        <div style={{ fontSize: 12, marginTop: 2 }}>
-                          <strong>{`${percentage}%`}</strong> 
-                        </div>
-                        </CircularProgressbarWithChildren>
-                      </div>
-                  </Card.Body>
-                </Card> 
-              </Col>
-            </Row>
-
-            <Row className="mt-4" style={{ marginRight: "1%" }}>
-              <Col md={4}>
-                <Card className="px-4 box-stats" style={{ background : "rgba(122, 106, 206, 0.1)" }}>
-                  <Card.Title className="text-center pt-2">Disgust</Card.Title>
-                  <Card.Body className="d-flex justify-content-center">
-                      <div style={{ width: size, height: size }}>
-                        <CircularProgressbarWithChildren
-                          styles={buildStyles({
-                            pathColor: colorDisgust,
-                            textColor: colorDisgust
-                          })}
-                          maxValue={100}
-                          strokeWidth={8}
-                          value={percentage}
-                        >
-                        <img
-                          style={{ width: 30, marginTop: -5 }}
-                          src={Disgust}
-                          alt="Disgust"
-                        />
-                        <div style={{ fontSize: 12, marginTop: 2 }}>
-                          <strong>{`${percentage}%`}</strong> 
-                        </div>
-                        </CircularProgressbarWithChildren>
-                      </div>
-                  </Card.Body>
-                </Card> 
-              </Col>
-
-              <Col md={4}>
-                <Card className="px-4 box-stats" style={{ background : "rgba(244, 175, 178, 0.1)" }}>
-                  <Card.Title className="text-center pt-2">Surprise</Card.Title>
-                  <Card.Body className="d-flex justify-content-center">
-                      <div style={{ width: size, height: size }}>
-                        <CircularProgressbarWithChildren
-                          styles={buildStyles({
-                            pathColor: colorSurprise,
-                            textColor: colorSurprise
-                          })}
-                          maxValue={100}
-                          strokeWidth={8}
-                          value={percentage}
-                        >
-                        <img
-                          style={{ width: 30, marginTop: -5 }}
-                          src={Surprised}
-                          alt="Surprise"
-                        />
-                        <div style={{ fontSize: 12, marginTop: 2 }}>
-                          <strong>{`${percentage}%`}</strong> 
-                        </div>
-                        </CircularProgressbarWithChildren>
-                      </div>
-                  </Card.Body>
-                </Card> 
-              </Col>
-
-              <Col md="4">
-                <Card className="px-4 box-stats" style={{ background : "rgba(83, 158, 109, 0.1)" }}>
-                  <Card.Title className="text-center pt-2">Neutral</Card.Title>
-                  <Card.Body className="d-flex justify-content-center">
-                      <div style={{ width: size, height: size }}>
-                        <CircularProgressbarWithChildren
-                          styles={buildStyles({
-                            pathColor: colorNeutral,
-                            textColor: colorNeutral
-                          })}
-                          maxValue={100}
-                          strokeWidth={8}
-                          value={percentage}
-                        >
-                        <img
-                          style={{ width: 30, marginTop: -5 }}
-                          src={Neutral}
-                          alt="Neutral"
-                        />
-                        <div style={{ fontSize: 12, marginTop: 2 }}>
-                          <strong>{`${percentage}%`}</strong> 
-                        </div>
-                        </CircularProgressbarWithChildren>
-                      </div>
-                  </Card.Body>
-                </Card> 
-              </Col>
-            </Row>
-          </Col>
-        </Row> */}
 
         {/* Menu Data Statistic */}
         <h4 style={{ marginLeft: "3%" }} className="mt-4">
@@ -530,73 +356,6 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Container>
-
-      {/*}
-      <div className="flex-containerrr">
-        <Card className="box-dashboard2">
-          <Card.Body>
-            <Row>
-              <Col xs={4}>
-                <div className="oval-icon">
-                  <img className="icon" alt="oval-tea" src={Tea} />
-                </div>
-              </Col>
-              <Col xs={8}>
-                <h4 className="text-total">Total Beverage Menu</h4>
-                <h3 className="total">{totalBevsData}</h3>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-
-        <Card className="box-dashboard2">
-          <Card.Body>
-            <Row>
-              <Col xs={4}>
-                <div className="oval-icon">
-                  <img className="icon" alt="oval-food" src={Food} />
-                </div>
-              </Col>
-              <Col xs={8}>
-                <h4 className="text-total">Total Food Menu</h4>
-                <h3 className="total">{totalFoodData}</h3>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-
-        <Card className="box-dashboard2">
-          <Card.Body>
-            <Row>
-              <Col xs={4}>
-                <div className="oval-icon">
-                  <img className="icon" alt="oval-foodpairing" src={FoodPairing} />
-                </div>
-              </Col>
-              <Col xs={8}>
-                <h4 className="text-total">Total Food Pairing</h4>
-                <h3 className="total">{totalFPData}</h3>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-
-        <Card className="box-dashboard2">
-          <Card.Body>
-            <Row>
-              <Col xs={4}>
-                <div className="oval-icon">
-                  <img className="icon" alt="oval-staff" src={Staff} />
-                </div>
-              </Col>
-              <Col xs={8}>
-                <h4 className="text-total">Total Staff</h4>
-                <h3 className="total">{totalStaffData}</h3>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      </div> */}
     </Sidebar>
   );
 };

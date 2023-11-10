@@ -1,0 +1,42 @@
+:root {
+  --floralwhite: #fdf6ec;
+  --neutral: #539e6d;
+}
+
+.menu__box-lib {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.list-menu-lib {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 16px;
+}
+
+.lib-dash {
+  border-bottom: 2px dashed #e5e5e5;
+  margin-top: 24px;
+  border-color: var(--neutral);
+}
+
+.lib-title {
+  font-weight: 600;
+  color: var(--neutral);
+  margin-top: 24px;
+}
+
+.lib-highlight {
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.read-more {
+  color: var(--neutral);
+}
+
+.read-more:hover {
+  color: var(--neutral);
+  text-decoration: underline !important;
+}

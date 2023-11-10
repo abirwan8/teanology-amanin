@@ -4,7 +4,7 @@ import '../components/BottomNavbar.css';
 
 import TopBar from '../components/TopBar2';
 import BottomNavbar from '../components/library/BottomNavbarLibrary.js';
-// import LibraryList from '../components/library/LibraryList';
+import LibraryList from '../components/library/LibraryList';
 import HeadLibrary from '../components/library/HeadLibrary.js';
 
 function Library() {
@@ -13,7 +13,7 @@ function Library() {
       <TopBar />
       <HeadLibrary />
       <BottomNavbar />
-      {/* <LibraryList /> */}
+      <LibraryList />
     </div>
   );
 }
