@@ -17,7 +17,6 @@ const FoodMenusNeutral = () => {
 
   return (
     <>
-      <h2 className="header-neutral container-fluid mt-4 fw-bold">Recomended Foods</h2>
       {foodList.map((product) => {
         if (product.bevId === +localStorage.getItem("fp")) {
           return (

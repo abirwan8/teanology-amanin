@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import BottomNavbar from "../components/angry/BottomNavbarAngry";
 import TopBar from "../components/TopBar2";
 import Breadcrumbs from "../components/BreadCrumbs";
+import HeadFP from "../components/angry/HeadFPAngry";
 import FoodMenus from "../components/angry/FoodMenusAngry";
 
 function Angry() {
@@ -19,6 +20,7 @@ function Angry() {
       <BottomNavbar />
       <TopBar />
       <Breadcrumbs items={items} />
+      <HeadFP />
       <FoodMenus />
     </div>
   );

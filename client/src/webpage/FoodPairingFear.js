@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import BottomNavbar from "../components/fear/BottomNavbarFear";
 import TopBar from "../components/TopBar2";
 import Breadcrumbs from "../components/BreadCrumbs";
+import HeadFP from "../components/fear/HeadFPFear";
 import FoodMenus from "../components/fear/FoodMenusFear";
 
 function Fear() {
@@ -19,6 +20,7 @@ function Fear() {
       <BottomNavbar />
       <TopBar />
       <Breadcrumbs items={items} />
+      <HeadFP />
       <FoodMenus />
     </div>
   );

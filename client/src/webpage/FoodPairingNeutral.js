@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import BottomNavbar from "../components/neutral/BottomNavbarNeutral";
 import TopBar from "../components/TopBar2";
 import Breadcrumbs from "../components/BreadCrumbs";
+import HeadFP from "../components/neutral/HeadFPNeutral";
 import FoodMenus from "../components/neutral/FoodMenusNeutral";
 
 function Neutral() {
@@ -19,6 +20,7 @@ function Neutral() {
       <BottomNavbar />
       <TopBar />
       <Breadcrumbs items={items} />
+      <HeadFP />
       <FoodMenus />
     </div>
   );

@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import BottomNavbar from "../components/disgust/BottomNavbarDisgust";
 import TopBar from "../components/TopBar2";
 import Breadcrumbs from "../components/BreadCrumbs";
+import HeadFP from "../components/disgust/HeadFPDisgust";
 import FoodMenus from "../components/disgust/FoodMenusDisgust";
 
 function Disgust() {
@@ -19,6 +20,7 @@ function Disgust() {
       <BottomNavbar />
       <TopBar />
       <Breadcrumbs items={items} />
+      <HeadFP />
       <FoodMenus />
     </div>
   );

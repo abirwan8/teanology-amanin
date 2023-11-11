@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import BottomNavbar from "../components/surprise/BottomNavbarSurprise";
 import TopBar from "../components/TopBar2";
 import Breadcrumbs from "../components/BreadCrumbs";
+import HeadFP from "../components/surprise/HeadFPSurprise";
 import FoodMenus from "../components/surprise/FoodMenusSurprise";
 
 function Surprise() {
@@ -19,6 +20,7 @@ function Surprise() {
       <BottomNavbar />
       <TopBar />
       <Breadcrumbs items={items} />
+      <HeadFP />
       <FoodMenus />
     </div>
   );

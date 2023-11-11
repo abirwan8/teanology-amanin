@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import BottomNavbar from "../components/sad/BottomNavbarSad";
 import TopBar from "../components/TopBar2";
 import Breadcrumbs from "../components/BreadCrumbs";
+import HeadFP from "../components/sad/HeadFPSad";
 import FoodMenus from "../components/sad/FoodMenusSad";
 
 function Sad() {
@@ -19,6 +20,7 @@ function Sad() {
       <BottomNavbar />
       <TopBar />
       <Breadcrumbs items={items} />
+      <HeadFP />
       <FoodMenus />
     </div>
   );
