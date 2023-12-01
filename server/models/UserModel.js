@@ -50,7 +50,7 @@ const Users = db.define('user', {
 // const syncDatabase = async () => {
 //     try {
 //       await db.sync();
-//       const password = "123456";
+//       const password = "secret";
 //       const hashedPassword = await bcrypt.hash(password, 10); // Menghash password menggunakan bcrypt
 //       await Users.bulkCreate([
 //         { name: "Hasbi" , email: "admin@gmail.com", password: hashedPassword, role: "Admin"}
