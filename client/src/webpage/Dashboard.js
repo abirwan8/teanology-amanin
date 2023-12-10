@@ -1,4 +1,7 @@
 import "../components/dashboard/dashboard.css";
+// import "rsuite/dist/rsuite.css";
+import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +13,7 @@ import FoodPairing from "../components/dashboard/FoodPairing.svg";
 import Staff from "../components/dashboard/Staff.svg";
 import Tea from "../components/dashboard/Tea.svg";
 import Dropdown from "react-bootstrap/Dropdown";
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, ResponsiveContainer, LabelList } from "recharts";
 
 import Neutral from "../components/home/icon-mood/Icon-Neutral-NoBorder.svg";
@@ -20,50 +24,6 @@ import Fear from "../components/home/icon-mood/Icon-Fear-NoBorder.svg";
 import Disgust from "../components/home/icon-mood/Icon-Disgust-NoBorder.svg";
 import Surprised from "../components/home/icon-mood/Icon-Surprise-NoBorder.svg";
 
-const dataMood = [
-  {
-    name: "Angry",
-    percentage: "(10%)",
-    klik: 240,
-    color: "#AB594E",
-  },
-  {
-    name: "Happy",
-    percentage: "(15%)",
-    klik: 139,
-    color: "#EAC73D",
-  },
-  {
-    name: "Fear",
-    percentage: "(19%)",
-    klik: 390,
-    color: "#F09E54",
-  },
-  {
-    name: "Sad",
-    percentage: "(20%)",
-    klik: 180,
-    color: "#75A1D9",
-  },
-  {
-    name: "Disgust",
-    percentage: "(40%)",
-    klik: 480,
-    color: "#7A6ACE",
-  },
-  {
-    name: "Surprise",
-    percentage: "(30%)",
-    klik: 380,
-    color: "#F4AFB2",
-  },
-  {
-    name: "Neutral",
-    percentage: "(10%)",
-    klik: 430,
-    color: "#539E6D",
-  },
-];
 
 // Fungsi untuk menghasilkan warna berdasarkan data atau indeks
 function getCustomColor(entry) {
@@ -162,15 +122,70 @@ const Dashboard = () => {
     }
   };
 
-  // const percentage = 83;
-  // const colorHappy = "#EAC73D";
-  // const colorAngry = "#AB594E";
-  // const colorFear = "#F09E54";
-  // const colorSad = "#75A1D9";
-  // const colorDisgust = "#7A6ACE";
-  // const colorSurprise = "#F4AFB2";
-  // const colorNeutral = "#539E6D";
-  // const size = "100px";
+
+  const [value1, onChange1] = useState(new Date());
+  const [value2, onChange2] = useState(new Date());
+
+  useEffect(() => {
+    const calendarIcon1 = document.querySelectorAll('.react-daterange-picker__calendar-button')[0];
+    const calendarIcon2 = document.querySelectorAll('.react-daterange-picker__calendar-button')[1];
+
+    if (calendarIcon1) {
+      calendarIcon1.innerHTML = '<i class="bi bi-calendar2-week-fill"></i>';
+    }
+
+    if (calendarIcon2) {
+      calendarIcon2.innerHTML = '<i class="bi bi-calendar2-week-fill"></i>';
+    }
+  }, []);
+
+
+  
+  const dataMood = [
+    {
+      name: "Angry",
+      percentage: "(10%)",
+      klik: 300,
+      color: "#AB594E",
+    },
+    {
+      name: "Happy",
+      percentage: "(15%)",
+      klik: 139,
+      color: "#EAC73D",
+    },
+    {
+      name: "Fear",
+      percentage: "(19%)",
+      klik: 390,
+      color: "#F09E54",
+    },
+    {
+      name: "Sad",
+      percentage: "(20%)",
+      klik: 180,
+      color: "#75A1D9",
+    },
+    {
+      name: "Disgust",
+      percentage: "(40%)",
+      klik: 480,
+      color: "#7A6ACE",
+    },
+    {
+      name: "Surprise",
+      percentage: "(30%)",
+      klik: 380,
+      color: "#F4AFB2",
+    },
+    {
+      name: "Neutral",
+      percentage: "(10%)",
+      klik: 430,
+      color: "#539E6D",
+    },
+  ];
+  
 
   return (
     <Sidebar>
@@ -210,9 +225,18 @@ const Dashboard = () => {
         </h4>
 
         <Row style={{ marginLeft: "1%", marginRight: "4%" }}>
-          <Col md={12} lg={6}>
+          <Col lg={6}>
             <Card className="px-4 box-stats box-dashboard2" style={{ background: "rgba(83, 158, 109, 0.1)" }}>
-              <Card.Title className="pt-4 ms-4">Berdasarkan Scan</Card.Title>
+              <Row>
+                <Col md={6}>
+                  <h5 className="pt-4 ms-4">Berdasarkan Scan</h5>
+                </Col>
+                <Col md={6}>
+                  <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
+                    <DateRangePicker onChange={onChange1} value={value1} />
+                  </div>
+                </Col>
+              </Row>
               <Card.Body className="d-flex justify-content-center">
                 <div style={{ width: "100%", maxWidth: "100%" }}>
                   <BarChart
@@ -225,6 +249,7 @@ const Dashboard = () => {
                       left: -15,
                       bottom: 5,
                     }}
+                    className="bar__chart"
                   >
                     <XAxis axisLine={false} tickLine={{ display: "none" }} dataKey="name" scale="" padding={{ left: 20, right: 20 }} />
                     <YAxis axisLine={false} tickLine={{ display: "none" }} />
@@ -242,9 +267,18 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col md={12} lg={6}>
+          <Col lg={6}>
             <Card className="px-4 box-stats box-dashboard2" style={{ background: "rgba(83, 158, 109, 0.1)" }}>
-              <Card.Title className="pt-4 ms-4">Berdasarkan Pilihan</Card.Title>
+              <Row>
+                <Col md={6}>
+                  <h5 className="pt-4 ms-4">Berdasarkan Klik</h5>
+                </Col>
+                <Col md={6}>
+                  <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
+                    <DateRangePicker placeholder="Select Range" onChange={onChange2} value={value2} />
+                  </div>
+                </Col>
+              </Row>
               <Card.Body className="d-flex justify-content-center">
                 <div style={{ width: "100%", maxWidth: "100%" }}>
                   <BarChart
@@ -280,7 +314,7 @@ const Dashboard = () => {
         <h4 style={{ marginLeft: "3%" }} className="mt-4">
           Data Menu Statistik
         </h4>
-        <Row style={{ marginLeft: "1%", marginRight: "4%" }} className="mt-4">
+        <Row style={{ marginLeft: "1%", marginRight: "4%" }} className="row-stats mt-4">
           <Col lg={6} md={12} xs={12}>
             <Card className="box-dashboard2">
               <Card.Body>
@@ -318,7 +352,7 @@ const Dashboard = () => {
           </Col>
         </Row>
 
-        <Row style={{ marginLeft: "1%", marginRight: "4%" }} className="mt-4 mb-5">
+        <Row style={{ marginLeft: "1%", marginRight: "4%" }} className="row-stats mt-4 mb-5">
           <Col lg={6} md={12} xs={12}>
             <Card className="box-dashboard2">
               <Card.Body>

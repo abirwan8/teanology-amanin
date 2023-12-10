@@ -25,7 +25,14 @@ app.use(
   })
 );
 
-//login user
+app.use(express.static('bev_img'));
+app.use(express.static('food_img'));
+
+
+//  -- ## Migration ## --  //
+// db.sync({force:true});
+
+//  -- ## Login User ## --  //
 app.post("/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -45,7 +52,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//get all users
+//  -- ## Get All Users ## --  //
 app.get('/users', async (req, res) => {
   try {
     const response = await User.findAll({
@@ -57,7 +64,7 @@ app.get('/users', async (req, res) => {
   }
 });
 
-//get user by id
+//  -- ## Get User by ID ## --  //
 app.get('/users/:id', async (req, res) => {
   try {
     const response = await User.findOne({
@@ -72,7 +79,7 @@ app.get('/users/:id', async (req, res) => {
   }
 });
 
-//create user
+//  -- ## Create User ## --  //
 app.post('/users', async (req, res) => {
   const { name, email, password, role } = req.body;
   const existingUser = await User.findOne({ where: { email: email } });
@@ -97,7 +104,7 @@ app.post('/users', async (req, res) => {
   }
 });
 
-//update user
+//  -- ## Update User ## --  //
 app.put('/users/:id', async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
@@ -131,8 +138,7 @@ app.put('/users/:id', async (req, res) => {
   }
 });
 
-
-//delete user
+//  -- ## Delete User ## --  //
 app.delete('/users/:id', async (req, res) => {
   try {
     await User.destroy({
@@ -146,16 +152,26 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
-//get all foods
+// FOOD //
+//  -- ## Get All Foods ## --  //
 app.get('/foods', async (req, res) => {
   try {
     const response = await Foods.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'desc', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'desc', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: User,
         attributes: ['name', 'email']
       }]
     });
+
+    response.forEach(bev => {
+      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
+      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
+      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
+      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
+      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+    })
+
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -171,7 +187,7 @@ app.get('/foodss', async (req, res) => {
         as: 'food',
       }]
     });
-
+    
     const result = response.map(item => {
       return {
         id: item.food.id,
@@ -182,7 +198,10 @@ app.get('/foodss', async (req, res) => {
         img1: item.food.img1,
         img2: item.food.img2,
         img3: item.food.img3,
-        desc: item.food.desc
+        img4: item.food.img4,
+        img5: item.food.img5,
+        desc: item.food.desc,
+        isHidden: item.food.isHidden
       };
     });
 
@@ -192,14 +211,14 @@ app.get('/foodss', async (req, res) => {
   }
 });
 
-// Get food by ID
+//  -- ## Get Food by ID ## --  //
 app.get('/foods/:id', async (req, res) => {
   try {
     const food = await Foods.findOne({
       where: {
         id: req.params.id
       },
-      attributes: ['id' ,'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'desc'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'desc', 'isHidden'],
     });
 
     if (!food) {
@@ -212,10 +231,10 @@ app.get('/foods/:id', async (req, res) => {
   }
 });
 
-// Multer storage configuration
-const storage = multer.diskStorage({
+//  -- ## Multer Storage Configuration Food ## --  //
+const foodStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../client/public/img/'); // Set the destination folder where uploaded files will be stored
+    cb(null, 'food_img'); // Set the destination folder where uploaded files will be stored
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -224,34 +243,50 @@ const storage = multer.diskStorage({
   }
 });
 
-// Create the Multer upload instance
-const upload = multer({ storage: storage });
+//  -- ## Create the Multer Upload Instance ## --  //
+const upload = multer({
+  storage: foodStorage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // Set the maximum file size in bytes (5MB)
+  },
+});
 
-// Create food
+//  -- ## Create Food ## --  //
 app.post('/foods', upload.fields([
   { name: 'img1', maxCount: 1 },
   { name: 'img2', maxCount: 1 },
-  { name: 'img3', maxCount: 1 }
+  { name: 'img3', maxCount: 1 },
+  { name: 'img4', maxCount: 1 },
+  { name: 'img5', maxCount: 1 }
 ]), async (req, res) => {
-  const { name, price, ings, desc, userId } = req.body;
+  const { name, price, ings, desc, isHidden, userId } = req.body;
   const images = req.files;
 
+  let food_img = [];
+
   try {
-    if (!images.img1 || !images.img2 || !images.img3) {
-      throw new Error('Please upload 3 images');
+    if (images.length === 0 || images.length > 5) {
+      throw new Error('Please upload 1-5 images');
     }
 
-    const img1 = images.img1[0].filename;
-    const img2 = images.img2[0].filename;
-    const img3 = images.img3[0].filename;
+    // Loop through images and push to img array
+    for (let i = 1; i <= 5; i++) {
+      if (images[`img${i}`]) {
+        food_img.push(images[`img${i}`][0].filename);
+      }
+    }
+
     await Foods.create({
       name: name,
       price: price,
       ings: ings,
-      img1: img1,
-      img2: img2,
-      img3: img3,
+      img1: food_img[0] ?? null,
+      img2: food_img[1] ?? null,
+      img3: food_img[2] ?? null,
+      img4: food_img[3] ?? null,
+      img5: food_img[4] ?? null,
       desc: desc,
+      isHidden: isHidden === 'true',
       userId: userId,
     });
 
@@ -262,11 +297,13 @@ app.post('/foods', upload.fields([
   }
 });
 
-// Update food
+//  -- ## Update Food ## --  //
 app.put('/foods/:id', upload.fields([
   { name: 'img1', maxCount: 1 },
+  { name: 'img3', maxCount: 1 },
   { name: 'img2', maxCount: 1 },
-  { name: 'img3', maxCount: 1 }
+  { name: 'img4', maxCount: 1 },
+  { name: 'img5', maxCount: 1 }
 ]), async (req, res) => {
   try {
     const food = await Foods.findOne({
@@ -279,37 +316,37 @@ app.put('/foods/:id', upload.fields([
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
 
-    const { name, price, ings, desc, userId } = req.body;
+    const { name, price, ings, desc, isHidden, userId } = req.body;
     const images = req.files;
 
-    if (images.img1) {
-      // Menghapus gambar lama
-      if (food.img1) {
-        const oldImagePath = path.join('../client/public/img/', food.img1);
-        fs.unlinkSync(oldImagePath);
-      }
-      food.img1 = images.img1[0].filename;
-    }
-    if (images.img2) {
-      // Menghapus gambar lama
-      if (food.img2) {
-        const oldImagePath = path.join('../client/public/img/', food.img2);
-        fs.unlinkSync(oldImagePath);
-      }
-      food.img2 = images.img2[0].filename;
-    }
-    if (images.img3) {
-      // Menghapus gambar lama
-      if (food.img3) {
-        const oldImagePath = path.join('../client/public/img/', food.img3);
-        fs.unlinkSync(oldImagePath);
-      }
-      food.img3 = images.img3[0].filename;
-    }
+    // if (images.img1) {
+    //   // Menghapus gambar lama
+    //   if (food.img1) {
+    //     const oldImagePath = path.join('../client/public/img/', food.img1);
+    //     fs.unlinkSync(oldImagePath);
+    //   }
+    //   food.img1 = images.img1[0].filename;
+    // }
+    // if (images.img2) {
+    //   // Menghapus gambar lama
+    //   if (food.img2) {
+    //     const oldImagePath = path.join('../client/public/img/', food.img2);
+    //     fs.unlinkSync(oldImagePath);
+    //   }
+    //   food.img2 = images.img2[0].filename;
+    // }
+    // if (images.img3) {
+    //   // Menghapus gambar lama
+    //   if (food.img3) {
+    //     const oldImagePath = path.join('../client/public/img/', food.img3);
+    //     fs.unlinkSync(oldImagePath);
+    //   }
+    //   food.img3 = images.img3[0].filename;
+    // }
 
     // Lakukan pembaruan data makanan
     await Foods.update(
-      { name, price, ings, img1: food.img1, img2: food.img2, img3: food.img3, desc, userId },
+      { name, price, ings, img1: food.img1, img2: food.img2, img3: food.img3, img4: food.img4, img5: food.img5, desc, isHidden, userId },
       {
         where: {
           id: req.params.id
@@ -323,7 +360,7 @@ app.put('/foods/:id', upload.fields([
   }
 });
 
-// Delete food
+//  -- ## Delete Food ## --  //
 app.delete('/foods/:id', async (req, res) => {
   try {
     const food = await Foods.findOne({
@@ -336,18 +373,34 @@ app.delete('/foods/:id', async (req, res) => {
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
 
-    // Menghapus gambar jika ada
+    //
+    function deleteFile(filePath) {
+      try {
+        // Cek apakah file ada sebelum dihapus
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+          console.log(`File deleted successfully: ${filePath}`);
+        } else {
+          console.log(`File not found: ${filePath}`);
+        }
+      } catch (err) {
+        console.error(`Error deleting file: ${err.message}`);
+      }
+    }
+    
     if (food.img1) {
-      const imagePath = path.join('../client/public/img/', food.img1);
-      fs.unlinkSync(imagePath);
+      const imagePath1 = path.join('food_img', food.img1);
+      deleteFile(imagePath1);
     }
+    
     if (food.img2) {
-      const imagePath = path.join('../client/public/img/', food.img2);
-      fs.unlinkSync(imagePath);
+      const imagePath2 = path.join('food_img', food.img2);
+      deleteFile(imagePath2);
     }
+    
     if (food.img3) {
-      const imagePath = path.join('../client/public/img/', food.img3);
-      fs.unlinkSync(imagePath);
+      const imagePath3 = path.join('food_img', food.img3);
+      deleteFile(imagePath3);
     }
 
     // Menghapus data makanan
@@ -364,38 +417,45 @@ app.delete('/foods/:id', async (req, res) => {
 });
 
 
+// BEVERAGE //
 
-// BEVERAGE
-//Get all beverage
+//  -- ## Get All Beverage ## --  //
 app.get('/bevs', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: User,
         attributes: ['name', 'email']
       }]
     });
+    response.forEach(bev => {
+      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
+      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
+      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
+      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
+      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+    })
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
 });
 
-// Get bevs by ID
+//  -- ## Get Bevs by ID ## --  //
 app.get('/bevs/:id', async (req, res) => {
   try {
     const bev = await Bevs.findOne({
       where: {
         id: req.params.id
       },
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden'],
       include: [{
         model: User,
         attributes: ['name', 'email']
       }]
     });
-
+   
     if (!bev) {
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
@@ -409,7 +469,7 @@ app.get('/bevs/:id', async (req, res) => {
 app.get('/moodbevs/angry', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: MoodBevs,
         where: { moodId: 1 }, // Filter MoodBevs based on moodId
@@ -425,7 +485,7 @@ app.get('/moodbevs/angry', async (req, res) => {
 app.get('/moodbevs/disgust', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: MoodBevs,
         where: { moodId: 2 }, // Filter MoodBevs based on moodId
@@ -441,7 +501,7 @@ app.get('/moodbevs/disgust', async (req, res) => {
 app.get('/moodbevs/fear', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: MoodBevs,
         where: { moodId: 3 }, // Filter MoodBevs based on moodId
@@ -457,7 +517,7 @@ app.get('/moodbevs/fear', async (req, res) => {
 app.get('/moodbevs/happy', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: MoodBevs,
         where: { moodId: 4 }, // Filter MoodBevs based on moodId
@@ -473,7 +533,7 @@ app.get('/moodbevs/happy', async (req, res) => {
 app.get('/moodbevs/neutral', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: MoodBevs,
         where: { moodId: 5 }, // Filter MoodBevs based on moodId
@@ -489,7 +549,7 @@ app.get('/moodbevs/neutral', async (req, res) => {
 app.get('/moodbevs/sad', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: MoodBevs,
         where: { moodId: 6 }, // Filter MoodBevs based on moodId
@@ -505,7 +565,7 @@ app.get('/moodbevs/sad', async (req, res) => {
 app.get('/moodbevs/surprise', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
       include: [{
         model: MoodBevs,
         where: { moodId: 7 }, // Filter MoodBevs based on moodId
@@ -518,10 +578,10 @@ app.get('/moodbevs/surprise', async (req, res) => {
   }
 });
 
-// Multer storage configuration
-const BevStorage = multer.diskStorage({
+//  -- ## Multer Storage Configuration ## --  //
+const BeveStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../client/public/bev-img/'); // Set the destination folder where uploaded files will be stored
+    cb(null, 'bev_img'); // Set the destination folder where uploaded files will be stored
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -529,43 +589,59 @@ const BevStorage = multer.diskStorage({
     cb(null, file.fieldname + '-' + uniqueSuffix + '.' + fileExtension); // Set the file name
   }
 });
+43
+//  -- ## Create the Multer Upload Instance ## --  //
+const uploadBev = multer({
+  storage: BeveStorage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // Set the maximum file size in bytes (5MB)
+  },
+});
 
-// Create the Multer upload instance
-const uploadBev = multer({ storage: BevStorage });
-
-// Create Bev
+//  -- ## Create Bev ## --  //
 app.post('/bevs', uploadBev.fields([
   { name: 'img1', maxCount: 1 },
   { name: 'img2', maxCount: 1 },
-  { name: 'img3', maxCount: 1 }
+  { name: 'img3', maxCount: 1 },
+  { name: 'img4', maxCount: 1 },
+  { name: 'img5', maxCount: 1 },
 ]), async (req, res) => {
-  const { name, price, ings, highlight, tsp, tspg, water, temp, time, desc, type, userId } = req.body;
+  const { name, price, ings, highlight, tsp, tspg, water, temp, time, desc, type, isHidden, userId } = req.body;
   const images = req.files;
 
+  let img = [];
+
   try {
-    if (!images.img1 || !images.img2 || !images.img3) {
-      throw new Error('Please upload 3 images');
+    if (images.length === 0 || images.length > 5) {
+      throw new Error('Please upload 1-5 images');
     }
 
-    const img1 = images.img1[0].filename;
-    const img2 = images.img2[0].filename;
-    const img3 = images.img3[0].filename;
+    // Loop through images and push to img array
+    for (let i = 1; i <= 5; i++) {
+      if (images[`img${i}`]) {
+        img.push(images[`img${i}`][0].filename);
+      }
+    }
+
     await Bevs.create({
-      name: name,
-      price: price,
-      ings: ings,
-      img1: img1,
-      img2: img2,
-      img3: img3,
-      highlight: highlight,
-      tsp: tsp,
-      tspg: tspg,
-      water: water,
-      temp: temp,
-      time: time,
-      desc: desc,
-      type: type,
-      userId: userId,
+      name,
+      price,
+      ings,
+      img1: img[0] ?? null,
+      img2: img[1] ?? null,
+      img3: img[2] ?? null,
+      img4: img[3] ?? null,
+      img5: img[4] ?? null,
+      highlight,
+      tsp,
+      tspg,
+      water,
+      temp,
+      time,
+      desc,
+      type,
+      isHidden: isHidden === 'true',
+      userId,
     });
 
     res.status(201).json({ msg: "Beverage Created Successfully" });
@@ -575,11 +651,13 @@ app.post('/bevs', uploadBev.fields([
   }
 });
 
-// Update bev
+//  -- ## Update Bev ## --  //
 app.put('/bevs/:id', uploadBev.fields([
   { name: 'img1', maxCount: 1 },
   { name: 'img2', maxCount: 1 },
-  { name: 'img3', maxCount: 1 }
+  { name: 'img3', maxCount: 1 },
+  { name: 'img4', maxCount: 1 },
+  { name: 'img5', maxCount: 1 },
 ]), async (req, res) => {
   try {
     const bev = await Bevs.findOne({
@@ -592,37 +670,37 @@ app.put('/bevs/:id', uploadBev.fields([
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
 
-    const { name, price, ings, highlight, tsp, tspg, water, temp, time, desc, type, userId } = req.body;
+    const { name, price, ings, highlight, tsp, tspg, water, temp, time, desc, type, isHidden, userId } = req.body;
     const images = req.files;
 
-    if (images.img1) {
-      // Menghapus gambar lama
-      if (bev.img1) {
-        const oldImagePath = path.join('../client/public/bev-img/', bev.img1);
-        fs.unlinkSync(oldImagePath);
-      }
-      bev.img1 = images.img1[0].filename;
-    }
-    if (images.img2) {
-      // Menghapus gambar lama
-      if (bev.img2) {
-        const oldImagePath = path.join('../client/public/bev-img/', bev.img2);
-        fs.unlinkSync(oldImagePath);
-      }
-      bev.img2 = images.img2[0].filename;
-    }
-    if (images.img3) {
-      // Menghapus gambar lama
-      if (bev.img3) {
-        const oldImagePath = path.join('../client/public/bev-img/', bev.img3);
-        fs.unlinkSync(oldImagePath);
-      }
-      bev.img3 = images.img3[0].filename;
-    }
+    // if (images.img1) {
+    //   // Menghapus gambar lama
+    //   if (bev.img1) {
+    //     const oldImagePath = path.join('../client/public/bev-img/', bev.img1);
+    //     fs.unlinkSync(oldImagePath);
+    //   }
+    //   bev.img1 = images.img1[0].filename;
+    // }
+    // if (images.img2) {
+    //   // Menghapus gambar lama
+    //   if (bev.img2) {
+    //     const oldImagePath = path.join('../client/public/bev-img/', bev.img2);
+    //     fs.unlinkSync(oldImagePath);
+    //   }
+    //   bev.img2 = images.img2[0].filename;
+    // }
+    // if (images.img3) {
+    //   // Menghapus gambar lama
+    //   if (bev.img3) {
+    //     const oldImagePath = path.join('../client/public/bev-img/', bev.img3);
+    //     fs.unlinkSync(oldImagePath);
+    //   }
+    //   bev.img3 = images.img3[0].filename;
+    // }
 
-    // Lakukan pembaruan data makanan
+    // Lakukan pembaruan data minuman
     await Bevs.update(
-      { name, price, ings, img1: bev.img1, img2: bev.img2, img3: bev.img3, highlight, tsp, tspg, water, temp, time, desc, type, userId },
+      { name, price, ings, img1: bev.img1, img2: bev.img2, img3: bev.img3, img4: bev.img4, img5: bev.img5, highlight, tsp, tspg, water, temp, time, desc, type, isHidden, userId },
       {
         where: {
           id: req.params.id
@@ -636,7 +714,7 @@ app.put('/bevs/:id', uploadBev.fields([
   }
 });
 
-// Delete bev
+//  -- ## Delete Bev ## --  //
 app.delete('/bevs/:id', async (req, res) => {
   try {
     const bev = await Bevs.findOne({
@@ -649,18 +727,30 @@ app.delete('/bevs/:id', async (req, res) => {
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
 
-    // Menghapus gambar jika ada
-    if (bev.img1) {
-      const imagePath = path.join('../client/public/bev-img/', bev.img1);
-      fs.unlinkSync(imagePath);
-    }
-    if (bev.img2) {
-      const imagePath = path.join('../client/public/bev-img/', bev.img2);
-      fs.unlinkSync(imagePath);
-    }
-    if (bev.img3) {
-      const imagePath = path.join('../client/public/bev-img/', bev.img3);
-      fs.unlinkSync(imagePath);
+    // Menghapus gambar jika ada\
+    try {
+      if (bev.img1) {
+        const imagePath = path.join('bev_img', bev.img1);
+        fs.unlinkSync(imagePath);
+      }
+      if (bev.img2) {
+        const imagePath = path.join('bev_img', bev.img2);
+        fs.unlinkSync(imagePath);
+      }
+      if (bev.img3) {
+        const imagePath = path.join('bev_img', bev.img3);
+        fs.unlinkSync(imagePath);
+      }
+      if (bev.img4) {
+        const imagePath = path.join('bev_img', bev.img4);
+        fs.unlinkSync(imagePath);
+      }
+      if (bev.img5) {
+        const imagePath = path.join('bev_img', bev.img5);
+        fs.unlinkSync(imagePath);
+      }
+    } catch (error) {
+      console.error("Error deleting image:", error);
     }
 
     // Menghapus data makanan
@@ -676,7 +766,7 @@ app.delete('/bevs/:id', async (req, res) => {
   }
 });
 
-//Get all foodpairings
+//  -- ## Get All Foodpairings ## --  //
 app.get('/foodpairings', async (req, res) => {
   try {
     const response = await FoodPairings.findAll({
@@ -716,7 +806,7 @@ app.get('/foodpairings', async (req, res) => {
 });
 
 
-//create foodpairings
+//  -- ## Create Foodpairings ## --  //
 app.post("/foodpairings", async (req, res) => {
   try {
     const { bevId, foodId, userId } = req.body;
@@ -742,8 +832,7 @@ app.post("/foodpairings", async (req, res) => {
   }
 });
 
-
-// Edit food pairing
+//  -- ## Edit Foodpairings ## --  //
 app.put('/foodpairings/:id', async (req, res) => {
   try {
     const { bevId, foodId, userId } = req.body;
@@ -768,7 +857,7 @@ app.put('/foodpairings/:id', async (req, res) => {
   }
 });
 
-// Delete food pairing
+//  -- ## Delete Foodpairings ## --  //
 app.delete('/foodpairings/:id', async (req, res) => {
   try {
     const foodPairingId = req.params.id;
@@ -788,7 +877,7 @@ app.delete('/foodpairings/:id', async (req, res) => {
   }
 });
 
-// Get All moods
+//  -- ## Get All Moods ## --  //
 app.get('/moods', async (req, res) => {
   try {
     const moods = await Moods.findAll();
@@ -799,7 +888,7 @@ app.get('/moods', async (req, res) => {
   }
 });
 
-// Get All moodbev
+//  -- ## Get All MoodBev ## --  //
 app.get('/moodbevs', async (req, res) => {
   try {
     const response = await MoodBevs.findAll({
@@ -834,7 +923,7 @@ app.get('/moodbevs', async (req, res) => {
 });
 
 
-// Create moodbevs
+//  -- ## Create MoodBev ## --  //
 app.post("/moodbevs", async (req, res) => {
   try {
     const { bevId, moodIds } = req.body;
@@ -860,7 +949,7 @@ app.post("/moodbevs", async (req, res) => {
   }
 });
 
-// Delete food pairing
+//  -- ## Delete Food Pairing ## --  //
 app.delete('/moodbevs/:id', async (req, res) => {
   try {
     const moodBevId = req.params.id;

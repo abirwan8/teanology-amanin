@@ -6,46 +6,74 @@ import Axios from "axios";
 import { useParams } from "react-router-dom";
 
 const Carousel2 = () => {
-
   const { id } = useParams();
   const [val, setVal] = useState({id});
+  const imageBaseUrl = "http://localhost:5000/";
   
   useEffect(() => {
     Axios.get(`http://localhost:5000/bevs/${val.id}`).then((response) => {
-      //console.log(response.data);
+      console.log(response.data)
       setVal(response.data);
     });
   }, [id, val.id]);
 
   return (
     <>
-    <Carousel className='carousel'>
-      <Carousel.Item>
-        <img
-          className="w-100 cropped-image"
-          style={{ height: '480px' }}
-          src={`/bev-img/${val.img1}`}
-          alt="First slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="w-100 cropped-image"
-          style={{ height: '480px' }}
-          src={`/bev-img/${val.img1}`}
-          alt="First slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="w-100 cropped-image"
-          style={{ height: '480px' }}
-          src={`/bev-img/${val.img1}`}
-          alt="First slide"
-        />
-      </Carousel.Item>
-    </Carousel>
-    <div className="half-circle"></div>
+      <Carousel className='carousel'>
+        {val.img1 && (
+          <Carousel.Item>
+            <img
+              className="w-100 cropped-image"
+              style={{ height: '480px' }}
+              src={`${imageBaseUrl}${val.img1}`}
+              alt="First Pic"
+            />
+          </Carousel.Item>
+        )}
+
+        {val.img2 && (
+          <Carousel.Item>
+            <img
+              className="w-100 cropped-image"
+              style={{ height: '480px' }}
+              src={`${imageBaseUrl}${val.img2}`}
+              alt="Second Pic"
+            />
+          </Carousel.Item>
+        )}
+
+        {val.img3 && (
+          <Carousel.Item>
+            <img
+              className="w-100 cropped-image"
+              style={{ height: '480px' }}
+              src={`${imageBaseUrl}${val.img3}`}
+              alt="Third Pic"
+            />
+          </Carousel.Item>
+        )}
+        {val.img4 && (
+          <Carousel.Item>
+            <img
+              className="w-100 cropped-image"
+              style={{ height: '480px' }}
+              src={`${imageBaseUrl}${val.img4}`}
+              alt="Fourth Pic"
+            />
+          </Carousel.Item>
+        )}
+        {val.img5 && (
+          <Carousel.Item>
+            <img
+              className="w-100 cropped-image"
+              style={{ height: '480px' }}
+              src={`${imageBaseUrl}${val.img5}`}
+              alt="Fifth Pic"
+            />
+          </Carousel.Item>
+        )}
+      </Carousel>
+      <div className="half-circle"></div>
     </>
   );
 }

@@ -13,6 +13,7 @@ import Pagination from "react-bootstrap/Pagination";
 import Card from "react-bootstrap/Card";
 import Alert from 'react-bootstrap/Alert';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Badge } from 'react-bootstrap';
 import Sidebar from "../components/dashboard/Sidebar.js";
 
 const TeaMenuAdmin = () => {
@@ -26,7 +27,7 @@ const TeaMenuAdmin = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
@@ -47,9 +48,6 @@ const TeaMenuAdmin = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [ings, setIngs] = useState("");
-  const [img1, setImg1] = useState("");
-  const [img2, setImg2] = useState("");
-  const [img3, setImg3] = useState("");
   const [highlight, setHighlight] = useState("");
   const [tsp, setTsp] = useState("");
   const [tspg, setTspg] = useState("");
@@ -58,6 +56,7 @@ const TeaMenuAdmin = () => {
   const [time, setTime] = useState("");
   const [desc, setDesc] = useState("");
   const [type, setType] = useState("");
+  const [isHidden, setIsHidden] = useState(false);
   const [idUser, setIdUser] = useState("");
   const [editId, setEditId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
@@ -69,6 +68,8 @@ const TeaMenuAdmin = () => {
     img1: "",
     img2: "",
     img3: "",
+    img4: "",
+    img5: "",
     highlight: "",
     tsp: "",
     tspg: "",
@@ -77,12 +78,18 @@ const TeaMenuAdmin = () => {
     time: "",
     desc: "",
     type: "",
+    isHidden: false,
     userId: "",
   });
 
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const userName = localStorage.getItem("name");
+
+  const handleIsHiddenChange = (event) => {
+    const newIsHidden = event.target.value === 'Tidak Aktif';
+    setEditData({ ...editData, isHidden: newIsHidden });
+  };
 
   useEffect(() => {
     Axios.get("http://localhost:5000/bevs").then((response) => {
@@ -97,9 +104,6 @@ const TeaMenuAdmin = () => {
       formData.append("name", name);
       formData.append("price", price);
       formData.append("ings", ings);
-      formData.append("img1", img1);
-      formData.append("img2", img2);
-      formData.append("img3", img3);
       formData.append("highlight", highlight);
       formData.append("tsp", tsp);
       formData.append("tspg", tspg);
@@ -108,13 +112,20 @@ const TeaMenuAdmin = () => {
       formData.append("time", time);
       formData.append("desc", desc);
       formData.append("type", type);
+      formData.append("isHidden", isHidden);
       formData.append("userId", userId);
+      formData.append("img1", files[0]);
+      formData.append("img2", files[1]);
+      formData.append("img3", files[2]);
+      formData.append("img4", files[3]);
+      formData.append("img5", files[4]);
 
-      const response = await Axios.post("http://localhost:5000/bevs", formData, {
+      await Axios.post("http://localhost:5000/bevs", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -123,6 +134,7 @@ const TeaMenuAdmin = () => {
 
   const handleEdit = async (id) => {
     console.log("editId:", editId);
+    setEditId(id);
     try {
       const formData = new FormData();
       formData.append("name", editData.name);
@@ -136,22 +148,37 @@ const TeaMenuAdmin = () => {
       formData.append("time", editData.time);
       formData.append("desc", editData.desc);
       formData.append("type", editData.type);
+      formData.append("isHidden", editData.isHidden);
 
-      if (editData.img1) {
-        formData.append("img1", editData.img1);
-      }
-      if (editData.img2) {
-        formData.append("img2", editData.img2);
-      }
-      if (editData.img3) {
-        formData.append("img3", editData.img3);
-      }
+      // for (let i = 0; i < 5; i++) {
+      //   if (editData.files[i]) {
+      //     formData.append(`img${i + 1}`, editData.files[i]);
+      //   }
+      // }
+
+      // if (editData.files[0]) {
+      //   formData.append("img1", editData.files[0]);
+      // }
+      // if (editData.files[1]) {
+      //   formData.append("img2", editData.files[1]);
+      // }
+      // if (editData.files[2]) {
+      //   formData.append("img3", editData.files[2]);
+      // }
+      // if (editData.files[3]) {
+      //   formData.append("img4", editData.files[3]);
+      // }
+      // if (editData.files[4]) {
+      //   formData.append("img5", editData.files[4]);
+      // }
 
       await Axios.put(`http://localhost:5000/bevs/${editId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      console.log("Perubahan disimpan!");
 
       window.location.reload();
     } catch (error) {
@@ -170,21 +197,21 @@ const TeaMenuAdmin = () => {
     }
   };
 
-   // Log Out 
-   const navigate = useNavigate();
+  // Log Out 
+  const navigate = useNavigate();
 
-   const handleLogout = async () => {
-     try {
-       // Menghapus token dari localStorage
-       localStorage.removeItem("id");
-       localStorage.removeItem("name");
-       localStorage.removeItem("role");
-       // Mengarahkan pengguna ke halaman login
-       navigate("/login-page");
-     } catch (error) {
-       console.error(error);
-     }
-   };
+  const handleLogout = async () => {
+    try {
+      // Menghapus token dari localStorage
+      localStorage.removeItem("id");
+      localStorage.removeItem("name");
+      localStorage.removeItem("role");
+      // Mengarahkan pengguna ke halaman login
+      navigate("/login-page");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -205,7 +232,7 @@ const TeaMenuAdmin = () => {
 
   const formatDate = (dateString) => {
     const updatedAt = new Date(dateString);
-    const options = { year: "numeric", month: "long", day: "numeric" };
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
     return updatedAt.toLocaleDateString("id-ID", options);
   };
 
@@ -221,11 +248,21 @@ const TeaMenuAdmin = () => {
 
     for (let i = 0; i < file.length; i++) {
       const fileType = file[i]["type"];
-      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-      if (validImageTypes.includes(fileType)) {
+      const fileSize = file[i].size; // Mendapatkan ukuran file dalam byte
+      const maxSize = 5 * 1024 * 1024;
+      const validImageTypes = ["image/jfif", "image/jpeg", "image/png"];
+
+      if (validImageTypes.includes(fileType) && fileSize <= maxSize) {
         setFile([...files, file[i]]);
       } else {
-        setMessage("Maaf file tidak valid.");
+        let errorMessage = "File tidak valid.";
+        if (!validImageTypes.includes(fileType)) {
+          errorMessage = "File tidak valid.";
+        } else if (fileSize > maxSize) {
+          errorMessage = "Ukuran file melebihi 5MB.";
+        }
+  
+        setMessage(errorMessage);
         setShowValid(true);
       }
     }
@@ -235,7 +272,7 @@ const TeaMenuAdmin = () => {
     setFile(files.filter((x) => x.name !== i));
   };
 
-  function selectFiles(){
+  function selectFiles() {
     fileInputRef.current.click();
   }
 
@@ -283,25 +320,25 @@ const TeaMenuAdmin = () => {
                       <Row className="mb-3">
                         <Form.Group className="col-md-6">
                           <Form.Label>Nama</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              placeholder="Masukkan Nama" 
-                              onChange={(e) => {
-                                setName(e.target.value);
-                              }} 
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            placeholder="Masukkan Nama"
+                            onChange={(e) => {
+                              setName(e.target.value);
+                            }}
                           />
                         </Form.Group>
 
                         <Form.Group className="col-md-6">
                           <Form.Label>Harga</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              placeholder="Masukkan Harga"
-                              onChange={(e) => {
-                                setPrice(e.target.value);
-                              }}
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            placeholder="Masukkan Harga"
+                            onChange={(e) => {
+                              setPrice(e.target.value);
+                            }}
                           />
                         </Form.Group>
                       </Row>
@@ -309,96 +346,96 @@ const TeaMenuAdmin = () => {
                       <Row className="mb-3">
                         <Form.Group className="col-md-6">
                           <Form.Label>Kategori</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              placeholder="Masukkan Kategori"
-                              onChange={(e) => {
-                                setType(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            placeholder="Masukkan Kategori"
+                            onChange={(e) => {
+                              setType(e.target.value);
+                            }} />
                         </Form.Group>
 
                         <Form.Group className="col-md-6">
                           <Form.Label>Highlight</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              placeholder="Masukkan Harga"
-                              onChange={(e) => {
-                                setHighlight(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            placeholder="Masukkan Harga"
+                            onChange={(e) => {
+                              setHighlight(e.target.value);
+                            }} />
                         </Form.Group>
                       </Row>
                       <Row className="mb-3">
                         <Form.Group className="col-md-12">
                           <Form.Label>Komposisi</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              placeholder="Masukkan Komposisi"
-                              onChange={(e) => {
-                                setIngs(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            placeholder="Masukkan Komposisi"
+                            onChange={(e) => {
+                              setIngs(e.target.value);
+                            }} />
                         </Form.Group>
                       </Row>
                       <Row className="mb-3">
                         <Form.Group className="col-md-2">
                           <Form.Label>Tea Spoon</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              onChange={(e) => {
-                                setTsp(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            onChange={(e) => {
+                              setTsp(e.target.value);
+                            }} />
                         </Form.Group>
                         <Form.Group className="col-md-2">
                           <Form.Label>Gram</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              onChange={(e) => {
-                                setTspg(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            onChange={(e) => {
+                              setTspg(e.target.value);
+                            }} />
                         </Form.Group>
                         <Form.Group className="col-md-3">
                           <Form.Label>Air</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              onChange={(e) => {
-                                setWater(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            onChange={(e) => {
+                              setWater(e.target.value);
+                            }} />
                         </Form.Group>
                         <Form.Group className="col-md-2">
                           <Form.Label>Suhu</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data" 
-                              onChange={(e) => {
-                                setTemp(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            onChange={(e) => {
+                              setTemp(e.target.value);
+                            }} />
                         </Form.Group>
                         <Form.Group className="col-md-3">
                           <Form.Label>Waktu</Form.Label>
-                          <Form.Control 
-                              type="text" 
-                              className="form-data"
-                              onChange={(e) => {
-                                setTime(e.target.value);
-                              }} />
+                          <Form.Control
+                            type="text"
+                            className="form-data"
+                            onChange={(e) => {
+                              setTime(e.target.value);
+                            }} />
                         </Form.Group>
                       </Row>
                       <Row className="mb-3">
                         <Form.Group className="col-md-12">
                           <Form.Label>Deskripsi</Form.Label>
-                          <Form.Control 
-                              style={{ borderRadius: "20px" }}
-                              as="textarea" 
-                              className="form-data" 
-                              rows={3}
-                              onChange={(e) => {
-                                setDesc(e.target.value);
-                              }} />
+                          <Form.Control
+                            style={{ borderRadius: "20px" }}
+                            as="textarea"
+                            className="form-data"
+                            rows={3}
+                            onChange={(e) => {
+                              setDesc(e.target.value);
+                            }} />
                         </Form.Group>
                       </Row>
                     </Col>
@@ -412,9 +449,9 @@ const TeaMenuAdmin = () => {
                               <i class="bi bi-image fs-1 text-muted"></i>
                             </div>
                             <Card.Text className="text-center text-muted pb-2">
-                                Silahkan pilih foto
+                              Silahkan pilih foto
                               <br></br>
-                              <small class="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran ... </small>
+                              <small class="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
                               <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
                             </Card.Text>
                           </Card.Body>
@@ -493,7 +530,7 @@ const TeaMenuAdmin = () => {
                 Highlight
               </th>
               <th scope="col" width="10%">
-                Teaspoon
+                TS
               </th>
               <th scope="col" width="10%">
                 Water
@@ -511,7 +548,7 @@ const TeaMenuAdmin = () => {
                 Type
               </th>
               <th scope="col" width="10%">
-                Last Update
+                Status
               </th>
               <th scope="col" width="10%" className="text-center">
                 Action
@@ -524,28 +561,35 @@ const TeaMenuAdmin = () => {
                 <tr key={val.id}>
                   <td>{val.name}</td>
                   <td>{val.price}</td>
-                  <td>{val.ings.split(" ").slice(0, 4).join(" ")}...</td>
+                  <td>{val.ings.split(' ').slice(0, 4).join(' ')}{val.ings.split(' ').length > 4 ? '...' : ''}</td>
                   <td>
                     <td className="d-flex justify-content-start">
-                      {val.img1 && <img src={`/bev-img/${val.img1}`} alt="Food1" style={{ width: "42px" }} />}
-                      {val.img2 && <img src={`/bev-img/${val.img2}`} alt="Food2" className="ms-1" style={{ width: "42px" }} />}
-                      {val.img3 && <img src={`/bev-img/${val.img3}`} alt="Food3" className="ms-1" style={{ width: "42px" }} />}
+                      {val.img1 && <img src={val.img1} alt="Food1" style={{ width: "40px" }} />}
+                      {val.img2 && <img src={val.img2} alt="Food2" className="ms-1" style={{ width: "40px" }} />}
+                      {val.img3 && <img src={val.img3} alt="Food3" className="ms-1" style={{ width: "40px" }} />}
+                      {val.img4 && <img src={val.img4} alt="Food4" className="ms-1" style={{ width: "40px" }} />}
+                      {val.img5 && <img src={val.img5} alt="Food5" className="ms-1" style={{ width: "40px" }} />}
                     </td>
                   </td>
                   <td>{val.highlight}</td>
                   <td>
                     {val.tsp} ({val.tspg}g)
                   </td>
-                  <td>{val.water} Ml</td>
+                  <td>{val.water} ml</td>
                   <td>{val.temp} °C</td>
-                  <td>{val.time} Mins</td>
-                  <td>{val.desc.split(" ").slice(0, 4).join(" ")}...</td>
+                  <td>{val.time} mins</td>
+                  <td>{val.desc.split(' ').slice(0, 4).join(' ')}{val.desc.split(' ').length > 4 ? '...' : ''}</td>
                   <td>{val.type}</td>
-                  <td>{formatDate(val.updatedAt)}</td>
+                  <td>{val.isHidden ? (
+                      <Badge bg="danger" className="p-2">Nonaktif </Badge>
+                    ) : (
+                      <Badge bg="primary" className="p-2">Aktif </Badge>
+                    )}
+                  </td>
                   <td>
                     <td className="d-flex justify-content-center">
                       {/* Edit data */}
-                      <Button className="bg-warning btn-light rounded-2" size="sm" onClick={() => handleShowEdit(val.id)}>
+                      <Button className="bg-warning ms-1 btn-light rounded-2" size="sm" onClick={() => handleShowEdit(val.id)}>
                         <i className="bi bi-pen text-light fs-5"></i>
                       </Button>
 
@@ -561,27 +605,27 @@ const TeaMenuAdmin = () => {
                                   <Row className="mb-3">
                                     <Form.Group className="col-md-6">
                                       <Form.Label>Nama</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          placeholder="Masukkan Nama"
-                                          value={editData.name} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, name: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        placeholder="Masukkan Nama"
+                                        value={editData.name}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, name: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
 
                                     <Form.Group className="col-md-6">
                                       <Form.Label>Harga</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          placeholder="Masukkan Harga"
-                                          value={editData.price} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, price: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        placeholder="Masukkan Harga"
+                                        value={editData.price}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, price: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                   </Row>
@@ -589,114 +633,127 @@ const TeaMenuAdmin = () => {
                                   <Row className="mb-3">
                                     <Form.Group className="col-md-6">
                                       <Form.Label>Kategori</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          placeholder="Masukkan Kategori"
-                                          value={editData.type} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, type: e.target.value }
-                                          )} 
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        placeholder="Masukkan Kategori"
+                                        value={editData.type}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, type: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
 
                                     <Form.Group className="col-md-6">
                                       <Form.Label>Highlight</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          placeholder="Masukkan Harga"
-                                          value={editData.highlight} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, highlight: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        placeholder="Masukkan Harga"
+                                        value={editData.highlight}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, highlight: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                   </Row>
                                   <Row className="mb-3">
                                     <Form.Group className="col-md-12">
                                       <Form.Label>Komposisi</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          placeholder="Masukkan Komposisi"
-                                          value={editData.ings} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, ings: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        placeholder="Masukkan Komposisi"
+                                        value={editData.ings}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, ings: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                   </Row>
                                   <Row className="mb-3">
                                     <Form.Group className="col-md-2">
                                       <Form.Label>Tea Spoon</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          value={editData.tsp} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, tsp: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        value={editData.tsp}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, tsp: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                     <Form.Group className="col-md-2">
                                       <Form.Label>Gram</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          value={editData.tspg} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, tspg: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        value={editData.tspg}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, tspg: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                     <Form.Group className="col-md-3">
                                       <Form.Label>Air</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          value={editData.water} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, water: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        value={editData.water}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, water: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                     <Form.Group className="col-md-2">
                                       <Form.Label>Suhu</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data" 
-                                          value={editData.temp} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, temp: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        value={editData.temp}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, temp: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                     <Form.Group className="col-md-3">
                                       <Form.Label>Waktu</Form.Label>
-                                      <Form.Control 
-                                          type="text" 
-                                          className="form-data"
-                                          value={editData.time} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, time: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        type="text"
+                                        className="form-data"
+                                        value={editData.time}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, time: e.target.value }
+                                        )}
                                       />
                                     </Form.Group>
                                   </Row>
                                   <Row className="mb-3">
-                                    <Form.Group className="col-md-12">
+                                    <Form.Group className="col-md-6">
                                       <Form.Label>Deskripsi</Form.Label>
-                                      <Form.Control 
-                                          style={{ borderRadius: "20px" }}
-                                          as="textarea" 
-                                          className="form-data" 
-                                          rows={3}
-                                          value={editData.desc} 
-                                          onChange={(e) => setEditData(
-                                            { ...editData, desc: e.target.value }
-                                          )}
+                                      <Form.Control
+                                        style={{ borderRadius: "20px" }}
+                                        as="textarea"
+                                        className="form-data"
+                                        rows={2}
+                                        value={editData.desc}
+                                        onChange={(e) => setEditData(
+                                          { ...editData, desc: e.target.value }
+                                        )}
                                       />
+                                    </Form.Group>
+
+                                    <Form.Group className="col-md-6">
+                                      <Form.Label htmlFor="isHiddenSelect">Status</Form.Label>
+                                      <Form.Select
+                                        className="form-data"
+                                        id="isHiddenSelect" 
+                                        value={editData.isHidden ? 'Tidak Aktif' : 'Aktif'} 
+                                        onChange={handleIsHiddenChange}
+                                      >
+                                        <option value="Tidak Aktif">Tidak Aktif</option>
+                                        <option value="Aktif">Aktif</option>
+                                      </Form.Select>
                                     </Form.Group>
                                   </Row>
                                 </Col>
@@ -710,9 +767,9 @@ const TeaMenuAdmin = () => {
                                           <i class="bi bi-image fs-1 text-muted"></i>
                                         </div>
                                         <Card.Text className="text-center text-muted pb-2">
-                                            Silahkan pilih foto
+                                          Silahkan pilih foto
                                           <br></br>
-                                          <small class="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran ... </small>
+                                          <small class="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
                                           <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
                                         </Card.Text>
                                       </Card.Body>
@@ -721,7 +778,7 @@ const TeaMenuAdmin = () => {
                                     <Alert show={showValid} variant="danger" className="mt-2 ms-3" style={{ width: "20rem" }} onClose={() => setShowValid(false)} dismissible>
                                       {message}
                                     </Alert>
-                                    <div className="d-flex gap-1 mt-4 flex-wrap">
+                                    <div className="d-flex gap-1 mt-4 flex-wrap">                                    
                                       {files.map((file, key) => {
                                         return (
                                           <div key={key} className="position-relative">
@@ -732,7 +789,7 @@ const TeaMenuAdmin = () => {
                                               className="bi bi-x-circle-fill position-absolute text-secondary x-preview"
                                               style={{ cursor: "pointer" }}
                                             ></i>
-                                            <img className="preview-img" src={URL.createObjectURL(file)} />
+                                            <img className="preview-img" src={`http://localhost:5000/${val.img1}`} />
                                           </div>
                                         );
                                       })}
@@ -741,8 +798,8 @@ const TeaMenuAdmin = () => {
                                     <div className="mt-4 d-grid gap-2">
                                       <Button size="md" className="pagination-button btn-light text-light"
                                         onClick={() => {
-                                          submitBevData(userId);
-                                          handleCloseAdd();
+                                          handleEdit(val.id);
+                                          handleCloseEdit();
                                         }}>
                                         Edit
                                       </Button>
@@ -758,98 +815,8 @@ const TeaMenuAdmin = () => {
                         </Modal.Body>
                       </Modal>
 
-                      {/* Edit Lama */}
-
-                      {/* <Modal show={showEdit} onHide={handleCloseEdit} backdrop="static" keyboard={false}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Edit beverage menu</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form>
-                            <Row>
-                              <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Enter name" value={editData.name} onChange={(e) => setEditData({ ...editData, name: e.target.value })} />
-                              </Form.Group>
-                              <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Price</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Price" value={editData.price} onChange={(e) => setEditData({ ...editData, price: e.target.value })} />
-                              </Form.Group>
-                            </Row>
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                              <Form.Label>Ingredients</Form.Label>
-                              <Form.Control className="form-data" type="text" placeholder="Ingredients" value={editData.ings} onChange={(e) => setEditData({ ...editData, ings: e.target.value })} />
-                            </Form.Group>
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                              <Form.Label>Image1</Form.Label>
-                              <Form.Control className="form-data" type="file" placeholder="Choose Image" onChange={(e) => setEditData({ ...editData, img1: e.target.files[0] })} />
-                            </Form.Group>
-                            <Row>
-                              <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Image2</Form.Label>
-                                <Form.Control className="form-data" type="file" placeholder="Choose Image" onChange={(e) => setEditData({ ...editData, img2: e.target.files[0] })} />
-                              </Form.Group>
-                              <Form.Group className="col-6 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Image3</Form.Label>
-                                <Form.Control className="form-data" type="file" placeholder="Choose Image" onChange={(e) => setEditData({ ...editData, img3: e.target.files[0] })} />
-                              </Form.Group>
-                            </Row>
-                            <Row>
-                              <Form.Group className="col-5 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Highlight</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Enter highlight" value={editData.highlight} onChange={(e) => setEditData({ ...editData, highlight: e.target.value })} />
-                              </Form.Group>
-                              <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Teaspoon</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Enter teaspoon" value={editData.tsp} onChange={(e) => setEditData({ ...editData, tsp: e.target.value })} />
-                              </Form.Group>
-                              <Form.Group className="col-3 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Gram</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Enter teaspoon(gram)" value={editData.tspg} onChange={(e) => setEditData({ ...editData, tspg: e.target.value })} />
-                              </Form.Group>
-                            </Row>
-                            <Row>
-                              <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Water</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Enter water" value={editData.water} onChange={(e) => setEditData({ ...editData, water: e.target.value })} />
-                              </Form.Group>
-                              <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Temp</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Enter temp" value={editData.temp} onChange={(e) => setEditData({ ...editData, temp: e.target.value })} />
-                              </Form.Group>
-                              <Form.Group className="col-4 mb-2" controlId="formBasicEmail">
-                                <Form.Label>Time</Form.Label>
-                                <Form.Control className="form-data" type="text" placeholder="Enter time" value={editData.time} onChange={(e) => setEditData({ ...editData, time: e.target.value })} />
-                              </Form.Group>
-                            </Row>
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                              <Form.Label>Descryption</Form.Label>
-                              <Form.Control style={{ borderRadius: "20px" }} as="textarea" rows={3} value={editData.desc} onChange={(e) => setEditData({ ...editData, desc: e.target.value })} />
-                            </Form.Group>
-                            <Form.Group className="mb-2" controlId="formBasicEmail">
-                              <Form.Label>Type</Form.Label>
-                              <Form.Control className="form-data" type="text" placeholder="Enter type" value={editData.type} onChange={(e) => setEditData({ ...editData, type: e.target.value })} />
-                            </Form.Group>
-                          </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button
-                            className="btn-warning text-light"
-                            style={{ borderRadius: "100px" }}
-                            onClick={() => {
-                              handleEdit(val.id);
-                              handleCloseEdit();
-                            }}
-                          >
-                            Edit
-                          </Button>
-                          <Button variant="outline-secondary" style={{ borderRadius: "100px" }} onClick={handleCloseEdit}>
-                            Cancel
-                          </Button>
-                        </Modal.Footer>
-                      </Modal> */}
                       {/* Delete */}
-                      <Button className="bg-danger ms-2 btn-light rounded-2" size="sm" onClick={() => handleShowDelete(val.id, val.name)}>
+                      <Button className="bg-danger ms-1 btn-light rounded-2" size="sm" onClick={() => handleShowDelete(val.id, val.name)}>
                         <i className="bi bi-trash3 text-light fs-5"></i>
                       </Button>
                       <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static" keyboard={false}>

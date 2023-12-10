@@ -2,127 +2,134 @@ import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import Users from "./UserModel.js";
 
-const {DataTypes} = Sequelize;
+const { DataTypes } = Sequelize;
 
-const Bevs = db.define('bev',{
-    uuid:{
+const Bevs = db.define('bev', {
+    uuid: {
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    name:{
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true,
         }
     },
-    price:{
+    price: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true,
         }
     },
-    ings:{
+    ings: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    img1:{
+    img1: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    img2: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    img3: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    img4: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    img5: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    highlight: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    img2:{
+    tsp: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    img3:{
+    tspg: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    highlight:{
+    water: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    tsp:{
+    temp: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    tspg:{
+    time: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    water:{
+    desc: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    temp:{
+    type: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     },
-    time:{
-        type: DataTypes.STRING,
+    isHidden: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        validate:{
+        defaultValue: false,
+        validate: {
             notEmpty: true
         }
     },
-    desc:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
-    },
-    type:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
-    },
-    userId:{
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate:{
+        validate: {
             notEmpty: true
         }
     }
-},{
+}, {
     freezeTableName: true
 });
 
 Users.hasMany(Bevs);
-Bevs.belongsTo(Users, {foreignKey: 'userId'});
+Bevs.belongsTo(Users, { foreignKey: 'userId' });
 
 export default Bevs;

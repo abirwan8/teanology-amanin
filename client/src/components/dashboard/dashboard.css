@@ -259,7 +259,7 @@ thead {
 }
 
 /* Media query for tablets in portrait mode */
-@media only screen and (min-width: 768px) and (max-width: 1023px){
+@media only screen and (min-width: 768px) and (max-width: 1025px){
   .row1-moodstats{
     margin-top: 24px !important;
   }
@@ -325,8 +325,9 @@ thead {
   }
 
   .box-dashboard2 {
-    max-width: 320px;
+    max-width: 100%;
     left: 7%;
+    right: 2%;
   }
 
   .text-total {
@@ -408,4 +409,89 @@ thead {
 
 .main-stats{
   height: 368px;
+}
+
+/* RSUITE */
+/* .rs-picker-toggle-wrapper .rs-picker-toggle{
+  border-radius: 100px !important;
+  border: 1px solid #539e6d !important;
+}
+
+.rs-picker-toggle:active{ 
+  box-shadow: none !important;
+  border-color: transparent !important;
+  outline: none !important;
+}
+
+.rs-btn-primary{
+  background-color: #539e6d !important;
+}
+
+.rs-btn-link{
+  color: #539e6d !important;
+}
+
+.rs-picker-toggle-value{
+  color: #539e6d !important;
+}
+
+.rs-calendar-table-cell-selected .rs-calendar-table-cell-content{
+  background-color: #539e6d !important;
+}
+
+.rs-calendar-table-cell-content:hover{
+  background-color: rgba(83,158,109, 0.2) !important;
+  color: #539e6d !important;
+}
+
+.rs-calendar-table-cell-in-range::before{
+  background-color: rgba(83,158,109, 0.2) !important;
+} */
+
+.react-calendar{
+  font-family: 'Work Sans', sans-serif !important;
+}
+
+.react-daterange-picker{
+  margin-left: 10px !important;
+}
+
+.react-daterange-picker{
+  height: 28px !important;
+
+}
+
+.react-daterange-picker__wrapper{
+  border-radius: 10px !important;
+  padding: 0 5px;
+  border: thin solid #539e6d !important;
+  background-color: #fdf6ec !important;
+}
+
+.react-daterange-picker__inputGroup{
+  font-size: 12px !important;
+}
+
+.bi-calendar2-week-fill{
+  color: #539e6d !important;
+}
+
+.react-calendar{
+  border-radius: 20px !important;
+  background-color: #fdf6ec !important;
+  box-shadow: 0px 13px 35px -13px rgba(54,69,79,1) !important;
+  border: thin solid #539e6d !important;
+}
+
+.react-calendar__tile--now{
+  background: transparent !important;
+  border: 2px solid #539e6d !important;
+  border-radius: 8px;
+  width: 80% !important;
+}
+
+.react-calendar__tile--active{
+  background: #539e6d !important;
+  border-radius: 8px;
+  border: 2px solid #fdf6ec !important;
 }

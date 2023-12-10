@@ -34,31 +34,38 @@ const Foods = db.define('food',{
             notEmpty: true
         }
     },
-    img1:{
+    img1: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
+        allowNull: true,
     },
-    img2:{
+    img2: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
+        allowNull: true
     },
-    img3:{
+    img3: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            notEmpty: true
-        }
+        allowNull: true
+    },
+    img4: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    img5: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
     desc:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
+            notEmpty: true
+        }
+    },
+    isHidden: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        validate: {
             notEmpty: true
         }
     },

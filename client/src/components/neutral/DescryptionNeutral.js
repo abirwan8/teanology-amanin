@@ -71,7 +71,7 @@ function BodyOnlyExample() {
         <hr></hr>
         <p className='ms-2'>{val.highlight}</p>
         <p className='ms-2'>{val.desc}</p>
-        <button className="btn btn-pairing-fear" onClick={() => handleGetFoodClick()}>Get Some Food</button>
+        <button className="btn btn-pairing-neutral" onClick={() => handleGetFoodClick()}>Get Some Food</button>
       </Card.Body>
     </Card>
     <div className="half-circle"></div>

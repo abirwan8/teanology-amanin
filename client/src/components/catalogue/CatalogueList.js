@@ -21,65 +21,67 @@ const CatalogueList = () => {
     });
   }, []);
 
-  let currentType = "";
+  // Fungsi untuk mengelompokkan elemen berdasarkan val.type
+  const groupByType = (array) => {
+    return array.reduce((acc, obj) => {
+      const key = obj.type;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(obj);
+      return acc;
+    }, {});
+  };
+
+  const groupedBevList = groupByType(bevList);
 
   return (
     <>
-    {/* <h2 className="header container-fluid mt-2 fw-bold">Our Catalogue</h2> */}
-      {bevList.map((val, index) => {
-        if (val.type !== currentType) {
-          currentType = val.type;
-          return (
-            <Container fluid className="menu__box-green" key={currentType}>
-              <h3 className="type-menu-green">{val.type}</h3>
-              <h4 className="dash-green" aria-hidden="true"></h4>
-              <Link to={`/product-details-catalogue/${val.id}`} key={val.id}>
-                <Row className="list-menu-green">
-                  <Col md={10} xs={8}>
-                    <h5 className="code-name-green">{val.name}</h5>
-                    <small className="status">
-                      <i className="bi bi-hand-thumbs-up me-2"></i>
-                      {val.highlight}
-                    </small>
-                    <p>{val.ings}</p>
-                    <p className="fw-bold">Rp{val.price}</p>
-                  </Col>
+      {Object.keys(groupedBevList).map((type, index) => {
+        const filteredList = groupedBevList[type].filter(
+          (val) => !val.isHidden
+        );
 
-                  <Col md={2} xs={4} className="mt-3">
-                    <div className="position-relative" style={{ height: "88px" }}>
-                      <img alt={val.name} src={`/bev-img/${val.img1}`} width={"88px"} height={"88px"} className="float-end" style={{ borderRadius: "20px" }}></img>
-                    </div>
-                  </Col>
-                </Row>
-              </Link>
-            </Container>
-          );
-        } else {
+        // Hanya melakukan render jika masih ada elemen yang akan ditampilkan
+        if (filteredList.length > 0) {
           return (
-            <Container fluid className="menu__box-green" style={{ boxShadow: "0 !important", marginTop: "-11px", zIndex: "10" }}>
-              {index !== 0 && <h4 className="dash-green" aria-hidden="true"></h4>}
-              <Link to={`/product-details-catalogue/${val.id}`} key={val.id}>
-                <Row className="list-menu-green" key={val.id}>
-                  <Col md={10} xs={8}>
-                    <h5 className="code-name-green">{val.name}</h5>
-                    <small className="status">
-                      <i className="bi bi-hand-thumbs-up me-2"></i>
-                      {val.highlight}
-                    </small>
-                    <p>{val.ings}</p>
-                    <p className="fw-bold">Rp{val.price}</p>
-                  </Col>
-
-                  <Col md={2} xs={4} className="mt-3">
-                    <div className="position-relative" style={{ height: "88px" }}>
-                      <img alt={val.name} src={`/bev-img/${val.img1}`} width={"88px"} height={"88px"} className="float-end" style={{ borderRadius: "20px" }}></img>
-                    </div>
-                  </Col>
-                </Row>
-              </Link>
+            <Container fluid className="menu__box-neutral" key={index}>
+              <h3 className="type-menu-neutral">{type}</h3>
+              {filteredList.map((val) => (
+                <Link to={`/product-details-catalogue/${val.id}`} key={val.id}>
+                  <h4 className="dash-neutral" aria-hidden="true"></h4>
+                  <Row className="list-menu-neutral">
+                    <Col md={10} xs={8}>
+                      <h5 className="code-name-neutral">{val.name}</h5>
+                      <small className="status">
+                        <i className="bi bi-hand-thumbs-up me-2"></i>
+                        {val.highlight}
+                      </small>
+                      <p>{val.ings}</p>
+                      <p className="fw-bold">Rp{val.price}</p>
+                    </Col>
+                    <Col md={2} xs={4} className="mt-3">
+                      <div
+                        className="position-relative"
+                        style={{ height: "88px" }}
+                      >
+                        <img
+                          alt={val.name}
+                          src={val.img1}
+                          width={"88px"}
+                          height={"88px"}
+                          className="float-end"
+                          style={{ borderRadius: "20px" }}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </Link>
+              ))}
             </Container>
           );
         }
+        return null; // Jika tidak ada elemen yang ditampilkan, kembalikan null
       })}
     </>
   );

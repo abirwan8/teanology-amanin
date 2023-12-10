@@ -18,6 +18,7 @@ const FoodMenusAngry = () => {
   return (
     <>
       {foodList.map((product) => {
+        if (!product.isHidden) {
         if (product.bevId === +localStorage.getItem("fp")) {
           return (
             <Container fluid className="menu__box-angry">
@@ -40,7 +41,8 @@ const FoodMenusAngry = () => {
               <div className="half-circle"></div>
             </Container>
           );
-        }return null;
+        }}
+        return null;
       })}
     </>
   );
