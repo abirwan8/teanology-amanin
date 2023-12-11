@@ -33,9 +33,6 @@ function BodyOnlyExample() {
             {val.type}
           </Badge>
           <Badge className='badge-custom-surprise fw-normal ms-2'>
-            {val.ings}
-          </Badge>
-          <Badge className='badge-custom-surprise fw-normal ms-2'>
             Surprise
           </Badge>
         </div>

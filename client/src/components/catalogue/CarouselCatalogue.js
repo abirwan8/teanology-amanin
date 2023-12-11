@@ -12,7 +12,7 @@ const Carousel2 = () => {
   
   useEffect(() => {
     Axios.get(`http://localhost:5000/bevs/${val.id}`).then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
       setVal(response.data);
     });
   }, [id, val.id]);

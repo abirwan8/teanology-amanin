@@ -542,7 +542,7 @@ const TeaMenuAdmin = () => {
                 Time
               </th>
               <th scope="col" width="12%">
-                Descryption
+                Desc
               </th>
               <th scope="col" width="5%">
                 Type
@@ -561,7 +561,7 @@ const TeaMenuAdmin = () => {
                 <tr key={val.id}>
                   <td>{val.name}</td>
                   <td>{val.price}</td>
-                  <td>{val.ings.split(' ').slice(0, 4).join(' ')}{val.ings.split(' ').length > 4 ? '...' : ''}</td>
+                  <td>{val.ings.split(' ').slice(0, 2).join(' ')}{val.ings.split(' ').length > 2 ? '...' : ''}</td>
                   <td>
                     <td className="d-flex justify-content-start">
                       {val.img1 && <img src={val.img1} alt="Food1" style={{ width: "40px" }} />}
@@ -578,7 +578,7 @@ const TeaMenuAdmin = () => {
                   <td>{val.water} ml</td>
                   <td>{val.temp} °C</td>
                   <td>{val.time} mins</td>
-                  <td>{val.desc.split(' ').slice(0, 4).join(' ')}{val.desc.split(' ').length > 4 ? '...' : ''}</td>
+                  <td>{val.desc.split(' ').slice(0, 2).join(' ')}{val.desc.split(' ').length > 2 ? '...' : ''}</td>
                   <td>{val.type}</td>
                   <td>{val.isHidden ? (
                       <Badge bg="danger" className="p-2">Nonaktif </Badge>

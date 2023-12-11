@@ -7,9 +7,10 @@ import Axios from "axios";
 
 const TeaMenusHappy = () => {
   const [bevList, setBevList] = useState([]);
+  const imageBaseUrl = "http://localhost:5000/";
   
   useEffect(() => {
-    Axios.get("http://localhost:5000/bevs").then((response) => {
+    Axios.get("http://localhost:5000/moodbevs/happy").then((response) => {
       //console.log(response.data);
       setBevList(response.data);
     })
@@ -66,7 +67,7 @@ const TeaMenusHappy = () => {
                       >
                         <img
                           alt={val.name}
-                          src={val.img1}
+                          src={`${imageBaseUrl}${val.img1}`}
                           width={"88px"}
                           height={"88px"}
                           className="float-end"

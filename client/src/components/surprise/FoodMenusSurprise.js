@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const FoodMenusSurprise = () => {
   const [foodList, setFoodList] = useState([]);
+  const imageBaseUrl = "http://localhost:5000/";
 
   useEffect(() => {
     Axios.get("http://localhost:5000/foodss").then((response) => {
@@ -18,6 +19,7 @@ const FoodMenusSurprise = () => {
   return (
     <>
       {foodList.map((product) => {
+        if (!product.isHidden) {
         if (product.bevId === +localStorage.getItem("fp")) {
           return (
             <Container fluid className="menu__box-surprise">
@@ -36,7 +38,7 @@ const FoodMenusSurprise = () => {
 
                   <Col md={2} xs={4} className="mt-3">
                     <div className="position-relative" style={{ height: "88px" }}>
-                      <img alt={product.name} src={`/img/${product.img1}`} width={"88px"} height={"88px"} className="float-end" style={{ borderRadius: "20px" }}></img>
+                      <img alt={product.name} src={`${imageBaseUrl}${product.img1}`} width={"88px"} height={"88px"} className="float-end" style={{ borderRadius: "20px" }}></img>
                     </div>
                   </Col>
                 </Row>
@@ -44,7 +46,8 @@ const FoodMenusSurprise = () => {
               <div className="half-circle"></div>
             </Container>
           );
-        }return null;
+        }}
+        return null;
       })}
     </>
   );

@@ -30,7 +30,6 @@ function BodyOnlyExample() {
         <Card.Body>
           <div className="mx-1">
             <Badge className="badge-custom-angry fw-normal ms-2">{val.type}</Badge>
-            <Badge className="badge-custom-angry fw-normal ms-2">{val.highlight}</Badge>
             <Badge className="badge-custom-angry fw-normal ms-2">Angry</Badge>
           </div>
 

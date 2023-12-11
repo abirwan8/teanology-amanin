@@ -12,7 +12,7 @@ function BodyOnlyExample() {
 
   const { id } = useParams();
   const [val, setVal] = useState({id});
-  console.log(id);
+  // console.log(id);
   
   useEffect(() => {
     Axios.get(`http://localhost:5000/bevs/${val.id}`).then((response) => {
@@ -30,10 +30,7 @@ function BodyOnlyExample() {
             {val.type}
           </Badge>
           <Badge className='badge-custom-green fw-normal ms-2'>
-            {val.highlight}
-          </Badge>
-          <Badge className='badge-custom-green fw-normal ms-2'>
-            Angry
+            Katalog
           </Badge>
         </div>
 
