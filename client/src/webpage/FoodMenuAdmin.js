@@ -17,12 +17,6 @@ import { Badge } from 'react-bootstrap';
 import Sidebar from "../components/dashboard/Sidebar.js";
 
 const FoodMenuAdmin = () => {
-  const [isEyeVisible, setIsEyeVisible] = useState(true);
-
-  const toggleEyeVisibility = () => {
-    setIsEyeVisible(!isEyeVisible);
-  };
-
   const [searchKeyword, setSearchKeyword] = useState("");
   const handleSearchChange = (e) => {
     setSearchKeyword(e.target.value);
@@ -247,7 +241,7 @@ const FoodMenuAdmin = () => {
               <Dropdown.Menu>
                 <p className="ms-3 fw-bold fs-6 text-muted text-uppercase">{userRole}</p>
                 <Dropdown.Divider style={{ marginTop: "-10px" }} />
-                <Dropdown.Item href="/login-page" className="text-danger item-drop" onClick={handleLogout}><i class="bi bi-box-arrow-left me-2"></i>Keluar</Dropdown.Item>
+                <Dropdown.Item href="/login-page" className="text-danger item-drop" onClick={handleLogout}><i className="bi bi-box-arrow-left me-2"></i>Keluar</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -332,12 +326,12 @@ const FoodMenuAdmin = () => {
                         <Card className="ms-3 card-upload-foto" role="button" onClick={selectFiles} style={{ width: "20rem" }}>
                           <Card.Body>
                             <div className="d-flex justify-content-center">
-                              <i class="bi bi-image fs-1 text-muted"></i>
+                              <i className="bi bi-image fs-1 text-muted"></i>
                             </div>
                             <Card.Text className="text-center text-muted pb-2">
                                 Silahkan pilih foto
                               <br></br>
-                              <small class="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
+                              <small className="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
                               <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
                             </Card.Text>
                           </Card.Body>
@@ -457,14 +451,6 @@ const FoodMenuAdmin = () => {
                   </td>
                   <td>
                     <td className="d-flex justify-content-center">
-                    {/* Visibility Data */}
-                    {/* <Button
-                      className="bg-primary btn-light rounded-2"
-                      size="sm"
-                      onClick={toggleIsHidden}
-                    >
-                      <i className={`bi bi-eye${isHidden ? '-slash' : ''} text-light fs-5`}></i>
-                    </Button> */}
                     {/* Edit data */}
                     <Button className="bg-warning ms-1 btn-light rounded-2" size="sm" onClick={() => handleShowEdit(val.id)}>
                       <i className="bi bi-pen text-light fs-5"></i>
@@ -523,20 +509,22 @@ const FoodMenuAdmin = () => {
                                   </Row>
                                   
                                   <Row className="mb-3">
-                                    <Form.Group className="col-md-6">
+                                    <Form.Group className="col-md-12">
                                       <Form.Label>Deskripsi</Form.Label>
                                       <Form.Control 
                                           style={{ borderRadius: "20px" }}
                                           as="textarea" 
                                           className="form-data" 
-                                          rows={6}
+                                          rows={4}
                                           value={editData.desc} 
                                           onChange={(e) => setEditData(
                                             { ...editData, desc: e.target.value }
                                           )}
                                       />
                                     </Form.Group>
-                                    <Form.Group className="col-md-6">
+                                  </Row>
+                                  <Row>
+                                    <Form.Group className="col-md-12">
                                       <Form.Label htmlFor="isHiddenSelect">Status</Form.Label>
                                       <Form.Select
                                         className="form-data"
@@ -557,12 +545,12 @@ const FoodMenuAdmin = () => {
                                     <Card className="ms-3 card-upload-foto" role="button" onClick={selectFiles} style={{ width: "20rem" }}>
                                       <Card.Body>
                                         <div className="d-flex justify-content-center">
-                                          <i class="bi bi-image fs-1 text-muted"></i>
+                                          <i className="bi bi-image fs-1 text-muted"></i>
                                         </div>
                                         <Card.Text className="text-center text-muted pb-2">
                                             Silahkan pilih foto
                                           <br></br>
-                                          <small class="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
+                                          <small className="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
                                           <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
                                         </Card.Text>
                                       </Card.Body>

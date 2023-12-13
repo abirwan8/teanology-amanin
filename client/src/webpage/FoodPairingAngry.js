@@ -21,7 +21,7 @@ function Angry() {
       <TopBar />
       <Breadcrumbs items={items} />
       <HeadFP />
-      <FoodMenus />
+      <FoodMenus className="mt-4" />
     </div>
   );
 }

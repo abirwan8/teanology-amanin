@@ -17,35 +17,40 @@ const FoodMenusAngry = () => {
   }, []);
 
   return (
-    <>
+    <Container fluid className="menu__box-angry mt-4">
       {foodList.map((product) => {
-        if (!product.isHidden) {
-        if (product.bevId === +localStorage.getItem("fp")) {
+        if (!product.isHidden && product.bevId === +localStorage.getItem("fp")) {
           return (
-            <Container fluid className="menu__box-angry">
+            <React.Fragment key={product.id}>
               <Link to={`/food-details-angry/${product.id}`}>
-                <Row className="list-menu-angry" key={product.id}>
+                <Row className="list-menu-angry">
                   <Col md={10} xs={8}>
                     <h4 className="code-name-angry pt-3">{product.name}</h4>
                     <p>{product.ings}</p>
                     <p className="fw-bold">Rp{product.price}</p>
                   </Col>
-
                   <Col md={2} xs={4} className="mt-3">
                     <div className="position-relative" style={{ height: "88px" }}>
-                      <img alt={product.name} src={`${imageBaseUrl}${product.img1}`} width={"88px"} height={"88px"} className="float-end" style={{ borderRadius: "20px" }}></img>
+                      <img
+                        alt={product.name}
+                        src={`${imageBaseUrl}${product.img1}`}
+                        width={"88px"}
+                        height={"88px"}
+                        className="float-end"
+                        style={{ borderRadius: "20px" }}
+                      ></img>
                     </div>
                   </Col>
                 </Row>
               </Link>
               <h4 className="dash-angry"></h4>
               <div className="half-circle"></div>
-            </Container>
+            </React.Fragment>
           );
-        }}
+        }
         return null;
       })}
-    </>
+    </Container>
   );
 };
 

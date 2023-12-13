@@ -1,9 +1,9 @@
 import { Container, Row, Col } from "react-bootstrap";
+import './Angry.css';
 import Angry from "../home/icon-mood/Icon-Angry.svg";
 
-import './Angry.css';
 
-const HeadFPAngry = () => {
+const MoodAngry = () => {
     return(
         <>
         <h1 className="line-angry"></h1>
@@ -32,4 +32,4 @@ const HeadFPAngry = () => {
     );
 }
 
-export default HeadFPAngry;
+export default MoodAngry;

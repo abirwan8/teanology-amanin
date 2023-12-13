@@ -17,39 +17,40 @@ const FoodMenusSurprise = () => {
   }, []);
 
   return (
-    <>
+    <Container fluid className="menu__box-surprise mt-4">
       {foodList.map((product) => {
-        if (!product.isHidden) {
-        if (product.bevId === +localStorage.getItem("fp")) {
+        if (!product.isHidden && product.bevId === +localStorage.getItem("fp")) {
           return (
-            <Container fluid className="menu__box-surprise">
-              <h4 className="dash-surprise" aria-hidden="true"></h4>
+            <React.Fragment key={product.id}>
               <Link to={`/food-details-surprise/${product.id}`}>
-                <Row className="list-menu-surprise" key={product.id}>
+                <Row className="list-menu-surprise">
                   <Col md={10} xs={8}>
-                    <h5 className="code-name-surprise">{product.name}</h5>
-                    <small className="status">
-                      <i className="bi bi-hand-thumbs-up me-2"></i>
-                      {product.highlight}
-                    </small>
+                    <h4 className="code-name-surprise pt-3">{product.name}</h4>
                     <p>{product.ings}</p>
                     <p className="fw-bold">Rp{product.price}</p>
                   </Col>
-
                   <Col md={2} xs={4} className="mt-3">
                     <div className="position-relative" style={{ height: "88px" }}>
-                      <img alt={product.name} src={`${imageBaseUrl}${product.img1}`} width={"88px"} height={"88px"} className="float-end" style={{ borderRadius: "20px" }}></img>
+                      <img
+                        alt={product.name}
+                        src={`${imageBaseUrl}${product.img1}`}
+                        width={"88px"}
+                        height={"88px"}
+                        className="float-end"
+                        style={{ borderRadius: "20px" }}
+                      ></img>
                     </div>
                   </Col>
                 </Row>
               </Link>
+              <h4 className="dash-surprise"></h4>
               <div className="half-circle"></div>
-            </Container>
+            </React.Fragment>
           );
-        }}
+        }
         return null;
       })}
-    </>
+    </Container>
   );
 };
 
