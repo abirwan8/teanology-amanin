@@ -8,6 +8,7 @@ import Foods from "./models/FoodModel.js";
 import FoodPairings from "./models/FoodPairingModel.js";
 import Moods from "./models/MoodModel.js";
 import User from "./models/UserModel.js";
+import Libs from "./models/LibModel.js";
 import fs from "fs";
 import path from "path";
 
@@ -27,7 +28,7 @@ app.use(
 
 app.use(express.static('bev_img'));
 app.use(express.static('food_img'));
-
+app.use(express.static('lib_file'));
 
 //  -- ## Migration ## --  //
 // db.sync({force:true});
@@ -969,6 +970,190 @@ app.delete('/moodbevs/:id', async (req, res) => {
   }
 });
 
+
+//  -- ## Get All Libs ## --  //
+app.get('/libs', async (req, res) => {
+  try {
+    const response = await Libs.findAll({
+      attributes: ['id', 'uuid', 'title', 'desc', 'cover', 'pdfFile', 'isHidden', 'createdAt', 'updatedAt'],
+      include: [{
+        model: User,
+        attributes: ['name', 'email']
+      }]
+    });
+
+    response.forEach(lib => {
+      lib.cover = 'http://localhost:5000/' + lib.cover;
+      lib.pdfFile = 'http://localhost:5000/' + lib.pdfFile;
+    })
+
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+//  -- ## Get Libs by ID ## --  //
+app.get('/libs/:id', async (req, res) => {
+  try {
+    const lib = await Libs.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: ['id', 'uuid', 'title', 'desc', 'cover', 'pdfFile', 'isHidden'],
+    });
+
+    if (!lib) {
+      return res.status(404).json({ msg: "Data tidak ditemukan" });
+    }
+
+    res.status(200).json(lib);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+// Multer storage configuration
+const libStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'lib_file'); // Set the destination folder where uploaded files will be stored
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const fileExtension = file.originalname.split('.').pop();
+    cb(null, file.fieldname + '-' + uniqueSuffix + '.' + fileExtension); // Set the file name
+  }
+});
+
+// Create the Multer upload instance
+const uploadLib = multer({ storage: libStorage });
+
+//  -- ## Create Lib ## --  //
+app.post('/libs', uploadLib.fields([
+  { name: 'cover', maxCount: 1 },
+  { name: 'pdfFile', maxCount: 1 }
+]), async (req, res) => {
+  const { title, desc, userId } = req.body;
+  const libFile = req.files;
+
+  try {
+    if (!libFile.cover || !libFile.pdfFile) {
+      throw new Error('Please upload file');
+    }
+
+    const cover = libFile.cover[0].filename;
+    const pdfFile = libFile.pdfFile[0].filename;
+    await Libs.create({
+      title: title,
+      desc: desc,
+      cover: cover,
+      pdfFile: pdfFile,
+      userId: userId,
+    });
+
+    res.status(201).json({ 
+      msg: "Library Created Successfully"
+    });
+    
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+    console.log(error.message);
+  }
+});
+
+//  -- ## Update Lib ## --  //
+app.put('/libs/:id', uploadLib.fields([
+  { name: 'cover', maxCount: 1 },
+  { name: 'pdfFile', maxCount: 1 }
+]), async (req, res) => {
+  try {
+    const lib = await Libs.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    if (!lib) {
+      return res.status(404).json({ msg: "Data tidak ditemukan" });
+    }
+
+    const { title, desc, isHidden, userId } = req.body;
+    const covers = req.files;
+    const pdfFiles = req.files;
+
+    if (covers.cover) {
+      // Menghapus gambar lama
+      if (lib.cover) {
+        const oldImagePath = path.join(`lib_img`, lib.cover);
+        fs.unlinkSync(oldImagePath);
+      }
+      lib.cover = covers.cover.filename;
+    }
+    if (pdfFiles.pdfFile) {
+      // Menghapus gambar lama
+      if (lib.pdfFile) {
+        const oldImagePath = path.join(`lib_file`, lib.pdfFile);
+        fs.unlinkSync(oldImagePath);
+      }
+      lib.pdfFile = pdfFiles.pdfFile.filename;
+    }
+
+    // Lakukan pembaruan data library
+    await Libs.update(
+      { title, desc, cover: lib.cover, pdfFile: lib.pdfFile, isHidden, userId },
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    );
+
+    res.status(200).json({ msg: "Libs updated successfully" });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+//  -- ## Delete Lib ## --  //
+app.delete('/libs/:id', async (req, res) => {
+  try {
+    const lib = await Libs.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    if (!lib) {
+      return res.status(404).json({ msg: "Data tidak ditemukan" });
+    }
+
+    if (lib.cover) {
+      // Menghapus gambar lama
+      if (lib.cover) {
+        const imagePath = path.join(`lib_file`, lib.cover);
+        fs.unlinkSync(imagePath);
+      }
+    }
+    if (lib.pdfFile) {
+      // Menghapus file lama
+      if (lib.pdfFile) {
+        const imagePath = path.join(`lib_file`, lib.pdfFile);
+        fs.unlinkSync(imagePath);
+      }
+    }
+
+    // Menghapus data library
+    await Libs.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    res.status(200).json({ msg: "Library deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
 
 app.listen(5000, () => {
   console.log("running server");

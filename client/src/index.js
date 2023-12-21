@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 
-import App from './webpage/App';
 import reportWebVitals from './reportWebVitals';
 import Home from './webpage/HomePage';
 import Catalogue from './webpage/CataloguePage';
@@ -25,6 +24,7 @@ import DetailProductNeutral from './webpage/DetailProductNeutral';
 import DetailProductSad from './webpage/DetailProductSad';
 import DetailProductSurprise from './webpage/DetailProductSurprise';
 import DetailProductCatalogue from './webpage/DetailProductCatalogue';
+import DetailLibrary from './webpage/DetailLibrary';
 
 import LoginPage from './webpage/LoginPage';
 import Admin from './webpage/Admin';
@@ -32,6 +32,7 @@ import Dashboard from './webpage/Dashboard';
 import TeaMenuAdmin from './webpage/TeaMenuAdmin';
 import FoodMenuAdmin from './webpage/FoodMenuAdmin';
 import FoodPairingAdmin from './webpage/FoodPairingAdmin';
+import LibraryAdmin from './webpage/LibraryAdmin';
 import MoodAdmin from './webpage/MoodAdmin';
 import Staff from './webpage/StaffPage';
 
@@ -62,6 +63,10 @@ ReactDOM.createRoot(rootElement).render(
 
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path="/library" element={<Library />} />
+        <Route path='/details-library' element={<DetailLibrary />}>
+            <Route path=":id" element={<DetailLibrary />} />
+        </Route>
+        
         <Route path="/product-details-catalogue" element={<DetailProductCatalogue />} >
             {/* Memanggil product angry base id */}
             <Route path=":id" element={<DetailProductCatalogue />} /> 
@@ -128,6 +133,7 @@ ReactDOM.createRoot(rootElement).render(
         <Route path='/food-menu-admin' element={<FoodMenuAdmin />} />
         <Route path='/food-pairing-admin' element={<FoodPairingAdmin />} />
         <Route path='/staff' element={<Staff />} />
+        <Route path='/library-admin' element={<LibraryAdmin />} />
         <Route path='/mood-admin' element={<MoodAdmin />} />
 
         {/* Food Pairing */}

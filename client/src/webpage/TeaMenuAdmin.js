@@ -581,9 +581,9 @@ const TeaMenuAdmin = () => {
                   <td>{val.desc.split(' ').slice(0, 2).join(' ')}{val.desc.split(' ').length > 2 ? '...' : ''}</td>
                   <td>{val.type}</td>
                   <td>{val.isHidden ? (
-                      <Badge bg="danger" className="p-2">Nonaktif </Badge>
+                      <Badge bg="danger" className="p-2"><i class="bi bi-eye-slash fs-6 text-light me-2"></i>Nonaktif</Badge>
                     ) : (
-                      <Badge bg="primary" className="p-2">Aktif </Badge>
+                      <Badge bg="primary" className="p-2"><i class="bi bi-eye fs-6 text-light me-2"></i>Aktif </Badge>
                     )}
                   </td>
                   <td>

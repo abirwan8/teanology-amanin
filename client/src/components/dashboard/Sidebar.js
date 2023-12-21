@@ -7,6 +7,7 @@ import { GiBowlOfRice } from "react-icons/gi";
 import { IoFastFood } from "react-icons/io5";
 import { FaSmileWink } from "react-icons/fa";
 import { IoMdPerson } from "react-icons/io";
+import { MdLibraryBooks } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import logoAdmin from "./Logo.svg";
@@ -61,6 +62,12 @@ const Sidebar = ({ children }) => {
       path: "/mood-admin",
       name: "Moods",
       icon: <FaSmileWink />,
+    }: null,
+    userRole === "Admin" || userRole === "Staff"?
+    {
+      path: "/library-admin",
+      name: "Library",
+      icon: <MdLibraryBooks />,
     }: null,
     userRole === "Admin" && {
       path: "/staff",

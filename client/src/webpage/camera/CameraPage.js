@@ -1,21 +1,14 @@
-import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import './Camera.css'
 import * as faceapi from 'face-api.js'
 import { useNavigate } from 'react-router-dom';
 
 import btn_close from './icons/btn_close.svg';
-import btn_lightning from './icons/btn_lightning.svg';
 import btn_switch from './icons/btn_switch.svg';
 import btn_gallery from './icons/btn_gallery.svg';
 
 let maxProbability = 0;
 let maxExpression = "";
-
-// const LOCAL_STORAGE_KEY = 'maxExpressions';
-
-// const storedExpressions = localStorage.getItem(LOCAL_STORAGE_KEY);
-// const maxExpressions = storedExpressions ? JSON.parse(storedExpressions) : [];
 
 function Camera() {
   const videoRef = useRef()
@@ -26,7 +19,6 @@ function Camera() {
   useEffect(() => {
     startVideo()
     videoRef && loadModels()
-
   }, [])
 
   // Membuka kamera
@@ -163,14 +155,16 @@ function Camera() {
         <video className="screencamera" crossOrigin="anonymous" ref={videoRef} autoPlay></video>
       </div>
       <div className='text-container'>
-      <h1 className='cameratext'>{currentExpression}</h1>
+        {currentExpression !== "" ? (
+          <h5 className='cameratext'>{currentExpression}</h5>
+        ) : <h5 className='cameratext' style={{ display: "none" }}>{currentExpression}</h5>}
       </div>
       <div className='button-container'>
-      <button className="closebtn"><img onClick={() => navigate(-1)} className="closebtnimg" src={ btn_close }/></button>
+      <button className="closebtn"><img alt="closebtnimg" onClick={() => navigate(-1)} className="closebtnimg" src={ btn_close }/></button>
       {/* <button className="lightningbtn"onClick={() => { setButtonClicked(true); localStorage.removeItem('maxExpressions') }}><img className="lightningbtnimg" src={ btn_lightning }/></button> */}
-      <button className="switchbtn"><img className="switchbtnimg" src={ btn_switch }/></button>
+      <button className="switchbtn"><img alt="switchbtnimg" className="switchbtnimg" src={ btn_switch }/></button>
       <button className="capturebtn" onClick={() => { setButtonClicked(true); processExpression() }}></button>
-      <button className="gallerybtn"><img className="gallerybtnimg" src={ btn_gallery }/></button>
+      <button className="gallerybtn"><img alt="gallerybtnimg" className="gallerybtnimg" src={ btn_gallery }/></button>
       </div>
     </div>
   )
