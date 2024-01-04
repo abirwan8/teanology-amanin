@@ -9,6 +9,7 @@ import FoodPairings from "./models/FoodPairingModel.js";
 import Moods from "./models/MoodModel.js";
 import User from "./models/UserModel.js";
 import Libs from "./models/LibModel.js";
+import Stats from "./models/StatModel.js";
 import fs from "fs";
 import path from "path";
 
@@ -1153,6 +1154,262 @@ app.delete('/libs/:id', async (req, res) => {
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
+});
+
+// STATS
+
+app.get('/stats-click', async (req, res) => {
+  const click = await Stats.findOne();
+  res.json(getClickResponse(click));
+});
+
+app.post('/stats/click-happy', async (req, res) => {
+  let click = await Stats.findOne();
+
+  if (!click) {
+    click = new Stats();
+  }
+  click.clickHappy += 1;
+
+  await click.save();
+  res.json(getClickResponse(click));
+});
+
+app.post('/stats/click-angry', async (req, res) => {
+  let click = await Stats.findOne();
+
+  if (!click) {
+    click = new Stats();
+  }
+  click.clickAngry += 1;
+
+  await click.save();
+  res.json(getClickResponse(click));
+});
+
+app.post('/stats/click-fear', async (req, res) => {
+  let click = await Stats.findOne();
+
+  if (!click) {
+    click = new Stats();
+  }
+  click.clickFear += 1;
+
+  await click.save();
+  res.json(getClickResponse(click));
+});
+
+app.post('/stats/click-sad', async (req, res) => {
+  let click = await Stats.findOne();
+
+  if (!click) {
+    click = new Stats();
+  }
+  click.clickSad += 1;
+
+  await click.save();
+  res.json(getClickResponse(click));
+});
+
+app.post('/stats/click-disgust', async (req, res) => {
+  let click = await Stats.findOne();
+
+  if (!click) {
+    click = new Stats();
+  }
+  click.clickDisgust += 1;
+
+  await click.save();
+  res.json(getClickResponse(click));
+});
+
+app.post('/stats/click-surprise', async (req, res) => {
+  let click = await Stats.findOne();
+
+  if (!click) {
+    click = new Stats();
+  }
+  click.clickSurprise += 1;
+
+  await click.save();
+  res.json(getClickResponse(click));
+});
+
+app.post('/stats/click-neutral', async (req, res) => {
+  let click = await Stats.findOne();
+
+  if (!click) {
+    click = new Stats();
+  }
+  click.clickNeutral += 1;
+
+  await click.save();
+  res.json(getClickResponse(click));
+});
+
+function getClickResponse(click) {
+  return { 
+    clickHappy: click ? click.clickHappy : 0,
+    clickAngry: click ? click.clickAngry : 0,
+    clickFear: click ? click.clickFear : 0,
+    clickSad: click ? click.clickSad : 0,
+    clickDisgust: click ? click.clickDisgust : 0,
+    clickSurprise: click ? click.clickSurprise : 0,
+    clickNeutral: click ? click.clickNeutral : 0
+  };
+}
+
+app.get('/stats-scan', async (req, res) => {
+  const scan = await Stats.findOne();
+  res.json({ 
+    scanHappy: scan ? scan.scanHappy : 0,
+    scanAngry: scan ? scan.scanAngry : 0,
+    scanFear: scan ? scan.scanFear : 0,
+    scanSad: scan ? scan.scanSad : 0,
+    scanDisgust: scan ? scan.scanDisgust : 0,
+    scanSurprise: scan ? scan.scanSurprise : 0,
+    scanNeutral: scan ? scan.scanNeutral : 0
+   });
+});
+
+app.post('/stats/scan-happy', async (req, res) => {
+  let scan = await Stats.findOne();
+
+  if (!scan) {
+    scan = new Stats();
+  }
+  scan.scanHappy += 1;
+
+  await scan.save();
+  res.json({ 
+    scanHappy: scan.scanHappy,
+    scanAngry: scan.scanAngry,
+    scanFear: scan.scanFear,
+    scanSad: scan.scanSad,
+    scanDisgust: scan.scanDisgust,
+    scanSurprise: scan.scanSurprise,
+    scanNeutral: scan.scanNeutral
+   });
+});
+
+app.post('/stats/scan-angry', async (req, res) => {
+  let scan = await Stats.findOne();
+
+  if (!scan) {
+    scan = new Stats();
+  }
+  scan.scanAngry += 1;
+
+  await scan.save();
+  res.json({ 
+    scanHappy: scan.scanHappy,
+    scanAngry: scan.scanAngry,
+    scanFear: scan.scanFear,
+    scanSad: scan.scanSad,
+    scanDisgust: scan.scanDisgust,
+    scanSurprise: scan.scanSurprise,
+    scanNeutral: scan.scanNeutral
+   });
+});
+
+app.post('/stats/scan-fear', async (req, res) => {
+  let scan = await Stats.findOne();
+
+  if (!scan) {
+    scan = new Stats();
+  }
+  scan.scanFear += 1;
+
+  await scan.save();
+  res.json({ 
+    scanHappy: scan.scanHappy,
+    scanAngry: scan.scanAngry,
+    scanFear: scan.scanFear,
+    scanSad: scan.scanSad,
+    scanDisgust: scan.scanDisgust,
+    scanSurprise: scan.scanSurprise,
+    scanNeutral: scan.scanNeutral
+   });
+});
+
+app.post('/stats/scan-sad', async (req, res) => {
+  let scan = await Stats.findOne();
+
+  if (!scan) {
+    scan = new Stats();
+  }
+  scan.scanSad += 1;
+
+  await scan.save();
+  res.json({ 
+    scanHappy: scan.scanHappy,
+    scanAngry: scan.scanAngry,
+    scanFear: scan.scanFear,
+    scanSad: scan.scanSad,
+    scanDisgust: scan.scanDisgust,
+    scanSurprise: scan.scanSurprise,
+    scanNeutral: scan.scanNeutral
+   });
+});
+
+app.post('/stats/scan-disgust', async (req, res) => {
+  let scan = await Stats.findOne();
+
+  if (!scan) {
+    scan = new Stats();
+  }
+  scan.scanDisgust += 1;
+
+  await scan.save();
+  res.json({ 
+    scanHappy: scan.scanHappy,
+    scanAngry: scan.scanAngry,
+    scanFear: scan.scanFear,
+    scanSad: scan.scanSad,
+    scanDisgust: scan.scanDisgust,
+    scanSurprise: scan.scanSurprise,
+    scanNeutral: scan.scanNeutral
+   });
+});
+
+app.post('/stats/scan-surprise', async (req, res) => {
+  let scan = await Stats.findOne();
+
+  if (!scan) {
+    scan = new Stats();
+  }
+  scan.scanSurprise += 1;
+
+  await scan.save();
+  res.json({ 
+    scanHappy: scan.scanHappy,
+    scanAngry: scan.scanAngry,
+    scanFear: scan.scanFear,
+    scanSad: scan.scanSad,
+    scanDisgust: scan.scanDisgust,
+    scanSurprise: scan.scanSurprise,
+    scanNeutral: scan.scanNeutral
+   });
+});
+
+app.post('/stats/scan-neutral', async (req, res) => {
+  let scan = await Stats.findOne();
+
+  if (!scan) {
+    scan = new Stats();
+  }
+  scan.scanNeutral += 1;
+
+  await scan.save();
+  res.json({ 
+    scanHappy: scan.scanHappy,
+    scanAngry: scan.scanAngry,
+    scanFear: scan.scanFear,
+    scanSad: scan.scanSad,
+    scanDisgust: scan.scanDisgust,
+    scanSurprise: scan.scanSurprise,
+    scanNeutral: scan.scanNeutral
+   });
 });
 
 app.listen(5000, () => {

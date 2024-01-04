@@ -411,43 +411,6 @@ thead {
   height: 368px;
 }
 
-/* RSUITE */
-/* .rs-picker-toggle-wrapper .rs-picker-toggle{
-  border-radius: 100px !important;
-  border: 1px solid #539e6d !important;
-}
-
-.rs-picker-toggle:active{ 
-  box-shadow: none !important;
-  border-color: transparent !important;
-  outline: none !important;
-}
-
-.rs-btn-primary{
-  background-color: #539e6d !important;
-}
-
-.rs-btn-link{
-  color: #539e6d !important;
-}
-
-.rs-picker-toggle-value{
-  color: #539e6d !important;
-}
-
-.rs-calendar-table-cell-selected .rs-calendar-table-cell-content{
-  background-color: #539e6d !important;
-}
-
-.rs-calendar-table-cell-content:hover{
-  background-color: rgba(83,158,109, 0.2) !important;
-  color: #539e6d !important;
-}
-
-.rs-calendar-table-cell-in-range::before{
-  background-color: rgba(83,158,109, 0.2) !important;
-} */
-
 .react-calendar{
   font-family: 'Work Sans', sans-serif !important;
 }

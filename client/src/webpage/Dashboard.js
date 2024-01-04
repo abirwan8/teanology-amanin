@@ -53,6 +53,93 @@ const Dashboard = () => {
   const [staff, setTotalStaff] = useState([]);
   const [bevs, setTotalBevs] = useState([]);
   const [foodpairing, setTotalFP] = useState([]);
+  const [dataMood, setDataMood] = useState([]);
+  const [dataScan, setDataScan] = useState([]);
+  const [totalClicks, setTotalClicks] = useState(0);
+  const [totalScans, setTotalScans] = useState(0);
+
+  useEffect(() => {
+    Axios.get('http://localhost:5000/stats-click')
+      .then(response => {
+        setTotalClicks(response.data.clickHappy + response.data.clickAngry + response.data.clickFear + response.data.clickSad + response.data.clickDisgust + response.data.clickSurprise + response.data.clickNeutral );
+      })
+      .catch(error => {
+        console.error('Error fetching total clicks:', error);
+      });
+
+    // Mengambil data dari server saat komponen dimuat
+    Axios.get('http://localhost:5000/stats-click')
+      .then(response => {
+        // Proses data sesuai format yang dibutuhkan oleh komponen BarChart
+        const data = response.data;
+        
+        // Manual perhitungan persentase untuk setiap mood
+        const percentageHappy = totalClicks > 0 ? ((data.clickHappy / totalClicks) * 100).toFixed(1) : 0;
+        const percentageAngry = totalClicks > 0 ? ((data.clickAngry / totalClicks) * 100).toFixed(1) : 0;
+        const percentageFear = totalClicks > 0 ? ((data.clickFear / totalClicks) * 100).toFixed(1) : 0;
+        const percentageSad = totalClicks > 0 ? ((data.clickSad / totalClicks) * 100).toFixed(1) : 0;
+        const percentageDisgust = totalClicks > 0 ? ((data.clickDisgust / totalClicks) * 100).toFixed(1) : 0;
+        const percentageSurprise = totalClicks > 0 ? ((data.clickSurprise / totalClicks) * 100).toFixed(1) : 0;
+        const percentageNeutral = totalClicks > 0 ? ((data.clickNeutral / totalClicks) * 100).toFixed(1) : 0;
+
+        const formattedData = [
+          { name: 'Happy', klik: data.clickHappy, percentage: percentageHappy + "%" },
+          { name: 'Angry', klik: data.clickAngry, percentage: percentageAngry + "%" },
+          { name: 'Fear', klik: data.clickFear, percentage: percentageFear + "%" },
+          { name: 'Sad', klik: data.clickSad, percentage: percentageSad + "%" },
+          { name: 'Disgust', klik: data.clickDisgust, percentage: percentageDisgust + "%" },
+          { name: 'Surprise', klik: data.clickSurprise, percentage: percentageSurprise + "%" },
+          { name: 'Neutral', klik: data.clickNeutral, percentage: percentageNeutral + "%" }
+        ];
+
+        setDataMood(formattedData);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, [totalClicks]);
+
+  useEffect(() => {
+    Axios.get('http://localhost:5000/stats-scan')
+      .then(response => {
+        setTotalScans(response.data.scanHappy + response.data.scanAngry + response.data.scanFear + response.data.scanSad + response.data.scanDisgust + response.data.scanSurprise + response.data.scanNeutral );
+      })
+      .catch(error => {
+        console.error('Error fetching total scans:', error);
+      });
+
+    // Mengambil data dari server saat komponen dimuat
+    Axios.get('http://localhost:5000/stats-scan')
+      .then(response => {
+        // Proses data sesuai format yang dibutuhkan oleh komponen BarChart
+        const data = response.data;
+        
+        // Manual perhitungan persentase untuk setiap mood
+        const percentageHappy = totalScans > 0 ? ((data.scanHappy / totalScans) * 100).toFixed(1) : 0;
+        const percentageAngry = totalScans > 0 ? ((data.scanAngry / totalScans) * 100).toFixed(1) : 0;
+        const percentageFear = totalScans > 0 ? ((data.scanFear / totalScans) * 100).toFixed(1) : 0;
+        const percentageSad = totalScans > 0 ? ((data.scanSad / totalScans) * 100).toFixed(1) : 0;
+        const percentageDisgust = totalScans > 0 ? ((data.scanDisgust / totalScans) * 100).toFixed(1) : 0;
+        const percentageSurprise = totalScans > 0 ? ((data.scanSurprise / totalScans) * 100).toFixed(1) : 0;
+        const percentageNeutral = totalScans > 0 ? ((data.scanNeutral / totalScans) * 100).toFixed(1) : 0;
+
+        const formattedScanData = [
+          { name: 'Happy', scan: data.scanHappy, percentage: percentageHappy + "%" },
+          { name: 'Angry', scan: data.scanAngry, percentage: percentageAngry + "%" },
+          { name: 'Fear', scan: data.scanFear, percentage: percentageFear + "%" },
+          { name: 'Sad', scan: data.scanSad, percentage: percentageSad + "%" },
+          { name: 'Disgust', scan: data.scanDisgust, percentage: percentageDisgust + "%" },
+          { name: 'Surprise', scan: data.scanSurprise, percentage: percentageSurprise + "%" },
+          { name: 'Neutral', scan: data.scanNeutral, percentage: percentageNeutral + "%" }
+        ];
+
+        setDataScan(formattedScanData);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, [totalScans]);
+
 
   // Mengambil data makanan dari backend
   useEffect(() => {
@@ -139,54 +226,6 @@ const Dashboard = () => {
     }
   }, []);
 
-
-  
-  const dataMood = [
-    {
-      name: "Angry",
-      percentage: "(10%)",
-      klik: 300,
-      color: "#AB594E",
-    },
-    {
-      name: "Happy",
-      percentage: "(15%)",
-      klik: 139,
-      color: "#EAC73D",
-    },
-    {
-      name: "Fear",
-      percentage: "(19%)",
-      klik: 390,
-      color: "#F09E54",
-    },
-    {
-      name: "Sad",
-      percentage: "(20%)",
-      klik: 180,
-      color: "#75A1D9",
-    },
-    {
-      name: "Disgust",
-      percentage: "(40%)",
-      klik: 480,
-      color: "#7A6ACE",
-    },
-    {
-      name: "Surprise",
-      percentage: "(30%)",
-      klik: 380,
-      color: "#F4AFB2",
-    },
-    {
-      name: "Neutral",
-      percentage: "(10%)",
-      klik: 430,
-      color: "#539E6D",
-    },
-  ];
-  
-
   return (
     <Sidebar>
       <Container fluid>
@@ -238,13 +277,13 @@ const Dashboard = () => {
                 </Col>
               </Row>
               <Card.Body className="d-flex justify-content-center">
-                <div style={{ width: "100%", maxWidth: "100%" }}>
+                <ResponsiveContainer width="100%" height={300}>
                   <BarChart
-                    width={510}
+                    width= "100%"
                     height={300}
-                    data={dataMood}
+                    data={dataScan}
                     margin={{
-                      top: 20,
+                      top: 30,
                       right: 20,
                       left: -15,
                       bottom: 5,
@@ -255,15 +294,15 @@ const Dashboard = () => {
                     <YAxis axisLine={false} tickLine={{ display: "none" }} />
                     <Tooltip />
                     <CartesianGrid vertical={false} stroke="#ccc" strokeDasharray="" />
-                    <Bar radius={6} dataKey="klik" barSize={35} animationDuration={1000}>
-                      {dataMood.map((entry, index) => (
+                    <Bar radius={6} dataKey="scan" barSize={35} animationDuration={1000}>
+                      {dataScan.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={getCustomColor(entry)} />
                       ))}
                       <LabelList dataKey="percentage" position="top" className="fw-bold" style={{ fontSize: 12 }} />
-                      <LabelList dataKey="klik" position="top" dy={-20} style={{ fontSize: 12 }} />
+                      <LabelList dataKey="scan" position="top" dy={-15} style={{ fontSize: 12 }} />
                     </Bar>
                   </BarChart>
-                </div>
+                </ResponsiveContainer>
               </Card.Body>
             </Card>
           </Col>
@@ -280,13 +319,13 @@ const Dashboard = () => {
                 </Col>
               </Row>
               <Card.Body className="d-flex justify-content-center">
-                <div style={{ width: "100%", maxWidth: "100%" }}>
+                <ResponsiveContainer width="100%" height={300}>
                   <BarChart
                     width={510}
                     height={300}
                     data={dataMood}
                     margin={{
-                      top: 20,
+                      top: 30,
                       right: 20,
                       left: -15,
                       bottom: 5,
@@ -301,10 +340,10 @@ const Dashboard = () => {
                         <Cell key={`cell-${index}`} fill={getCustomColor(entry)} />
                       ))}
                       <LabelList dataKey="percentage" position="top" className="fw-bold" style={{ fontSize: 12 }} />
-                      <LabelList dataKey="klik" position="top" dy={-20} style={{ fontSize: 12 }} />
+                      <LabelList dataKey="klik" position="top" dy={-15} style={{ fontSize: 12 }} />
                     </Bar>
                   </BarChart>
-                </div>
+                </ResponsiveContainer>
               </Card.Body>
             </Card>
           </Col>

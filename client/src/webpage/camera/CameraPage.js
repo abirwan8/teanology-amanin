@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
-import './Camera.css'
-import * as faceapi from 'face-api.js'
+import './Camera.css';
+import * as faceapi from 'face-api.js';
 import { useNavigate } from 'react-router-dom';
+import Axios from "axios";
 
 import btn_close from './icons/btn_close.svg';
 import btn_switch from './icons/btn_switch.svg';
@@ -19,27 +20,23 @@ function Camera() {
   useEffect(() => {
     startVideo()
     videoRef && loadModels()
+
   }, [])
 
   // Membuka kamera
-  const startVideo = () => {
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then((currentStream) => {
-        videoRef.current.srcObject = currentStream
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  const startVideo = async () => {
+    const currentStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    videoRef.current.srcObject = currentStream;
   }
   // LOAD MODELS FROM FACE API
 
   const loadModels = () => {
     Promise.all([
       // Mengambil model
-      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+      // faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
       faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
-      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-      faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+      // faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+      // faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
       faceapi.nets.faceExpressionNet.loadFromUri("/models")
 
     ]).then(() => {
@@ -54,7 +51,6 @@ function Camera() {
   
       const detections = await faceapi
         .detectSingleFace(videoRef.current)
-        .withFaceLandmarks()
         .withFaceExpressions();
   
       // Pastikan 'detections' tidak null atau undefined sebelum mengakses 'expressions'
@@ -73,76 +69,140 @@ function Camera() {
 
       console.log(`Ekspresi : ${maxExpression} (${maxProbability})`);
       console.log(1);
-
-      // // Menambahkan nilai ke dalam array maxExpressions
-      // if (maxExpressions.length < 100) {
-      //   maxExpressions.push(maxExpression);
-      // } else {
-      //   maxExpressions.shift();
-      //   maxExpressions.push(maxExpression);
-      // }
-
-      // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maxExpressions));
-
-      // console.log(maxExpressions);
+      
       const percentage = (maxProbability * 100).toFixed(2);
       setCurrentExpression(`${maxExpression} (${percentage}%)`);
-    }, 3000)
+    }, 1000)
   }
-
+  
+  const [scanHappy, setScanHappy] = useState(0);
+  const [scanAngry, setScanAngry] = useState(0);
+  const [scanFear, setScanFear] = useState(0);
+  const [scanSad, setScanSad] = useState(0);
+  const [scanDisgust, setScanDisgust] = useState(0);
+  const [scanSurprise, setScanSurprise] = useState(0);
+  const [scanNeutral, setScanNeutral] = useState(0);
+  
   function processExpression() {
-    // let expressionCounts = {
-    //   "neutral": 0,
-    //   "happy": 0,
-    //   "sad": 0,
-    //   "angry": 0,
-    //   "fearful": 0,
-    //   "disgusted": 0,
-    //   "surprised": 0,
-    // };
-
-    // // Mencari jumlah kemunculan setiap jenis ekspresi dalam array maxExpressions
-    // maxExpressions.forEach(expression => {
-    //   expressionCounts[expression]++;
-    // });
-
-    // // Mencari jenis ekspresi terbanyak
-    // let modusExpression = Object.keys(expressionCounts).reduce((a, b) => expressionCounts[a] > expressionCounts[b] ? a : b);
-
-    // // Pindah ke halaman sesuai dengan jenis ekspresi terbanyak
-    // if (modusExpression === "neutral") {
-    //   window.location.href = "neutral";
-    // } else if (modusExpression === "happy") {
-    //   window.location.href = "happy";
-    // } else if (modusExpression === "sad") {
-    //   window.location.href = "sad";
-    // } else if (modusExpression === "angry") {
-    //   window.location.href = "angry";
-    // } else if (modusExpression === "fearful") {
-    //   window.location.href = "fear";
-    // } else if (modusExpression === "disgusted") {
-    //   window.location.href = "disgust";
-    // } else if (modusExpression === "surprised") {
-    //   window.location.href = "surprise";
-    // }
-
-    // localStorage.removeItem('maxExpressions');
-
     // Pindah ke halaman sesuai dengan jenis ekspresi terbanyak
     if (maxExpression === "neutral") {
       window.location.href = "neutral";
+
+      Axios.post('http://localhost:5000/stats/scan-neutral')
+      .then(response => {
+        setScanHappy(response.data.scanHappy);
+        setScanAngry(response.data.scanAngry);
+        setScanFear(response.data.scanFear);
+        setScanSad(response.data.scanSad);
+        setScanDisgust(response.data.scanDisgust);
+        setScanSurprise(response.data.scanSurprise);
+        setScanNeutral(response.data.scanNeutral);
+      })
+      .catch(error => {
+        console.error('Error updating scan count:', error);
+      });
+
     } else if (maxExpression === "happy") {
       window.location.href = "happy";
+
+      Axios.post('http://localhost:5000/stats/scan-happy')
+      .then(response => {
+        setScanHappy(response.data.scanHappy);
+        setScanAngry(response.data.scanAngry);
+        setScanFear(response.data.scanFear);
+        setScanSad(response.data.scanSad);
+        setScanDisgust(response.data.scanDisgust);
+        setScanSurprise(response.data.scanSurprise);
+        setScanNeutral(response.data.scanNeutral);
+      })
+      .catch(error => {
+        console.error('Error updating scan count:', error);
+      });
+
     } else if (maxExpression === "sad") {
       window.location.href = "sad";
+
+      Axios.post('http://localhost:5000/stats/scan-sad')
+      .then(response => {
+        setScanHappy(response.data.scanHappy);
+        setScanAngry(response.data.scanAngry);
+        setScanFear(response.data.scanFear);
+        setScanSad(response.data.scanSad);
+        setScanDisgust(response.data.scanDisgust);
+        setScanSurprise(response.data.scanSurprise);
+        setScanNeutral(response.data.scanNeutral);
+      })
+      .catch(error => {
+        console.error('Error updating scan count:', error);
+      });
+
     } else if (maxExpression === "angry") {
       window.location.href = "angry";
+
+      Axios.post('http://localhost:5000/stats/scan-angry')
+      .then(response => {
+        setScanHappy(response.data.scanHappy);
+        setScanAngry(response.data.scanAngry);
+        setScanFear(response.data.scanFear);
+        setScanSad(response.data.scanSad);
+        setScanDisgust(response.data.scanDisgust);
+        setScanSurprise(response.data.scanSurprise);
+        setScanNeutral(response.data.scanNeutral);
+      })
+      .catch(error => {
+        console.error('Error updating scan count:', error);
+      });
+
     } else if (maxExpression === "fearful") {
       window.location.href = "fear";
+
+      Axios.post('http://localhost:5000/stats/scan-fear')
+      .then(response => {
+        setScanHappy(response.data.scanHappy);
+        setScanAngry(response.data.scanAngry);
+        setScanFear(response.data.scanFear);
+        setScanSad(response.data.scanSad);
+        setScanDisgust(response.data.scanDisgust);
+        setScanSurprise(response.data.scanSurprise);
+        setScanNeutral(response.data.scanNeutral);
+      })
+      .catch(error => {
+        console.error('Error updating scan count:', error);
+      });
+
     } else if (maxExpression === "disgusted") {
       window.location.href = "disgust";
+
+      Axios.post('http://localhost:5000/stats/scan-disgust')
+      .then(response => {
+        setScanHappy(response.data.scanHappy);
+        setScanAngry(response.data.scanAngry);
+        setScanFear(response.data.scanFear);
+        setScanSad(response.data.scanSad);
+        setScanDisgust(response.data.scanDisgust);
+        setScanSurprise(response.data.scanSurprise);
+        setScanNeutral(response.data.scanNeutral);
+      })
+      .catch(error => {
+        console.error('Error updating scan count:', error);
+      });
+
     } else if (maxExpression === "surprised") {
       window.location.href = "surprise";
+
+      Axios.post('http://localhost:5000/stats/scan-surprise')
+      .then(response => {
+        setScanHappy(response.data.scanHappy);
+        setScanAngry(response.data.scanAngry);
+        setScanFear(response.data.scanFear);
+        setScanSad(response.data.scanSad);
+        setScanDisgust(response.data.scanDisgust);
+        setScanSurprise(response.data.scanSurprise);
+        setScanNeutral(response.data.scanNeutral);
+      })
+      .catch(error => {
+        console.error('Error updating scan count:', error);
+      });
     }
 
     // localStorage.removeItem('maxExpressions');
@@ -157,13 +217,16 @@ function Camera() {
       <div className='text-container'>
         {currentExpression !== "" ? (
           <h5 className='cameratext'>{currentExpression}</h5>
-        ) : <h5 className='cameratext' style={{ display: "none" }}>{currentExpression}</h5>}
+        ) : <h5 className='cameratext'>Load Models...</h5>}
       </div>
       <div className='button-container'>
       <button className="closebtn"><img alt="closebtnimg" onClick={() => navigate(-1)} className="closebtnimg" src={ btn_close }/></button>
       {/* <button className="lightningbtn"onClick={() => { setButtonClicked(true); localStorage.removeItem('maxExpressions') }}><img className="lightningbtnimg" src={ btn_lightning }/></button> */}
       <button className="switchbtn"><img alt="switchbtnimg" className="switchbtnimg" src={ btn_switch }/></button>
-      <button className="capturebtn" onClick={() => { setButtonClicked(true); processExpression() }}></button>
+      {currentExpression !== "" ? (
+        <button className="capturebtn" onClick={() => { setButtonClicked(true); processExpression() }}></button>
+        ) : <button className="capturebtn" style={{ backgroundColor: "#fff", outline: "5px solid #FFF" }} onClick={() => { setButtonClicked(false); processExpression() }}></button>
+      }
       <button className="gallerybtn"><img alt="gallerybtnimg" className="gallerybtnimg" src={ btn_gallery }/></button>
       </div>
     </div>

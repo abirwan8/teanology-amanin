@@ -43,8 +43,11 @@
   font-weight: 3000;
   font-family: 'Work Sans', sans-serif;
   position: absolute;
-  top: 40px;
-  color: black;
+  top: 34px;
+  color: #FAFAFA;
+  background-color: rgba(83, 158, 109, .3);
+  border-radius: 10px;
+  padding: 10px 20px;
   user-select: none;
 }
 
