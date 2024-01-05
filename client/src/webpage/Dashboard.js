@@ -16,19 +16,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, ResponsiveContainer, LabelList } from "recharts";
 
-import Neutral from "../components/home/icon-mood/Icon-Neutral-NoBorder.svg";
-import Happy from "../components/home/icon-mood/Icon-Happy-NoBorder.svg";
-import Sad from "../components/home/icon-mood/Icon-Sad-NoBorder.svg";
-import Angry from "../components/home/icon-mood/Icon-Angry-NoBorder.svg";
-import Fear from "../components/home/icon-mood/Icon-Fear-NoBorder.svg";
-import Disgust from "../components/home/icon-mood/Icon-Disgust-NoBorder.svg";
-import Surprised from "../components/home/icon-mood/Icon-Surprise-NoBorder.svg";
-
-
 // Fungsi untuk menghasilkan warna berdasarkan data atau indeks
 function getCustomColor(entry) {
-  // Anda dapat menyesuaikan logika untuk menghasilkan warna sesuai dengan data
-  // Misalnya, berdasarkan kategori atau nilai tertentu
   if (entry.name === "Angry") {
     return "#AB594E";
   } else if (entry.name === "Happy") {
@@ -57,6 +46,19 @@ const Dashboard = () => {
   const [dataScan, setDataScan] = useState([]);
   const [totalClicks, setTotalClicks] = useState(0);
   const [totalScans, setTotalScans] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     Axios.get('http://localhost:5000/stats-click')
@@ -259,7 +261,7 @@ const Dashboard = () => {
         </Row>
 
         {/* Moods Statistic */}
-        <h4 style={{ marginLeft: "3%" }} className="mt-4 mb-4">
+        <h4 style={{ marginLeft: "3%" }} className="head-stats mt-4 mb-4">
           Statistik Mood
         </h4>
 
@@ -271,9 +273,9 @@ const Dashboard = () => {
                   <h5 className="pt-4 ms-4">Berdasarkan Scan</h5>
                 </Col>
                 <Col md={6}>
-                  <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
+                  {/* <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
                     <DateRangePicker onChange={onChange1} value={value1} />
-                  </div>
+                  </div> */}
                 </Col>
               </Row>
               <Card.Body className="d-flex justify-content-center">
@@ -294,7 +296,7 @@ const Dashboard = () => {
                     <YAxis axisLine={false} tickLine={{ display: "none" }} />
                     <Tooltip />
                     <CartesianGrid vertical={false} stroke="#ccc" strokeDasharray="" />
-                    <Bar radius={6} dataKey="scan" barSize={35} animationDuration={1000}>
+                    <Bar radius={6} dataKey="scan" barSize={isMobile ? 10 : 35} animationDuration={1000}>
                       {dataScan.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={getCustomColor(entry)} />
                       ))}
@@ -313,9 +315,9 @@ const Dashboard = () => {
                   <h5 className="pt-4 ms-4">Berdasarkan Klik</h5>
                 </Col>
                 <Col md={6}>
-                  <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
+                  {/* <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
                     <DateRangePicker placeholder="Select Range" onChange={onChange2} value={value2} />
-                  </div>
+                  </div> */}
                 </Col>
               </Row>
               <Card.Body className="d-flex justify-content-center">
@@ -335,7 +337,7 @@ const Dashboard = () => {
                     <YAxis axisLine={false} tickLine={{ display: "none" }} />
                     <Tooltip />
                     <CartesianGrid vertical={false} stroke="#ccc" strokeDasharray="" />
-                    <Bar radius={6} dataKey="klik" barSize={35} animationDuration={1000}>
+                    <Bar radius={6} dataKey="klik" barSize={isMobile ? 10 : 35} animationDuration={1000}>
                       {dataMood.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={getCustomColor(entry)} />
                       ))}
@@ -350,7 +352,7 @@ const Dashboard = () => {
         </Row>
 
         {/* Menu Data Statistic */}
-        <h4 style={{ marginLeft: "3%" }} className="mt-4">
+        <h4 style={{ marginLeft: "3%" }} className="head-stats mt-4">
           Data Menu Statistik
         </h4>
         <Row style={{ marginLeft: "1%", marginRight: "4%" }} className="row-stats mt-4">

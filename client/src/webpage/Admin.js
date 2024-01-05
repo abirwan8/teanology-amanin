@@ -1,5 +1,4 @@
 import React from "react";
-import './Admin.css';
 import Sidebar from "../components/dashboard/Sidebar.js";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";

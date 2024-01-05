@@ -267,7 +267,10 @@ thead {
 
 /* Media queries for mobile*/
 @media (max-width: 767px) {
-  
+  .head-stats{
+    margin-left: 18% !important;
+  }
+
   .pagination{
     justify-content: center;
   }
@@ -390,6 +393,10 @@ thead {
 .x-preview{
   margin-top: -10px;
   right: 0;
+}
+
+.upload-validation{
+  font-size: 12px;
 }
 
 .button-user:focus, .button-user:active{

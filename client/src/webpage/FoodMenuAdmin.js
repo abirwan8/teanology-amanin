@@ -263,7 +263,7 @@ const FoodMenuAdmin = () => {
               <Container>
                 <Form>
                   <Row>
-                    <Col md={8}>
+                    <Col xs={12} md={8}>
                       <Row className="mb-3">
                         <Form.Group className="col-md-6">
                           <Form.Label>Nama Makanan</Form.Label>
@@ -320,28 +320,30 @@ const FoodMenuAdmin = () => {
                       </Row>
                     </Col>
 
-                    <Col md={4}>
+                    <Col xs={12} md={4}>
                       <Row>
                         <p>Gambar Produk</p>
-                        <Card className="ms-3 card-upload-foto" role="button" onClick={selectFiles} style={{ width: "20rem" }}>
-                          <Card.Body>
-                            <div className="d-flex justify-content-center">
-                              <i className="bi bi-image fs-1 text-muted"></i>
-                            </div>
-                            <Card.Text className="text-center text-muted pb-2">
-                                Silahkan pilih foto
-                              <br></br>
-                              <small className="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
-                              <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
-                            </Card.Text>
-                          </Card.Body>
-                        </Card>
+                        <div className="col-md-12">
+                          <Card className="card-upload-foto" role="button" onClick={selectFiles}>
+                            <Card.Body>
+                              <div className="d-flex justify-content-center">
+                                <i className="bi bi-image fs-1 text-muted"></i>
+                              </div>
+                              <Card.Text className="text-center text-muted pb-2 upload-validation">
+                                  Silahkan pilih foto
+                                <br></br>
+                                <small className="fst-italic upload-validation">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
+                                <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
 
-                        <Alert show={showValid} variant="danger" className="mt-2 ms-3" style={{ width: "20rem" }} onClose={() => setShowValid(false)} dismissible>
-                          {message}
-                        </Alert>
+                          <Alert show={showValid} variant="danger" className="mt-2" onClose={() => setShowValid(false)} dismissible>
+                            {message}
+                          </Alert>
+                        </div>
                         
-                        <div className="d-flex gap-1 mt-4 flex-wrap">
+                        <div className="d-flex mt-2 gap-1 flex-wrap">
                           {files.map((file, key) => {
                             return (
                               <div key={key} className="position-relative">
@@ -349,7 +351,7 @@ const FoodMenuAdmin = () => {
                                   onClick={() => {
                                     removeImage(file.name);
                                   }}
-                                  className="bi bi-x-circle-fill position-absolute text-secondary x-preview"
+                                  className="bi bi-x-circle-fill position-absolute text-danger x-preview"
                                   style={{ cursor: "pointer" }}
                                 ></i>
                                 <img className="preview-img" src={URL.createObjectURL(file)} />
@@ -358,7 +360,7 @@ const FoodMenuAdmin = () => {
                           })}
                         </div>
 
-                        <div className="mt-4 d-grid gap-2">
+                        <div className="mt-2 d-grid gap-2">
                           <Button size="md" className="pagination-button btn-light text-light"
                             onClick={() => {
                               submitFoodData(userId);
@@ -435,11 +437,11 @@ const FoodMenuAdmin = () => {
                   <td>{val.ings.split(' ').slice(0, 4).join(' ')}{val.ings.split(' ').length > 4 ? '...' : ''}</td>
                   <td>
                     <td className="d-flex justify-content-start">
-                      {val.img1 && <img src={val.img1} alt="Food1" style={{ width: "40px" }} />}
-                      {val.img2 && <img src={val.img2} alt="Food2" className="ms-1" style={{ width: "40px" }} />}
-                      {val.img3 && <img src={val.img3} alt="Food3" className="ms-1" style={{ width: "40px" }} />}
-                      {val.img4 && <img src={val.img4} alt="Food4" className="ms-1" style={{ width: "40px" }} />}
-                      {val.img5 && <img src={val.img5} alt="Food5" className="ms-1" style={{ width: "40px" }} />}
+                      {val.img1 && <img src={val.img1} alt="Food1" className="rounded" style={{ width: "40px" }} />}
+                      {val.img2 && <img src={val.img2} alt="Food2" className="ms-1 rounded" style={{ width: "40px" }} />}
+                      {val.img3 && <img src={val.img3} alt="Food3" className="ms-1 rounded" style={{ width: "40px" }} />}
+                      {val.img4 && <img src={val.img4} alt="Food4" className="ms-1 rounded" style={{ width: "40px" }} />}
+                      {val.img5 && <img src={val.img5} alt="Food5" className="ms-1 rounded" style={{ width: "40px" }} />}
                     </td>
                   </td>
                   <td>{val.desc.split(' ').slice(0, 4).join(' ')}{val.desc.split(' ').length > 4 ? '...' : ''}</td>
@@ -464,7 +466,7 @@ const FoodMenuAdmin = () => {
                           <Container>
                             <Form>
                               <Row>
-                                <Col md={8}>
+                                <Col xs={12} md={8}>
                                   <Row className="mb-3">
                                     <Form.Group className="col-md-6">
                                       <Form.Label>Nama Makanan</Form.Label>
@@ -539,52 +541,54 @@ const FoodMenuAdmin = () => {
                                   </Row>
                                 </Col>
 
-                                <Col md={4}>
+                                <Col xs={12} md={4}>
                                   <Row>
                                     <p>Gambar Produk</p>
-                                    <Card className="ms-3 card-upload-foto" role="button" onClick={selectFiles} style={{ width: "20rem" }}>
-                                      <Card.Body>
-                                        <div className="d-flex justify-content-center">
-                                          <i className="bi bi-image fs-1 text-muted"></i>
-                                        </div>
-                                        <Card.Text className="text-center text-muted pb-2">
-                                            Silahkan pilih foto
-                                          <br></br>
-                                          <small className="fst-italic fs-6">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
-                                          <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
-                                        </Card.Text>
-                                      </Card.Body>
-                                    </Card>
+                                    <div className="col-md-12">
+                                      <Card className="card-upload-foto" role="button" onClick={selectFiles}>
+                                        <Card.Body>
+                                          <div className="d-flex justify-content-center">
+                                            <i className="bi bi-image fs-1 text-muted"></i>
+                                          </div>
+                                          <Card.Text className="text-center text-muted pb-2 upload-validation">
+                                              Silahkan pilih foto
+                                            <br></br>
+                                            <small className="fst-italic upload-validation">Pilih maksimal 5 foto dengan ukuran maksimal 5MB </small>
+                                            <Form.Control type="file" className="form-data" onChange={handleFile} name="files[]" multiple ref={fileInputRef} style={{ display: "none" }} />
+                                          </Card.Text>
+                                        </Card.Body>
+                                      </Card>
 
-                                    <Alert show={showValid} variant="danger" className="mt-2 ms-3" style={{ width: "20rem" }} onClose={() => setShowValid(false)} dismissible>
-                                      {message}
-                                    </Alert>
+                                      <Alert show={showValid} variant="danger" className="mt-2" onClose={() => setShowValid(false)} dismissible>
+                                        {message}
+                                      </Alert>
+                                    </div>
                                     
-                                    <div className="d-flex gap-1 mt-4 flex-wrap">
-                                      {editData.files && editData.files.map((file, key) => { 
+                                    <div className="d-flex mt-2 gap-1 flex-wrap">
+                                      {files.map((file, key) => {
                                         return (
                                           <div key={key} className="position-relative">
                                             <i
                                               onClick={() => {
                                                 removeImage(file.name);
                                               }}
-                                              className="bi bi-x-circle-fill position-absolute text-secondary x-preview"
+                                              className="bi bi-x-circle-fill position-absolute text-danger x-preview"
                                               style={{ cursor: "pointer" }}
                                             ></i>
-                                            <img className="preview-img" src={URL(file)} alt={`Preview ${key}`} />
+                                            <img className="preview-img" src={URL.createObjectURL(file)} />
                                           </div>
                                         );
                                       })}
                                     </div>
 
-                                    <div className="mt-4 d-grid gap-2">
+                                    <div className="mt-2 d-grid gap-2">
                                       <Button size="md" className="pagination-button btn-light text-light"
                                         onClick={() => {
-                                          handleEdit(val.id);
-                                          handleCloseEdit();
+                                          submitFoodData(userId);
+                                          handleCloseAdd();
                                         }}
                                         >
-                                        Edit
+                                        Tambahkan
                                       </Button>
                                       <Button variant="outline-secondary" style={{ borderRadius: "100px" }} onClick={handleCloseAdd}>
                                         Batal
