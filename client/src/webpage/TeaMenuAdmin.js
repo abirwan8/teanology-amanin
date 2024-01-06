@@ -801,12 +801,12 @@ const TeaMenuAdmin = () => {
                                     </div>
 
                                     <div className="mt-2 d-grid gap-2">
-                                      <Button size="md" className="pagination-button btn-light text-light"
+                                      <Button size="md" className="btn-warning text-light" style={{ borderRadius: "100px" }}
                                         onClick={() => {
-                                          submitBevData(userId);
+                                          handleEdit(userId);
                                           handleCloseAdd();
                                         }}>
-                                        Tambahkan
+                                        Edit
                                       </Button>
                                       <Button variant="outline-secondary" style={{ borderRadius: "100px" }} onClick={handleCloseAdd}>
                                         Batal
