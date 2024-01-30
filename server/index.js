@@ -1163,86 +1163,139 @@ app.get('/stats-click', async (req, res) => {
   res.json(getClickResponse(click));
 });
 
+// app.post('/stats/simpan-klik', async (req, res) => {
+//   const { clickHappy, clickAngry , clickFear, clickSad, clickDisgust, clickSurprise, clickNeutral, scanHappy, scanAngry, scanFear, scanSad, scanDisgust, scanSurprise, scanNeutral} = req.body;
+
+//   try {
+//     // Simpan hasil click ke dalam database
+//     await Stats.create({ clickHappy, clickAngry , clickFear, clickSad, clickDisgust, clickSurprise, clickNeutral, scanHappy, scanAngry, scanFear, scanSad, scanDisgust, scanSurprise, scanNeutral });
+//     res.status(201).json({ message: 'Hasil click disimpan.' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan hasil click.' });
+//   }
+// });
+
+// app.get('/stats', async (req, res) => {
+//   try {
+//     const totalStats = await Stats.find();
+//     res.json(totalStats);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Terjadi kesalahan saat mengambil hasil klik.' });
+//   }
+// });
+
 app.post('/stats/click-happy', async (req, res) => {
-  let click = await Stats.findOne();
+  // let click = await Stats.findOne();
 
-  if (!click) {
-    click = new Stats();
-  }
-  click.clickHappy += 1;
+  // if (!click) {
+  //   click = new Stats();
+  // }
+  // click.clickHappy += 1;
 
+  // await click.save();
+  // res.json(getClickResponse(click));
+  const click = new Stats({ clickHappy: 1 });
   await click.save();
   res.json(getClickResponse(click));
+
+  db.query('SELECT SUM(clickHappy) AS totalClickHappy FROM stat', (err, result) => {
+    if (err) {
+        console.error('Error saat mengambil data dari database: ', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+        res.json(result[0]);
+    }
+});
 });
 
 app.post('/stats/click-angry', async (req, res) => {
-  let click = await Stats.findOne();
+  // let click = await Stats.findOne();
 
-  if (!click) {
-    click = new Stats();
-  }
-  click.clickAngry += 1;
+  // if (!click) {
+  //   click = new Stats();
+  // }
+  // click.clickAngry += 1;
 
+  // await click.save();
+  // res.json(getClickResponse(click));
+  const click = new Stats({ clickAngry: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-fear', async (req, res) => {
-  let click = await Stats.findOne();
+  // let click = await Stats.findOne();
 
-  if (!click) {
-    click = new Stats();
-  }
-  click.clickFear += 1;
+  // if (!click) {
+  //   click = new Stats();
+  // }
+  // click.clickFear += 1;
 
+  // await click.save();
+  // res.json(getClickResponse(click));
+  const click = new Stats({ clickFear: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-sad', async (req, res) => {
-  let click = await Stats.findOne();
+  // let click = await Stats.findOne();
 
-  if (!click) {
-    click = new Stats();
-  }
-  click.clickSad += 1;
+  // if (!click) {
+  //   click = new Stats();
+  // }
+  // click.clickSad += 1;
 
+  // await click.save();
+  // res.json(getClickResponse(click));
+  const click = new Stats({ clickSad: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-disgust', async (req, res) => {
-  let click = await Stats.findOne();
+  // let click = await Stats.findOne();
 
-  if (!click) {
-    click = new Stats();
-  }
-  click.clickDisgust += 1;
+  // if (!click) {
+  //   click = new Stats();
+  // }
+  // click.clickDisgust += 1;
 
+  // await click.save();
+  // res.json(getClickResponse(click));
+  const click = new Stats({ clickDisgust: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-surprise', async (req, res) => {
-  let click = await Stats.findOne();
+  // let click = await Stats.findOne();
 
-  if (!click) {
-    click = new Stats();
-  }
-  click.clickSurprise += 1;
+  // if (!click) {
+  //   click = new Stats();
+  // }
+  // click.clickSurprise += 1;
 
+  // await click.save();
+  // res.json(getClickResponse(click));
+  const click = new Stats({ clickSurprise: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-neutral', async (req, res) => {
-  let click = await Stats.findOne();
+  // let click = await Stats.findOne();
 
-  if (!click) {
-    click = new Stats();
-  }
-  click.clickNeutral += 1;
+  // if (!click) {
+  //   click = new Stats();
+  // }
+  // click.clickNeutral += 1;
 
+  // await click.save();
+  // res.json(getClickResponse(click));
+  const click = new Stats({ clickNeutral: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });

@@ -101,46 +101,46 @@ const Dashboard = () => {
       });
   }, [totalClicks]);
 
-  useEffect(() => {
-    Axios.get('http://localhost:5000/stats-scan')
-      .then(response => {
-        setTotalScans(response.data.scanHappy + response.data.scanAngry + response.data.scanFear + response.data.scanSad + response.data.scanDisgust + response.data.scanSurprise + response.data.scanNeutral );
-      })
-      .catch(error => {
-        console.error('Error fetching total scans:', error);
-      });
+  // useEffect(() => {
+  //   Axios.get('http://localhost:5000/stats-scan')
+  //     .then(response => {
+  //       setTotalScans(response.data.scanHappy + response.data.scanAngry + response.data.scanFear + response.data.scanSad + response.data.scanDisgust + response.data.scanSurprise + response.data.scanNeutral );
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching total scans:', error);
+  //     });
 
     // Mengambil data dari server saat komponen dimuat
-    Axios.get('http://localhost:5000/stats-scan')
-      .then(response => {
-        // Proses data sesuai format yang dibutuhkan oleh komponen BarChart
-        const data = response.data;
+  //   Axios.get('http://localhost:5000/stats-scan')
+  //     .then(response => {
+  //       // Proses data sesuai format yang dibutuhkan oleh komponen BarChart
+  //       const data = response.data;
         
-        // Manual perhitungan persentase untuk setiap mood
-        const percentageHappy = totalScans > 0 ? ((data.scanHappy / totalScans) * 100).toFixed(1) : 0;
-        const percentageAngry = totalScans > 0 ? ((data.scanAngry / totalScans) * 100).toFixed(1) : 0;
-        const percentageFear = totalScans > 0 ? ((data.scanFear / totalScans) * 100).toFixed(1) : 0;
-        const percentageSad = totalScans > 0 ? ((data.scanSad / totalScans) * 100).toFixed(1) : 0;
-        const percentageDisgust = totalScans > 0 ? ((data.scanDisgust / totalScans) * 100).toFixed(1) : 0;
-        const percentageSurprise = totalScans > 0 ? ((data.scanSurprise / totalScans) * 100).toFixed(1) : 0;
-        const percentageNeutral = totalScans > 0 ? ((data.scanNeutral / totalScans) * 100).toFixed(1) : 0;
+  //       // Manual perhitungan persentase untuk setiap mood
+  //       const percentageHappy = totalScans > 0 ? ((data.scanHappy / totalScans) * 100).toFixed(1) : 0;
+  //       const percentageAngry = totalScans > 0 ? ((data.scanAngry / totalScans) * 100).toFixed(1) : 0;
+  //       const percentageFear = totalScans > 0 ? ((data.scanFear / totalScans) * 100).toFixed(1) : 0;
+  //       const percentageSad = totalScans > 0 ? ((data.scanSad / totalScans) * 100).toFixed(1) : 0;
+  //       const percentageDisgust = totalScans > 0 ? ((data.scanDisgust / totalScans) * 100).toFixed(1) : 0;
+  //       const percentageSurprise = totalScans > 0 ? ((data.scanSurprise / totalScans) * 100).toFixed(1) : 0;
+  //       const percentageNeutral = totalScans > 0 ? ((data.scanNeutral / totalScans) * 100).toFixed(1) : 0;
 
-        const formattedScanData = [
-          { name: 'Happy', scan: data.scanHappy, percentage: percentageHappy + "%" },
-          { name: 'Angry', scan: data.scanAngry, percentage: percentageAngry + "%" },
-          { name: 'Fear', scan: data.scanFear, percentage: percentageFear + "%" },
-          { name: 'Sad', scan: data.scanSad, percentage: percentageSad + "%" },
-          { name: 'Disgust', scan: data.scanDisgust, percentage: percentageDisgust + "%" },
-          { name: 'Surprise', scan: data.scanSurprise, percentage: percentageSurprise + "%" },
-          { name: 'Neutral', scan: data.scanNeutral, percentage: percentageNeutral + "%" }
-        ];
+  //       const formattedScanData = [
+  //         { name: 'Happy', scan: data.scanHappy, percentage: percentageHappy + "%" },
+  //         { name: 'Angry', scan: data.scanAngry, percentage: percentageAngry + "%" },
+  //         { name: 'Fear', scan: data.scanFear, percentage: percentageFear + "%" },
+  //         { name: 'Sad', scan: data.scanSad, percentage: percentageSad + "%" },
+  //         { name: 'Disgust', scan: data.scanDisgust, percentage: percentageDisgust + "%" },
+  //         { name: 'Surprise', scan: data.scanSurprise, percentage: percentageSurprise + "%" },
+  //         { name: 'Neutral', scan: data.scanNeutral, percentage: percentageNeutral + "%" }
+  //       ];
 
-        setDataScan(formattedScanData);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, [totalScans]);
+  //       setDataScan(formattedScanData);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, [totalScans]);
 
 
   // Mengambil data makanan dari backend
@@ -273,9 +273,9 @@ const Dashboard = () => {
                   <h5 className="pt-4 ms-4">Berdasarkan Scan</h5>
                 </Col>
                 <Col md={6}>
-                  {/* <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
+                  <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
                     <DateRangePicker onChange={onChange1} value={value1} />
-                  </div> */}
+                  </div>
                 </Col>
               </Row>
               <Card.Body className="d-flex justify-content-center">
@@ -315,9 +315,9 @@ const Dashboard = () => {
                   <h5 className="pt-4 ms-4">Berdasarkan Klik</h5>
                 </Col>
                 <Col md={6}>
-                  {/* <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
+                  <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
                     <DateRangePicker placeholder="Select Range" onChange={onChange2} value={value2} />
-                  </div> */}
+                  </div>
                 </Col>
               </Row>
               <Card.Body className="d-flex justify-content-center">
