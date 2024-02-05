@@ -1158,143 +1158,52 @@ app.delete('/libs/:id', async (req, res) => {
 
 // STATS
 
-app.get('/stats-click', async (req, res) => {
-  const click = await Stats.findOne();
-  res.json(getClickResponse(click));
+app.get("/stats-click", async (req, res) => {
+  try {
+    const click = await Stats.findAll();
+    res.json(click);
+  } catch (error) {
+    console.error("Error fetching all stats:", error);
+  }
 });
 
-// app.post('/stats/simpan-klik', async (req, res) => {
-//   const { clickHappy, clickAngry , clickFear, clickSad, clickDisgust, clickSurprise, clickNeutral, scanHappy, scanAngry, scanFear, scanSad, scanDisgust, scanSurprise, scanNeutral} = req.body;
-
-//   try {
-//     // Simpan hasil click ke dalam database
-//     await Stats.create({ clickHappy, clickAngry , clickFear, clickSad, clickDisgust, clickSurprise, clickNeutral, scanHappy, scanAngry, scanFear, scanSad, scanDisgust, scanSurprise, scanNeutral });
-//     res.status(201).json({ message: 'Hasil click disimpan.' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan hasil click.' });
-//   }
-// });
-
-// app.get('/stats', async (req, res) => {
-//   try {
-//     const totalStats = await Stats.find();
-//     res.json(totalStats);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Terjadi kesalahan saat mengambil hasil klik.' });
-//   }
-// });
-
 app.post('/stats/click-happy', async (req, res) => {
-  // let click = await Stats.findOne();
-
-  // if (!click) {
-  //   click = new Stats();
-  // }
-  // click.clickHappy += 1;
-
-  // await click.save();
-  // res.json(getClickResponse(click));
   const click = new Stats({ clickHappy: 1 });
   await click.save();
   res.json(getClickResponse(click));
-
-  db.query('SELECT SUM(clickHappy) AS totalClickHappy FROM stat', (err, result) => {
-    if (err) {
-        console.error('Error saat mengambil data dari database: ', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-        res.json(result[0]);
-    }
-});
 });
 
 app.post('/stats/click-angry', async (req, res) => {
-  // let click = await Stats.findOne();
-
-  // if (!click) {
-  //   click = new Stats();
-  // }
-  // click.clickAngry += 1;
-
-  // await click.save();
-  // res.json(getClickResponse(click));
   const click = new Stats({ clickAngry: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-fear', async (req, res) => {
-  // let click = await Stats.findOne();
-
-  // if (!click) {
-  //   click = new Stats();
-  // }
-  // click.clickFear += 1;
-
-  // await click.save();
-  // res.json(getClickResponse(click));
   const click = new Stats({ clickFear: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-sad', async (req, res) => {
-  // let click = await Stats.findOne();
-
-  // if (!click) {
-  //   click = new Stats();
-  // }
-  // click.clickSad += 1;
-
-  // await click.save();
-  // res.json(getClickResponse(click));
   const click = new Stats({ clickSad: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-disgust', async (req, res) => {
-  // let click = await Stats.findOne();
-
-  // if (!click) {
-  //   click = new Stats();
-  // }
-  // click.clickDisgust += 1;
-
-  // await click.save();
-  // res.json(getClickResponse(click));
   const click = new Stats({ clickDisgust: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-surprise', async (req, res) => {
-  // let click = await Stats.findOne();
-
-  // if (!click) {
-  //   click = new Stats();
-  // }
-  // click.clickSurprise += 1;
-
-  // await click.save();
-  // res.json(getClickResponse(click));
   const click = new Stats({ clickSurprise: 1 });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-neutral', async (req, res) => {
-  // let click = await Stats.findOne();
-
-  // if (!click) {
-  //   click = new Stats();
-  // }
-  // click.clickNeutral += 1;
-
-  // await click.save();
-  // res.json(getClickResponse(click));
   const click = new Stats({ clickNeutral: 1 });
   await click.save();
   res.json(getClickResponse(click));
@@ -1312,9 +1221,8 @@ function getClickResponse(click) {
   };
 }
 
-app.get('/stats-scan', async (req, res) => {
-  const scan = await Stats.findOne();
-  res.json({ 
+function getScanResponse(scan) {
+  return { 
     scanHappy: scan ? scan.scanHappy : 0,
     scanAngry: scan ? scan.scanAngry : 0,
     scanFear: scan ? scan.scanFear : 0,
@@ -1322,147 +1230,58 @@ app.get('/stats-scan', async (req, res) => {
     scanDisgust: scan ? scan.scanDisgust : 0,
     scanSurprise: scan ? scan.scanSurprise : 0,
     scanNeutral: scan ? scan.scanNeutral : 0
-   });
+  };
+}
+
+app.get("/stats-scan", async (req, res) => {
+  try {
+    const scan = await Stats.findAll();
+    res.json(scan);
+  } catch (error) {
+    console.error("Error fetching all stats:", error);
+  }
 });
 
 app.post('/stats/scan-happy', async (req, res) => {
-  let scan = await Stats.findOne();
-
-  if (!scan) {
-    scan = new Stats();
-  }
-  scan.scanHappy += 1;
-
+  const scan = new Stats({ scanHappy: 1 });
   await scan.save();
-  res.json({ 
-    scanHappy: scan.scanHappy,
-    scanAngry: scan.scanAngry,
-    scanFear: scan.scanFear,
-    scanSad: scan.scanSad,
-    scanDisgust: scan.scanDisgust,
-    scanSurprise: scan.scanSurprise,
-    scanNeutral: scan.scanNeutral
-   });
+  res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-angry', async (req, res) => {
-  let scan = await Stats.findOne();
-
-  if (!scan) {
-    scan = new Stats();
-  }
-  scan.scanAngry += 1;
-
+  const scan = new Stats({ scanAngry: 1 });
   await scan.save();
-  res.json({ 
-    scanHappy: scan.scanHappy,
-    scanAngry: scan.scanAngry,
-    scanFear: scan.scanFear,
-    scanSad: scan.scanSad,
-    scanDisgust: scan.scanDisgust,
-    scanSurprise: scan.scanSurprise,
-    scanNeutral: scan.scanNeutral
-   });
+  res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-fear', async (req, res) => {
-  let scan = await Stats.findOne();
-
-  if (!scan) {
-    scan = new Stats();
-  }
-  scan.scanFear += 1;
-
+  const scan = new Stats({ scanFear: 1 });
   await scan.save();
-  res.json({ 
-    scanHappy: scan.scanHappy,
-    scanAngry: scan.scanAngry,
-    scanFear: scan.scanFear,
-    scanSad: scan.scanSad,
-    scanDisgust: scan.scanDisgust,
-    scanSurprise: scan.scanSurprise,
-    scanNeutral: scan.scanNeutral
-   });
+  res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-sad', async (req, res) => {
-  let scan = await Stats.findOne();
-
-  if (!scan) {
-    scan = new Stats();
-  }
-  scan.scanSad += 1;
-
+  const scan = new Stats({ scanSad: 1 });
   await scan.save();
-  res.json({ 
-    scanHappy: scan.scanHappy,
-    scanAngry: scan.scanAngry,
-    scanFear: scan.scanFear,
-    scanSad: scan.scanSad,
-    scanDisgust: scan.scanDisgust,
-    scanSurprise: scan.scanSurprise,
-    scanNeutral: scan.scanNeutral
-   });
+  res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-disgust', async (req, res) => {
-  let scan = await Stats.findOne();
-
-  if (!scan) {
-    scan = new Stats();
-  }
-  scan.scanDisgust += 1;
-
+  const scan = new Stats({ scanDisgust: 1 });
   await scan.save();
-  res.json({ 
-    scanHappy: scan.scanHappy,
-    scanAngry: scan.scanAngry,
-    scanFear: scan.scanFear,
-    scanSad: scan.scanSad,
-    scanDisgust: scan.scanDisgust,
-    scanSurprise: scan.scanSurprise,
-    scanNeutral: scan.scanNeutral
-   });
+  res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-surprise', async (req, res) => {
-  let scan = await Stats.findOne();
-
-  if (!scan) {
-    scan = new Stats();
-  }
-  scan.scanSurprise += 1;
-
+  const scan = new Stats({ scanSurprise: 1 });
   await scan.save();
-  res.json({ 
-    scanHappy: scan.scanHappy,
-    scanAngry: scan.scanAngry,
-    scanFear: scan.scanFear,
-    scanSad: scan.scanSad,
-    scanDisgust: scan.scanDisgust,
-    scanSurprise: scan.scanSurprise,
-    scanNeutral: scan.scanNeutral
-   });
+  res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-neutral', async (req, res) => {
-  let scan = await Stats.findOne();
-
-  if (!scan) {
-    scan = new Stats();
-  }
-  scan.scanNeutral += 1;
-
+  const scan = new Stats({ scanNeutral: 1 });
   await scan.save();
-  res.json({ 
-    scanHappy: scan.scanHappy,
-    scanAngry: scan.scanAngry,
-    scanFear: scan.scanFear,
-    scanSad: scan.scanSad,
-    scanDisgust: scan.scanDisgust,
-    scanSurprise: scan.scanSurprise,
-    scanNeutral: scan.scanNeutral
-   });
+  res.json(getScanResponse(scan));
 });
 
 app.listen(5000, () => {

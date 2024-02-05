@@ -44,9 +44,10 @@ const Dashboard = () => {
   const [foodpairing, setTotalFP] = useState([]);
   const [dataMood, setDataMood] = useState([]);
   const [dataScan, setDataScan] = useState([]);
-  const [totalClicks, setTotalClicks] = useState(0);
-  const [totalScans, setTotalScans] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  const [value1, onChange1] = useState([new Date(), new Date()]);
+  const [value2, onChange2] = useState([new Date(), new Date()]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,6 +60,85 @@ const Dashboard = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    // Mendapatkan total klik dari server
+    Axios.get("http://localhost:5000/stats-scan")
+  .then((response) => {
+    const scanDataArray = response.data;
+
+    // Objek untuk menyimpan jumlah masing-masing mood
+    const moodCount1 = {
+      scanAngry: 0,
+      scanDisgust: 0,
+      scanFear: 0,
+      scanHappy: 0,
+      scanNeutral: 0,
+      scanSad: 0,
+      scanSurprise: 0,
+    };
+
+    // console.log("scan ", moodCount1);
+
+    scanDataArray.forEach((scanData) => {
+      const createdAtDate1 = new Date(scanData.createdAt);
+      const startDate1 = value1[0];
+      const endDate1 = value1[1];
+
+      // const startDate = new Date("2024-02-01T00:00:00.000Z");
+      // const endDate = new Date("2024-02-04T16:40:32.733Z"); 
+
+      // console.log("StartDate1:", startDate1);
+      // console.log("EndDate1:", endDate1);
+
+      if (startDate1 && endDate1 && startDate1.getTime() === endDate1.getTime()) {
+        moodCount1.scanAngry += scanData.scanAngry;
+        moodCount1.scanDisgust += scanData.scanDisgust;
+        moodCount1.scanFear += scanData.scanFear;
+        moodCount1.scanHappy += scanData.scanHappy;
+        moodCount1.scanNeutral += scanData.scanNeutral;
+        moodCount1.scanSad += scanData.scanSad;
+        moodCount1.scanSurprise += scanData.scanSurprise;
+      } else if (createdAtDate1 >= startDate1 && createdAtDate1 < endDate1) {
+        moodCount1.scanAngry += scanData.scanAngry;
+        moodCount1.scanDisgust += scanData.scanDisgust;
+        moodCount1.scanFear += scanData.scanFear;
+        moodCount1.scanHappy += scanData.scanHappy;
+        moodCount1.scanNeutral += scanData.scanNeutral;
+        moodCount1.scanSad += scanData.scanSad;
+        moodCount1.scanSurprise += scanData.scanSurprise;
+      }
+    });
+
+    // Hitung persentase dan format data mood
+    const totalScans = Object.values(moodCount1).reduce((acc, curr) => acc + curr, 0);
+    
+    // console.log("total scan", totalScans);
+
+    const percentageHappy = totalScans > 0 ? ((moodCount1.scanHappy / totalScans) * 100).toFixed(1) : 0;
+    const percentageAngry = totalScans > 0 ? ((moodCount1.scanAngry / totalScans) * 100).toFixed(1) : 0;
+    const percentageFear = totalScans > 0 ? ((moodCount1.scanFear / totalScans) * 100).toFixed(1) : 0;
+    const percentageSad = totalScans > 0 ? ((moodCount1.scanSad / totalScans) * 100).toFixed(1) : 0;
+    const percentageDisgust = totalScans > 0 ? ((moodCount1.scanDisgust / totalScans) * 100).toFixed(1) : 0;
+    const percentageSurprise = totalScans > 0 ? ((moodCount1.scanSurprise / totalScans) * 100).toFixed(1) : 0;
+    const percentageNeutral = totalScans > 0 ? ((moodCount1.scanNeutral / totalScans) * 100).toFixed(1) : 0;
+
+    const formattedData1 = [
+      { name: "Happy", scan: moodCount1.scanHappy, percentage: percentageHappy + "%" },
+      { name: "Angry", scan: moodCount1.scanAngry, percentage: percentageAngry + "%" },
+      { name: "Fear", scan: moodCount1.scanFear, percentage: percentageFear + "%" },
+      { name: "Sad", scan: moodCount1.scanSad, percentage: percentageSad + "%" },
+      { name: "Disgust", scan: moodCount1.scanDisgust, percentage: percentageDisgust + "%" },
+      { name: "Surprise", scan: moodCount1.scanSurprise, percentage: percentageSurprise + "%" },
+      { name: "Neutral", scan: moodCount1.scanNeutral, percentage: percentageNeutral + "%" },
+    ];
+
+    setDataScan(formattedData1);
+  })
+  .catch((error) => {
+    console.error("Error fetching scan data:", error);
+  });
+  }, [value1]);
 
   useEffect(() => {
     // Mendapatkan total klik dari server
@@ -77,16 +157,28 @@ const Dashboard = () => {
       clickSurprise: 0,
     };
 
+    // console.log("click",moodCount );
+
     clickDataArray.forEach((clickData) => {
-      const createdAtDate = new Date(clickData.createdAt);
-      const startDate = new Date("2024-02-01T00:00:00.000Z");
-      const endDate = new Date("2024-02-05T00:00:00.000Z"); // Untuk rentang hingga 2 Februari
-
-      if (createdAtDate >= startDate && createdAtDate < endDate) {
-        console.log(clickData.id); // Menampilkan data ID jika memenuhi kondisi
-        // Lakukan sesuatu dengan clickData.id di sini
-
-        // Menambah jumlah mood sesuai dengan data yang memenuhi kondisi
+      const createdAtDate2 = new Date(clickData.createdAt);
+      const startDate2 = value2[0];
+      const endDate2 = value2[1];
+    
+      // console.log("StartDate2:", startDate2);
+      // console.log("EndDate2:", endDate2);
+    
+      // Jika startDate2 dan endDate2 sama, tampilkan semua data
+      if (startDate2 && endDate2 && startDate2.getTime() === endDate2.getTime()) {
+        // Logika Anda untuk mengumpulkan data saat startDate2 dan endDate2 sama
+        moodCount.clickAngry += clickData.clickAngry;
+        moodCount.clickDisgust += clickData.clickDisgust;
+        moodCount.clickFear += clickData.clickFear;
+        moodCount.clickHappy += clickData.clickHappy;
+        moodCount.clickNeutral += clickData.clickNeutral;
+        moodCount.clickSad += clickData.clickSad;
+        moodCount.clickSurprise += clickData.clickSurprise;
+      } else if (createdAtDate2 >= startDate2 && createdAtDate2 < endDate2) {
+        // Logika Anda untuk mengumpulkan data berdasarkan rentang tanggal
         moodCount.clickAngry += clickData.clickAngry;
         moodCount.clickDisgust += clickData.clickDisgust;
         moodCount.clickFear += clickData.clickFear;
@@ -95,13 +187,13 @@ const Dashboard = () => {
         moodCount.clickSad += clickData.clickSad;
         moodCount.clickSurprise += clickData.clickSurprise;
       }
-    });
-
-    // Menampilkan jumlah masing-masing mood
-    console.log("Mood Count:", moodCount);
+    });    
 
     // Hitung persentase dan format data mood
     const totalClicks = Object.values(moodCount).reduce((acc, curr) => acc + curr, 0);
+    console.log(response.data);
+
+    // console.log("total kilk", totalClicks);
 
     const percentageHappy = totalClicks > 0 ? ((moodCount.clickHappy / totalClicks) * 100).toFixed(1) : 0;
     const percentageAngry = totalClicks > 0 ? ((moodCount.clickAngry / totalClicks) * 100).toFixed(1) : 0;
@@ -126,139 +218,7 @@ const Dashboard = () => {
   .catch((error) => {
     console.error("Error fetching click data:", error);
   });
-
-    // // Mendapatkan data mood dari server saat komponen dimuat
-    // Axios.get("http://localhost:5000/stats-click")
-    //   .then((response) => {
-    //     // Proses data sesuai format yang dibutuhkan oleh komponen BarChart
-    //     const data = response.data;
-
-    //     // Log data yang diproses
-    //     // console.log('Data Mood:', data);
-
-    //     // Manual perhitungan persentase untuk setiap mood
-    //     const percentageHappy =
-    //       totalClicks > 0
-    //         ? ((data.clickHappy / totalClicks) * 100).toFixed(1)
-    //         : 0;
-    //     const percentageAngry =
-    //       totalClicks > 0
-    //         ? ((data.clickAngry / totalClicks) * 100).toFixed(1)
-    //         : 0;
-    //     const percentageFear =
-    //       totalClicks > 0
-    //         ? ((data.clickFear / totalClicks) * 100).toFixed(1)
-    //         : 0;
-    //     const percentageSad =
-    //       totalClicks > 0
-    //         ? ((data.clickSad / totalClicks) * 100).toFixed(1)
-    //         : 0;
-    //     const percentageDisgust =
-    //       totalClicks > 0
-    //         ? ((data.clickDisgust / totalClicks) * 100).toFixed(1)
-    //         : 0;
-    //     const percentageSurprise =
-    //       totalClicks > 0
-    //         ? ((data.clickSurprise / totalClicks) * 100).toFixed(1)
-    //         : 0;
-    //     const percentageNeutral =
-    //       totalClicks > 0
-    //         ? ((data.clickNeutral / totalClicks) * 100).toFixed(1)
-    //         : 0;
-
-    //     // Log persentase untuk setiap mood
-    //     // console.log('Percentage Happy:', percentageHappy + "%");
-    //     // console.log('Percentage Angry:', percentageAngry + "%");
-    //     // console.log('Percentage Fear:', percentageFear + "%");
-    //     // console.log('Percentage Sad:', percentageSad + "%");
-    //     // console.log('Percentage Disgust:', percentageDisgust + "%");
-    //     // console.log('Percentage Surprise:', percentageSurprise + "%");
-    //     // console.log('Percentage Neutral:', percentageNeutral + "%");
-
-    //     const formattedData = [
-    //       {
-    //         name: "Happy",
-    //         klik: data.clickHappy,
-    //         percentage: percentageHappy + "%",
-    //       },
-    //       {
-    //         name: "Angry",
-    //         klik: data.clickAngry,
-    //         percentage: percentageAngry + "%",
-    //       },
-    //       {
-    //         name: "Fear",
-    //         klik: data.clickFear,
-    //         percentage: percentageFear + "%",
-    //       },
-    //       { name: "Sad", klik: data.clickSad, percentage: percentageSad + "%" },
-    //       {
-    //         name: "Disgust",
-    //         klik: data.clickDisgust,
-    //         percentage: percentageDisgust + "%",
-    //       },
-    //       {
-    //         name: "Surprise",
-    //         klik: data.clickSurprise,
-    //         percentage: percentageSurprise + "%",
-    //       },
-    //       {
-    //         name: "Neutral",
-    //         klik: data.clickNeutral,
-    //         percentage: percentageNeutral + "%",
-    //       },
-    //     ];
-
-    //     // Log data yang akan di-set ke state
-    //     // console.log('Formatted Data:', formattedData);
-
-    //     setDataMood(formattedData);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
-  }, [totalClicks]);
-
-  // useEffect(() => {
-  //   Axios.get('http://localhost:5000/stats-scan')
-  //     .then(response => {
-  //       setTotalScans(response.data.scanHappy + response.data.scanAngry + response.data.scanFear + response.data.scanSad + response.data.scanDisgust + response.data.scanSurprise + response.data.scanNeutral );
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching total scans:', error);
-  //     });
-
-  // Mengambil data dari server saat komponen dimuat
-  //   Axios.get('http://localhost:5000/stats-scan')
-  //     .then(response => {
-  //       // Proses data sesuai format yang dibutuhkan oleh komponen BarChart
-  //       const data = response.data;
-
-  //       // Manual perhitungan persentase untuk setiap mood
-  //       const percentageHappy = totalScans > 0 ? ((data.scanHappy / totalScans) * 100).toFixed(1) : 0;
-  //       const percentageAngry = totalScans > 0 ? ((data.scanAngry / totalScans) * 100).toFixed(1) : 0;
-  //       const percentageFear = totalScans > 0 ? ((data.scanFear / totalScans) * 100).toFixed(1) : 0;
-  //       const percentageSad = totalScans > 0 ? ((data.scanSad / totalScans) * 100).toFixed(1) : 0;
-  //       const percentageDisgust = totalScans > 0 ? ((data.scanDisgust / totalScans) * 100).toFixed(1) : 0;
-  //       const percentageSurprise = totalScans > 0 ? ((data.scanSurprise / totalScans) * 100).toFixed(1) : 0;
-  //       const percentageNeutral = totalScans > 0 ? ((data.scanNeutral / totalScans) * 100).toFixed(1) : 0;
-
-  //       const formattedScanData = [
-  //         { name: 'Happy', scan: data.scanHappy, percentage: percentageHappy + "%" },
-  //         { name: 'Angry', scan: data.scanAngry, percentage: percentageAngry + "%" },
-  //         { name: 'Fear', scan: data.scanFear, percentage: percentageFear + "%" },
-  //         { name: 'Sad', scan: data.scanSad, percentage: percentageSad + "%" },
-  //         { name: 'Disgust', scan: data.scanDisgust, percentage: percentageDisgust + "%" },
-  //         { name: 'Surprise', scan: data.scanSurprise, percentage: percentageSurprise + "%" },
-  //         { name: 'Neutral', scan: data.scanNeutral, percentage: percentageNeutral + "%" }
-  //       ];
-
-  //       setDataScan(formattedScanData);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, [totalScans]);
+  }, [value2]);
 
   // Mengambil data makanan dari backend
   useEffect(() => {
@@ -328,9 +288,6 @@ const Dashboard = () => {
     }
   };
 
-  const [value1, onChange1] = useState(new Date());
-  const [value2, onChange2] = useState(new Date());
-
   useEffect(() => {
     const calendarIcon1 = document.querySelectorAll(
       ".react-daterange-picker__calendar-button"
@@ -347,6 +304,18 @@ const Dashboard = () => {
       calendarIcon2.innerHTML = '<i class="bi bi-calendar2-week-fill"></i>';
     }
   }, []);
+
+  // useEffect(() => {
+  //   console.log('Value 1:', value1);
+  //   console.log('Value 1 awal:', value1[0]);
+  //   console.log('Value 1 akhir:', value1[1]);
+  // }, [value1]);
+
+  // useEffect(() => {
+  //   console.log('Value 2:', value2);
+  //   console.log('Value 2 awal:', value2[0]);
+  //   console.log('Value 2 akhir:', value2[1]);
+  // }, [value2]);
 
   return (
     <Sidebar>
@@ -486,11 +455,7 @@ const Dashboard = () => {
                 </Col>
                 <Col md={6}>
                   <div className="d-flex align-items-center justify-content-end pt-4 pe-4">
-                    <DateRangePicker
-                      placeholder="Select Range"
-                      onChange={onChange2}
-                      value={value2}
-                    />
+                    <DateRangePicker onChange={onChange2} value={value2} />
                   </div>
                 </Col>
               </Row>
