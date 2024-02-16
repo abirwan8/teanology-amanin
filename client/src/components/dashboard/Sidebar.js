@@ -33,6 +33,12 @@ const Sidebar = ({ children }) => {
   const toggle = () => setIsOpen(!isOpen);
 
   const menuItem = [
+    userRole === "AdminToko" ?
+    {
+      path: "/dashboard",
+      name: "Dashboard",
+      icon: <FaTh />,
+    }: null,
     userRole === "Admin" || userRole === "Staff" || userRole === "BevStaff" || userRole === "FoodStaff" ?
     {
       path: "/dashboard",

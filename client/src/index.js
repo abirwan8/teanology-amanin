@@ -27,6 +27,7 @@ import DetailProductCatalogue from './webpage/DetailProductCatalogue';
 import DetailLibrary from './webpage/DetailLibrary';
 
 import LoginPage from './webpage/LoginPage';
+import LoginTokoPage from './webpage/LoginToko';
 import Admin from './webpage/Admin';
 import Dashboard from './webpage/Dashboard';
 import TeaMenuAdmin from './webpage/TeaMenuAdmin';
@@ -123,6 +124,8 @@ ReactDOM.createRoot(rootElement).render(
 
         {/* Login Page */}
         <Route path='login-page' element={<LoginPage />} />
+        <Route path='login-toko' element={<LoginTokoPage />} />
+
 
         {/* Admin Page */}
         <Route path='admin' element={<Admin />} />
