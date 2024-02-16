@@ -1302,7 +1302,7 @@ app.get('/toko/:id', async (req, res) => {
   }
 });
 
-//  -- ## Update User ## --  //
+//  -- ## Update Toko ## --  //
 app.put('/toko/:id', async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
@@ -1336,7 +1336,7 @@ app.put('/toko/:id', async (req, res) => {
   }
 });
 
-//  -- ## Delete User ## --  //
+//  -- ## Delete Toko ## --  //
 app.delete('/toko/:id', async (req, res) => {
   try {
     await Toko.destroy({
