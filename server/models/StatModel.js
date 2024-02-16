@@ -1,17 +1,10 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Tokos from "./TokoModel.js";
 
 const { DataTypes } = Sequelize;
 
 const Stats = db.define('stat', {
-    // uuid: {
-    //     type: DataTypes.STRING,
-    //     defaultValue: DataTypes.UUIDV4,
-    //     allowNull: false,
-    //     validate: {
-    //         notEmpty: true
-    //     }
-    // },
     clickHappy:{
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -127,5 +120,7 @@ const Stats = db.define('stat', {
 }, {
     freezeTableName: true
 });
+
+Stats.belongsTo(Tokos, { foreignKey: 'tokoId' });
 
 export default Stats;

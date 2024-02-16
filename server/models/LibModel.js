@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
-import Users from "./UserModel.js";
 import db from "../config/Database.js";
+import Tokos from "./TokoModel.js";
+import Users from "./UserModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -54,6 +55,8 @@ const Libs = db.define('lib', {
 }, {
     freezeTableName: true
 });
+
+Libs.belongsTo(Tokos, { foreignKey: 'tokoId' });
 
 Libs.belongsTo(Users, { foreignKey: 'userId' });
 

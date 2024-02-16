@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Tokos from "./TokoModel.js";
 import Moods from "./MoodModel.js";
 import Bevs from "./BevModel.js";
 
@@ -23,6 +24,8 @@ const MoodBevs = db.define('moodbev',{
 },{
     freezeTableName: true
 });
+
+MoodBevs.belongsTo(Tokos, { foreignKey: 'tokoId' });
 
 Moods.hasMany(MoodBevs);
 MoodBevs.belongsTo(Moods, {foreignKey: 'moodId'});

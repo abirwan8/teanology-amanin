@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Tokos from "./TokoModel.js";
 
 const {DataTypes} = Sequelize;
 
@@ -22,6 +23,8 @@ const Moods = db.define('mood',{
 },{
     freezeTableName: true
 });
+
+Moods.belongsTo(Tokos, { foreignKey: 'tokoId' });
 
 // db.sync()
 //   .then(async () => {

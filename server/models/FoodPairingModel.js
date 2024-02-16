@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Tokos from "./TokoModel.js";
 import Users from "./UserModel.js";
 import Foods from "./FoodModel.js";
 import Bevs from "./BevModel.js";
@@ -31,6 +32,8 @@ const FoodPairings = db.define('foodpairing',{
 },{
     freezeTableName: true
 });
+
+FoodPairings.belongsTo(Tokos, { foreignKey: 'tokoId' });
 
 Users.hasMany(FoodPairings);
 FoodPairings.belongsTo(Users, {foreignKey: 'userId'});

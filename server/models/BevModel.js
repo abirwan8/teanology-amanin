@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Tokos from "./TokoModel.js";
 import Users from "./UserModel.js";
 
 const { DataTypes } = Sequelize;
@@ -128,6 +129,8 @@ const Bevs = db.define('bev', {
 }, {
     freezeTableName: true
 });
+
+Bevs.belongsTo(Tokos, { foreignKey: 'tokoId' });
 
 Users.hasMany(Bevs);
 Bevs.belongsTo(Users, { foreignKey: 'userId' });

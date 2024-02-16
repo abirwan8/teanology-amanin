@@ -8,6 +8,7 @@ import Foods from "./models/FoodModel.js";
 import FoodPairings from "./models/FoodPairingModel.js";
 import Moods from "./models/MoodModel.js";
 import User from "./models/UserModel.js";
+import Toko from "./models/TokoModel.js";
 import Libs from "./models/LibModel.js";
 import Stats from "./models/StatModel.js";
 import fs from "fs";
@@ -321,31 +322,6 @@ app.put('/foods/:id', upload.fields([
     const { name, price, ings, desc, isHidden, userId } = req.body;
     const images = req.files;
 
-    // if (images.img1) {
-    //   // Menghapus gambar lama
-    //   if (food.img1) {
-    //     const oldImagePath = path.join('../client/public/img/', food.img1);
-    //     fs.unlinkSync(oldImagePath);
-    //   }
-    //   food.img1 = images.img1[0].filename;
-    // }
-    // if (images.img2) {
-    //   // Menghapus gambar lama
-    //   if (food.img2) {
-    //     const oldImagePath = path.join('../client/public/img/', food.img2);
-    //     fs.unlinkSync(oldImagePath);
-    //   }
-    //   food.img2 = images.img2[0].filename;
-    // }
-    // if (images.img3) {
-    //   // Menghapus gambar lama
-    //   if (food.img3) {
-    //     const oldImagePath = path.join('../client/public/img/', food.img3);
-    //     fs.unlinkSync(oldImagePath);
-    //   }
-    //   food.img3 = images.img3[0].filename;
-    // }
-
     // Lakukan pembaruan data makanan
     await Foods.update(
       { name, price, ings, img1: food.img1, img2: food.img2, img3: food.img3, img4: food.img4, img5: food.img5, desc, isHidden, userId },
@@ -375,7 +351,6 @@ app.delete('/foods/:id', async (req, res) => {
       return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
 
-    //
     function deleteFile(filePath) {
       try {
         // Cek apakah file ada sebelum dihapus
@@ -675,31 +650,6 @@ app.put('/bevs/:id', uploadBev.fields([
     const { name, price, ings, highlight, tsp, tspg, water, temp, time, desc, type, isHidden, userId } = req.body;
     const images = req.files;
 
-    // if (images.img1) {
-    //   // Menghapus gambar lama
-    //   if (bev.img1) {
-    //     const oldImagePath = path.join('../client/public/bev-img/', bev.img1);
-    //     fs.unlinkSync(oldImagePath);
-    //   }
-    //   bev.img1 = images.img1[0].filename;
-    // }
-    // if (images.img2) {
-    //   // Menghapus gambar lama
-    //   if (bev.img2) {
-    //     const oldImagePath = path.join('../client/public/bev-img/', bev.img2);
-    //     fs.unlinkSync(oldImagePath);
-    //   }
-    //   bev.img2 = images.img2[0].filename;
-    // }
-    // if (images.img3) {
-    //   // Menghapus gambar lama
-    //   if (bev.img3) {
-    //     const oldImagePath = path.join('../client/public/bev-img/', bev.img3);
-    //     fs.unlinkSync(oldImagePath);
-    //   }
-    //   bev.img3 = images.img3[0].filename;
-    // }
-
     // Lakukan pembaruan data minuman
     await Bevs.update(
       { name, price, ings, img1: bev.img1, img2: bev.img2, img3: bev.img3, img4: bev.img4, img5: bev.img5, highlight, tsp, tspg, water, temp, time, desc, type, isHidden, userId },
@@ -879,6 +829,26 @@ app.delete('/foodpairings/:id', async (req, res) => {
   }
 });
 
+//  -- ## Delete Food Pairing ## --  //
+app.delete('/moodbevs/:id', async (req, res) => {
+  try {
+    const moodBevId = req.params.id;
+
+    const moodBev = await MoodBevs.findByPk(moodBevId);
+
+    if (!moodBev) {
+      return res.status(404).json({ message: 'Food pairing not found' });
+    }
+
+    await moodBev.destroy();
+
+    res.status(200).json({ message: 'Food pairing deleted successfully!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 //  -- ## Get All Moods ## --  //
 app.get('/moods', async (req, res) => {
   try {
@@ -950,27 +920,6 @@ app.post("/moodbevs", async (req, res) => {
     // Handle the error if needed
   }
 });
-
-//  -- ## Delete Food Pairing ## --  //
-app.delete('/moodbevs/:id', async (req, res) => {
-  try {
-    const moodBevId = req.params.id;
-
-    const moodBev = await MoodBevs.findByPk(moodBevId);
-
-    if (!moodBev) {
-      return res.status(404).json({ message: 'Food pairing not found' });
-    }
-
-    await moodBev.destroy();
-
-    res.status(200).json({ message: 'Food pairing deleted successfully!' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
-
 
 //  -- ## Get All Libs ## --  //
 app.get('/libs', async (req, res) => {
@@ -1157,7 +1106,6 @@ app.delete('/libs/:id', async (req, res) => {
 });
 
 // STATS
-
 app.get("/stats-click", async (req, res) => {
   try {
     const click = await Stats.findAll();
@@ -1282,6 +1230,25 @@ app.post('/stats/scan-neutral', async (req, res) => {
   const scan = new Stats({ scanNeutral: 1 });
   await scan.save();
   res.json(getScanResponse(scan));
+});
+
+app.post("/logintoko", async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  try {
+    const toko = await Toko.findOne({ where: { email: email } });
+    if (!toko) {
+      return res.status(404).json({ msg: "Toko tidak ditemukan" });
+    }
+    const match = await bcrypt.compare(password, toko.password);
+    if (!match) {
+      return res.status(400).json({ msg: "Wrong Password" });
+    }
+    const { id, name, email: tokoEmail, role } = toko;
+    res.status(200).json({ id, uuid, name, email: tokoEmail, role });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
 });
 
 app.listen(5000, () => {

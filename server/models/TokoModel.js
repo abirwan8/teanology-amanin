@@ -1,19 +1,10 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import bcrypt from "bcrypt";
-import Tokos from "./TokoModel.js";
 
 const { DataTypes } = Sequelize;
 
-const Users = db.define('user', {
-    uuid: {
-        type: DataTypes.STRING,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
+const Tokos = db.define('toko', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -48,15 +39,13 @@ const Users = db.define('user', {
     freezeTableName: true
 });
 
-Users.belongsTo(Tokos, { foreignKey: 'tokoId' });
-
 // const syncDatabase = async () => {
 //     try {
 //       await db.sync();
 //       const password = "secret";
 //       const hashedPassword = await bcrypt.hash(password, 10); // Menghash password menggunakan bcrypt
 //       await Users.bulkCreate([
-//         { name: "Hasbi" , email: "admin@gmail.com", password: hashedPassword, role: "Admin"}
+//         { name: "Hasbi" , email: "admin@gmail.com", password: hashedPassword, role: "AdminToko"}
 //       ]);
 //       console.log("Database synced and user data added");
 //     } catch (error) {
@@ -65,4 +54,4 @@ Users.belongsTo(Tokos, { foreignKey: 'tokoId' });
 //   };
 //   syncDatabase();
 
-export default Users;
+export default Tokos;
