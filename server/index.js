@@ -1251,6 +1251,105 @@ app.post("/logintoko", async (req, res) => {
   }
 });
 
+//  -- ## Create Toko ## --  //
+app.post('/toko', async (req, res) => {
+  const { name, email, password, role } = req.body;
+  const existingToko = await Toko.findOne({ where: { email: email } });
+  if (existingToko) {
+    return res.status(400).json({ msg: "Email sudah digunakan" });
+  }
+  const existingName = await Toko.findOne({ where: { name: name } });
+  if (existingName) {
+    return res.status(400).json({ msg: "Nama sudah digunakan" });
+  }
+  try {
+    const hashPassword = await bcrypt.hash(password, 10); // Specify the number of salt rounds
+    await Toko.create({
+      name: name,
+      email: email,
+      password: hashPassword,
+      role: role,
+    });
+    res.status(201).json({ msg: "Registrasi Berhasil" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+});
+
+app.get('/toko', async (req, res) => {
+  try {
+    const response = await Toko.findAll({
+      attributes: ['id', 'name', 'email', 'password', 'role', 'createdAt', 'updatedAt']
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+//  -- ## Get Toko by ID ## --  //
+app.get('/toko/:id', async (req, res) => {
+  try {
+    const response = await Toko.findOne({
+      attributes: ['id', 'name', 'email', 'password', 'role'],
+      where: {
+        id: req.params.id
+      }
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+//  -- ## Update User ## --  //
+app.put('/toko/:id', async (req, res) => {
+  const { name, email, password, role } = req.body;
+  try {
+    const toko = await Toko.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    if (!toko) {
+      return res.status(404).json({ msg: "Toko tidak ditemukan" });
+    }
+    const hashPassword = await bcrypt.hash(password, 10);
+    await Toko.update(
+      {
+        name: name,
+        email: email,
+        password: hashPassword,
+        role: role
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    );
+
+    res.status(200).json({ msg: "Toko updated" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+});
+
+//  -- ## Delete User ## --  //
+app.delete('/toko/:id', async (req, res) => {
+  try {
+    await Toko.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    res.status(200).json({ msg: "Toko deleted" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+});
+
 app.listen(5000, () => {
   console.log("running server");
 });
