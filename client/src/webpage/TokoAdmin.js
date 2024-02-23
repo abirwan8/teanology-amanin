@@ -173,7 +173,7 @@ const TokoAdmin = () => {
               <Dropdown.Menu>
                 <p className="ms-3 fw-bold fs-6 text-muted text-uppercase">{userRole}</p>
                 <Dropdown.Divider style={{ marginTop: "-10px" }} />
-                <Dropdown.Item href="/login-page" className="text-danger item-drop" onClick={handleLogout}><i class="bi bi-box-arrow-left me-2"></i>Keluar</Dropdown.Item>
+                <Dropdown.Item href="/login-toko" className="text-danger item-drop" onClick={handleLogout}><i class="bi bi-box-arrow-left me-2"></i>Keluar</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
