@@ -39,7 +39,7 @@ const LibraryList = () => {
                     <div className='body-lib'>
                       <h4 className="lib-title pt-1">{val.title}</h4>
                       <p className='lib-highlight'>{val.desc}</p>
-                      <a href='/details-library' className="read-more">Baca Selengkapnya</a>
+                      {/* <a href='/details-library/${val.id}' className="read-more">Baca Selengkapnya</a> */}
                     </div>
                   </Col>
                 </Row>

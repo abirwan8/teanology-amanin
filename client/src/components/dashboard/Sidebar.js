@@ -35,9 +35,9 @@ const Sidebar = ({ children }) => {
   const menuItem = [
     userRole === "AdminToko" ?
     {
-      path: "/dashboard",
-      name: "Dashboard",
-      icon: <FaTh />,
+      path: "/toko-admin",
+      name: "Manage Store",
+      icon: <FaShoppingBag />,
     }: null,
     userRole === "Admin" || userRole === "Staff" || userRole === "BevStaff" || userRole === "FoodStaff" ?
     {
@@ -103,15 +103,6 @@ const Sidebar = ({ children }) => {
             {item.path === "/dashboard" && <hr style={{ borderTop: "2px solid #fff", width: "85%", opacity: "0.5",marginLeft: '6%', marginTop: "5px" }} />}
           </>
         ))}
-        {/* <div className="margin-sign-out">
-          <a href="/login-page">
-          <Button variant="outline-light" className="sign-out" style={{ display: isOpen ? "block" : "none", width: '200px' }} onClick={handleLogout}>
-            <NavLink to="/login-page" className="link_text fw-bold text-light"><i className="bi bi-box-arrow-left me-3"></i>
-              Sign Out
-            </NavLink>
-          </Button>
-          </a>
-        </div> */}
       </div>
       <main style={{ width: "100vw", overflow: "hidden" }}>{children}</main>
     </div>

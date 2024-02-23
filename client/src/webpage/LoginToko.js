@@ -27,7 +27,7 @@ function LoginTokoPage() {
   useEffect(() => {
     const id = localStorage.getItem("id");
     if (id) {
-      navigate("/dashboard");
+      navigate("/toko-admin");
     }
   }, []);
 
@@ -67,7 +67,7 @@ function LoginTokoPage() {
       console.log(localStorage.getItem("id", id))
       console.log(localStorage.getItem("name", name))
       console.log(localStorage.getItem("role", role))
-      navigate("/dashboard");
+      navigate("/toko-admin");
     })
     .catch((error) => {
       console.error(error);

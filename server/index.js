@@ -1242,10 +1242,10 @@ app.post("/logintoko", async (req, res) => {
     }
     const match = await bcrypt.compare(password, toko.password);
     if (!match) {
-      return res.status(400).json({ msg: "Wrong Password" });
+      return res.status(400).json({ msg: "Password salah" });
     }
     const { id, name, email: tokoEmail, role } = toko;
-    res.status(200).json({ id, uuid, name, email: tokoEmail, role });
+    res.status(200).json({ msg: "Login berhasil", id, name, email: tokoEmail, role });
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
