@@ -5,17 +5,17 @@ import "./TopBar.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import React, { useState } from "react";
+import React, { useEffect, useState, useNavigate } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import Dropdown from "react-bootstrap/Dropdown";
 import Figure from "react-bootstrap/Figure";
-import { useNavigate } from 'react-router-dom';
+import Axios from "axios";
+
 
 import pic from "./assets/Picture.png";
 import profil from "./assets/profil.svg";
-import about from "./assets/about-us.svg";
 import onetwo from "./assets/one-two.svg";
 import faq from "./assets/faq.svg";
-
 
 const TopBar2 = ({ name, ...props }) => {
   const [show, setShow] = useState(false);
@@ -23,6 +23,15 @@ const TopBar2 = ({ name, ...props }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
+
+  const [toko, setToko] = useState([]);
+  useEffect(() => {
+    Axios.get("http://localhost:5000/toko").then((response) => {
+      //console.log(response.data);
+      setToko(response.data);
+    });
+  }, []);
+
   return (
     <>
       <Container fluid>
@@ -80,6 +89,20 @@ const TopBar2 = ({ name, ...props }) => {
                 <span style={{ marginLeft: "12px" }}>FaQ</span>
               </a>
             </li>
+            <Dropdown className="mt-2" style={{ marginLeft: "-12px" }}>
+              <Dropdown.Toggle className="button-user fw-bold" variant="transparent" id="dropdown-basic">
+                <i class="bi bi-shop-window me-3 fs-4" style={{ color: "#539e6d" }}></i>
+                Nama Toko
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu style={{ border: "1px solid #539e6d" }}>
+                {toko.map((val) => (
+                  <Dropdown.Item key={val.id} className="ms-3 fs-6">
+                    {val.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </ul>
           <a href="/login-page">
             <div className="d-flex justify-content-center">

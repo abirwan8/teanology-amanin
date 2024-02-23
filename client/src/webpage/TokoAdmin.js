@@ -237,10 +237,8 @@ const TokoAdmin = () => {
                     <option disabled selected hidden>
                       Select Role
                     </option>
-                    <option value="Admin">Admin</option>
-                    <option value="Staff">Staff</option>
-                    <option value="BevStaff">BevStaff</option>
-                    <option value="FoodStaff">FoodStaff</option>
+                    <option value="Admin">AdminToko</option>
+                    <option value="Staff">Toko</option>
                   </Form.Select>
                 </Form.Group>
               </Form>

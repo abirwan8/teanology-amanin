@@ -5,10 +5,11 @@ import "./TopBar.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Figure from "react-bootstrap/Figure";
 import Dropdown from "react-bootstrap/Dropdown";
+import Axios from "axios";
 
 import pic from "./assets/Picture.png";
 import profil from "./assets/profil.svg";
@@ -20,6 +21,16 @@ const TopBar1 = ({ name, ...props }) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [toko, setToko] = useState([]);
+
+  useEffect(() => {
+    Axios.get("http://localhost:5000/toko").then((response) => {
+      //console.log(response.data);
+      setToko(response.data);
+    });
+  }, []);
+
   return (
     <>
       <Container fluid>
@@ -78,7 +89,11 @@ const TopBar1 = ({ name, ...props }) => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu style={{ border: "1px solid #539e6d" }}>
-                <Dropdown.Item className="ms-3 fs-6">Toko A</Dropdown.Item>
+                {toko.map((val) => (
+                  <Dropdown.Item key={val.id} className="ms-3 fs-6">
+                    {val.name}
+                  </Dropdown.Item>
+                ))}
               </Dropdown.Menu>
             </Dropdown>
           </ul>
