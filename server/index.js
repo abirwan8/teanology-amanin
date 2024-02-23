@@ -84,7 +84,7 @@ app.get('/users/:id', async (req, res) => {
 
 //  -- ## Create User ## --  //
 app.post('/users', async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, tokoId } = req.body;
   const existingUser = await User.findOne({ where: { email: email } });
   if (existingUser) {
     return res.status(400).json({ msg: "Email sudah digunakan" });
@@ -100,6 +100,7 @@ app.post('/users', async (req, res) => {
       email: email,
       password: hashPassword,
       role: role,
+      tokoId: tokoId,
     });
     res.status(201).json({ msg: "Registrasi Berhasil" });
   } catch (error) {
