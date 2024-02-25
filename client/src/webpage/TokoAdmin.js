@@ -31,9 +31,9 @@ const TokoAdmin = () => {
   const handleShowAdd = () => setShowAdd(true);
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = (id) => {
-    const staff = staffList.find((val) => val.id === id);
+    const toko = staffList.find((val) => val.id === id);
     setEditId(id);
-    setEditData(staff);
+    setEditData(toko);
     setShowEdit(true);
   };
   const handleCloseDelete = () => setShowDelete(false);
@@ -56,8 +56,8 @@ const TokoAdmin = () => {
     role: "",
   });
 
-  const userRole = localStorage.getItem("role");
-  const userName = localStorage.getItem("name");
+  const tokoRole = localStorage.getItem("role_toko");
+  const tokoName = localStorage.getItem("name_toko");
 
   // CRUD
   useEffect(() => {
@@ -113,9 +113,9 @@ const TokoAdmin = () => {
   const handleLogout = async () => {
     try {
       // Menghapus token dari localStorage
-      localStorage.removeItem("id");
-      localStorage.removeItem("name");
-      localStorage.removeItem("role");
+      localStorage.removeItem("id_toko");
+      localStorage.removeItem("name_toko");
+      localStorage.removeItem("role_toko");
       // Mengarahkan pengguna ke halaman login
       navigate("/login-toko");
     } catch (error) {
@@ -167,11 +167,11 @@ const TokoAdmin = () => {
             <Dropdown className="topbar-dashboard margin-admin-topbar">
               <Dropdown.Toggle className="button-user" variant="transparent" id="dropdown-basic">
                 <i className="bi bi-person-fill me-2"></i>
-                {userName}
+                {tokoName}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <p className="ms-3 fw-bold fs-6 text-muted text-uppercase">{userRole}</p>
+                <p className="ms-3 fw-bold fs-6 text-muted text-uppercase">{tokoRole}</p>
                 <Dropdown.Divider style={{ marginTop: "-10px" }} />
                 <Dropdown.Item href="/login-toko" className="text-danger item-drop" onClick={handleLogout}><i class="bi bi-box-arrow-left me-2"></i>Keluar</Dropdown.Item>
               </Dropdown.Menu>
@@ -198,7 +198,7 @@ const TokoAdmin = () => {
                   <Form.Control
                     className="form-data"
                     type="text"
-                    placeholder="Staff name"
+                    placeholder="Toko name"
                     onChange={(e) => {
                       setName(e.target.value);
                     }}
@@ -237,8 +237,8 @@ const TokoAdmin = () => {
                     <option disabled selected hidden>
                       Select Role
                     </option>
-                    <option value="Admin">AdminToko</option>
-                    <option value="Staff">Toko</option>
+                    <option value="AdminToko">AdminToko</option>
+                    <option value="Toko">Toko</option>
                   </Form.Select>
                 </Form.Group>
               </Form>
@@ -319,7 +319,7 @@ const TokoAdmin = () => {
                     </Button>
                     <Modal show={showEdit} onHide={handleCloseEdit} backdrop="static" keyboard={false}>
                       <Modal.Header closeButton>
-                        <Modal.Title>Edit Staff Data</Modal.Title>
+                        <Modal.Title>Edit Toko Data</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <Form>
@@ -328,7 +328,7 @@ const TokoAdmin = () => {
                             <Form.Control
                               className="form-data"
                               type="text"
-                              placeholder="Staff name"
+                              placeholder="Toko name"
                               value={editData.name}
                               onChange={(e) => {
                                 setEditData({ ...editData, name: e.target.value });
@@ -370,10 +370,8 @@ const TokoAdmin = () => {
                               <option disabled selected hidden>
                                 Select Role
                               </option>
-                              <option value="Admin">Admin</option>
-                              <option value="Staff">Staff</option>
-                              <option value="BevStaff">BevStaff</option>
-                              <option value="FoodStaff">FoodStaff</option>
+                              <option value="AdminToko">AdminToko</option>
+                              <option value="Toko">Toko</option>
                             </Form.Select>
                           </Form.Group>
                         </Form>
@@ -400,11 +398,11 @@ const TokoAdmin = () => {
                     </Button>
                     <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static" keyboard={false}>
                       <Modal.Header closeButton>
-                        <Modal.Title>Delete Staff</Modal.Title>
+                        <Modal.Title>Delete Toko</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <p>
-                          Are you sure, want to delete staff <span className="fw-bold">{deleteName}</span>?
+                          Are you sure, want to delete toko <span className="fw-bold">{deleteName}</span>?
                         </p>
                       </Modal.Body>
                       <Modal.Footer>

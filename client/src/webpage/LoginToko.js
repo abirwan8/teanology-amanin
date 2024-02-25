@@ -19,27 +19,27 @@ function LoginTokoPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [rememberMeToko, setRememberMeToko] = useState(false);
+  const [errorMessageToko, setErrorMessageToko] = useState("");
+  const [showErrorModalToko, setShowErrorModalToko] = useState(false);
   // const [showError, setShowError] = useState(false);
 
   useEffect(() => {
-    const id = localStorage.getItem("id");
-    if (id) {
+    const idtoko = localStorage.getItem("id_toko");
+    if (idtoko) {
       navigate("/toko-admin");
     }
   }, []);
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("rememberedEmail");
-    const storedPassword = localStorage.getItem("rememberedPassword");
-    const storedRememberMe = localStorage.getItem("rememberMe");
+    const storedEmail = localStorage.getItem("rememberedEmailToko");
+    const storedPassword = localStorage.getItem("rememberedPasswordToko");
+    const storedRememberMeToko = localStorage.getItem("rememberMeToko");
 
-    if (storedEmail && storedPassword && storedRememberMe) {
+    if (storedEmail && storedPassword && storedRememberMeToko) {
       setEmail(storedEmail);
       setPassword(storedPassword);
-      setRememberMe(true);
+      setRememberMeToko(true);
     }
   }, []);
 
@@ -49,32 +49,32 @@ function LoginTokoPage() {
       password: password,
     }).then((response) => {
       console.log(response.data);
-      if (rememberMe) {
-        localStorage.setItem("rememberedEmail", email);
-        localStorage.setItem("rememberedPassword", password);
-        localStorage.setItem("rememberMe", true);
+      if (rememberMeToko) {
+        localStorage.setItem("rememberedEmailToko", email);
+        localStorage.setItem("rememberedPasswordToko", password);
+        localStorage.setItem("rememberMeToko", true);
       } else {
-        localStorage.removeItem("rememberedEmail");
-        localStorage.removeItem("rememberedPassword");
-        localStorage.removeItem("rememberMe");
+        localStorage.removeItem("rememberedEmailToko");
+        localStorage.removeItem("rememberedPasswordToko");
+        localStorage.removeItem("rememberMeToko");
       }
       const id = response.data.id;
       const name = response.data.name;
       const role = response.data.role;
-      localStorage.setItem("id", id);
-      localStorage.setItem("name", name);
-      localStorage.setItem("role", role);
-      console.log(localStorage.getItem("id", id))
-      console.log(localStorage.getItem("name", name))
-      console.log(localStorage.getItem("role", role))
+      localStorage.setItem("id_toko", id);
+      localStorage.setItem("name_toko", name);
+      localStorage.setItem("role_toko", role);
+      console.log(localStorage.getItem("id_toko", id))
+      console.log(localStorage.getItem("name_toko", name))
+      console.log(localStorage.getItem("role_toko", role))
       navigate("/toko-admin");
     })
     .catch((error) => {
       console.error(error);
       if (error.response && error.response.status === 404) {
         // Tangkap pesan kesalahan dari respons server jika status 401 (Unauthorized)
-        setErrorMessage("Silahkan masukkan email dan password yang valid!");
-        setShowErrorModal(true); 
+        setErrorMessageToko("Silahkan masukkan email dan password yang valid!");
+        setShowErrorModalToko(true); 
       }
     });
   };
@@ -84,7 +84,7 @@ function LoginTokoPage() {
     handleLogin();
   };
   const handleRememberMeChange = () => {
-    setRememberMe(!rememberMe);
+    setRememberMeToko(!rememberMeToko);
   };
 
   return (
@@ -101,13 +101,13 @@ function LoginTokoPage() {
             <p className="sub">Please enter your email and password!</p>
             <Form onSubmit={handleSubmit}>
             
-            <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)} >
+            <Modal show={showErrorModalToko} onHide={() => setShowErrorModalToko(false)} >
               <Modal.Header closeButton>
               </Modal.Header>
               <div className="d-flex flex-column align-items-center justify-content-center pop-body">
                 <img src={SadMascot} className="fail-mascot"></img>
                 <p className="fw-bold text-center mt-3 text-danger">Oops! Pengguna Tidak Ditemukan</p>
-                <p className="text-center" style={{ marginTop: "-12px" }}>{errorMessage}</p>
+                <p className="text-center" style={{ marginTop: "-12px" }}>{errorMessageToko}</p>
               </div>
             </Modal>
 
@@ -143,7 +143,7 @@ function LoginTokoPage() {
                   className="remember-me"
                   type="checkbox"
                   label="Remember me"
-                  checked={rememberMe}
+                  checked={rememberMeToko}
                   onChange={handleRememberMeChange}
                 />
               </Form.Group>
