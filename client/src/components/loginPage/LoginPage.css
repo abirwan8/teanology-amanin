@@ -30,7 +30,7 @@
 .login-box {
   padding: 25px;
   width: 360px;
-  height: 430px;
+  height: 440px;
   margin-right: 120px;
   margin-top: 24px;
   background: #fdf6ec;
@@ -74,7 +74,7 @@
   box-shadow: none;
 }
 
-.form-check-input{
+.form-check-input {
   border-radius: 40px !important;
   width: 20px;
   height: 20px;
@@ -91,21 +91,20 @@
   background-color: #fdf6ec;
 }
 
-.form-icon:focus{
+.form-icon:focus {
   background-color: #fdf6ec;
 }
 
-.forgot-password{
+.forgot-password {
   margin-top: 18px;
   color: #539e6d;
   display: block;
   text-align: center;
 }
 
-.forgot-password:hover{
+.forgot-password:hover {
   color: #539e6d;
 }
-
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -116,14 +115,14 @@
     overflow: hidden;
     position: relative;
   }
-  
+
   .bg-cover {
     position: absolute;
     width: 825px;
     margin-left: -320px;
-    margin-top:60px;
+    margin-top: 60px;
   }
-  
+
   .mascot-cover {
     position: absolute;
     transform: rotateY(180deg);
@@ -131,12 +130,12 @@
     margin-left: 27px;
     scale: 1.1;
   }
-  
+
   .logo {
     margin-top: 279px;
     margin-right: 68px;
   }
-  
+
   .login-box {
     padding: 25px;
     width: 360px;
@@ -146,11 +145,11 @@
     background: #fdf6ec;
     border-radius: 30px;
   }
-  
+
   .sub {
     margin-top: -12px;
   }
-  
+
   .button2 {
     padding: 0 27px;
     width: 100%;
@@ -161,7 +160,7 @@
     border: none;
     font-size: 24px;
   }
-  
+
   .heading {
     font-family: "Work Sans";
     font-style: normal;
@@ -170,7 +169,7 @@
     line-height: 38px;
     color: #000000;
   }
-  
+
   .login-form {
     border-radius: 40px;
     height: 48px;
@@ -178,55 +177,53 @@
     outline: #828282;
     outline-width: 20px;
   }
-  
+
   .login-form:focus {
     background-color: #fdf6ec;
     box-shadow: none;
   }
-  
+
   .form-check-input {
     border-radius: 40px !important;
     width: 20px;
     height: 20px;
   }
-  
-  .form-check-input:focus{
+
+  .form-check-input:focus {
     outline: #828282;
     box-shadow: none;
   }
-  
-  .form-icon{
+
+  .form-icon {
     border-radius: 40px;
     border-right: none;
     background-color: #fdf6ec;
   }
-  
-  .form-icon:focus{
+
+  .form-icon:focus {
     background-color: #fdf6ec;
   }
-  
-  .forgot-password{
+
+  .forgot-password {
     margin-top: 18px;
     color: #539e6d;
     display: block;
     text-align: center;
   }
-  
-  .forgot-password:hover{
+
+  .forgot-password:hover {
     color: #539e6d;
   }
 }
 
-
 /* Small devices (Phones, 576px and down) */
 @media (max-width: 576px) {
-  
   .bg-cover {
     width: 800px;
     margin-left: -65%;
-    margin-top:65%;
+    margin-top: 65%;
   }
-  
+
   .mascot-cover {
     position: absolute;
     transform: rotateY(180deg);
@@ -234,13 +231,13 @@
     bottom: -7%;
     scale: 0.7;
   }
-  
+
   .logo {
     margin-top: 15%;
     margin-right: 11.5%;
     scale: 0.9;
   }
-  
+
   .login-box {
     padding: 25px;
     width: 360px;
@@ -251,11 +248,11 @@
     border-radius: 30px;
     scale: 0.9;
   }
-  
+
   .sub {
     margin-top: -12px;
   }
-  
+
   .button2 {
     padding: 0 27px;
     width: 100%;
@@ -266,7 +263,7 @@
     border: none;
     font-size: 24px;
   }
-  
+
   .heading {
     font-family: "Work Sans";
     font-style: normal;
@@ -275,7 +272,7 @@
     line-height: 38px;
     color: #000000;
   }
-  
+
   .login-form {
     border-radius: 40px;
     height: 48px;
@@ -283,53 +280,53 @@
     outline: #828282;
     outline-width: 20px;
   }
-  
+
   .login-form:focus {
     background-color: #fdf6ec;
     box-shadow: none;
   }
-  
+
   .form-check-input {
     border-radius: 40px !important;
     width: 20px;
     height: 20px;
   }
-  
-  .form-check-input:focus{
+
+  .form-check-input:focus {
     outline: #828282;
     box-shadow: none;
   }
-  
-  .form-icon{
+
+  .form-icon {
     border-radius: 40px;
     border-right: none;
     background-color: #fdf6ec;
   }
-  
-  .form-icon:focus{
+
+  .form-icon:focus {
     background-color: #fdf6ec;
   }
-  
-  .forgot-password{
+
+  .forgot-password {
     margin-top: 18px;
     color: #539e6d;
     display: block;
     text-align: center;
   }
-  
-  .forgot-password:hover{
+
+  .forgot-password:hover {
     color: #539e6d;
   }
 }
 
-.modal-header{
+.modal-header {
   border-bottom: none !important;
 }
 
-.fail-mascot{
+.fail-mascot {
   width: 120px;
 }
 
-.pop-body{
+.pop-body {
   margin-top: -24px;
 }
