@@ -41,12 +41,6 @@ const Sidebar = ({ children }) => {
       name: "Manage Store",
       icon: <FaShoppingBag />,
     }: null,
-    tokoRole === "Toko" ?
-    {
-      path: "/toko-admin",
-      name: "Manage Store",
-      icon: <FaShoppingBag />,
-    }: null,
     userRole === "Admin" || userRole === "Staff" || userRole === "BevStaff" || userRole === "FoodStaff" ?
     {
       path: "/dashboard",
