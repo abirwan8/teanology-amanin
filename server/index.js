@@ -39,8 +39,9 @@ app.use(express.static('lib_file'));
 app.post("/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  const tokoId = req.body.tokoId;
   try {
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: email, tokoId: tokoId } });
     if (!user) {
       return res.status(404).json({ msg: "User tidak ditemukan" });
     }
@@ -67,6 +68,19 @@ app.get('/users', async (req, res) => {
   }
 });
 
+app.get('/users/:tokoId', async (req, res) => {
+  try {
+    const { tokoId } = req.params;
+    const response = await User.findAll({
+      where: { tokoId }, // Menambahkan kondisi where untuk menyaring berdasarkan tokoId
+      attributes: ['id', 'uuid', 'name', 'email', 'password', 'role', 'createdAt', 'updatedAt', 'tokoId']
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 //  -- ## Get User by ID ## --  //
 app.get('/users/:id', async (req, res) => {
   try {
@@ -84,12 +98,12 @@ app.get('/users/:id', async (req, res) => {
 
 //  -- ## Create User ## --  //
 app.post('/users', async (req, res) => {
-  const { name, email, password, role } = req.body;
-  const existingUser = await User.findOne({ where: { email: email } });
+  const { name, email, password, role, tokoId } = req.body;
+  const existingUser = await User.findOne({ where: { email: email, tokoId: tokoId } });
   if (existingUser) {
     return res.status(400).json({ msg: "Email sudah digunakan" });
   }
-  const existingName = await User.findOne({ where: { name: name } });
+  const existingName = await User.findOne({ where: { name: name, tokoId: tokoId} });
   if (existingName) {
     return res.status(400).json({ msg: "Nama sudah digunakan" });
   }
@@ -100,6 +114,32 @@ app.post('/users', async (req, res) => {
       email: email,
       password: hashPassword,
       role: role,
+      tokoId: tokoId,
+    });
+    res.status(201).json({ msg: "Registrasi Berhasil" });
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+});
+
+app.post('/usersauto', async (req, res) => {
+  const { name, email, password, role, tokoId } = req.body;
+  const existingUser = await User.findOne({ where: { email: email} });
+  if (existingUser) {
+    return res.status(400).json({ msg: "Email sudah digunakan" });
+  }
+  const existingName = await User.findOne({ where: { name: name} });
+  if (existingName) {
+    return res.status(400).json({ msg: "Nama sudah digunakan" });
+  }
+  try {
+    const hashPassword = await bcrypt.hash(password, 10); // Specify the number of salt rounds
+    await User.create({
+      name: name,
+      email: email,
+      password: hashPassword,
+      role: role,
+      tokoId: tokoId,
     });
     res.status(201).json({ msg: "Registrasi Berhasil" });
   } catch (error) {
@@ -419,6 +459,30 @@ app.get('/bevs', async (req, res) => {
   }
 });
 
+app.get('/bevs/:tokoId', async (req, res) => {
+  try {
+    const { tokoId } = req.params;
+    const response = await Bevs.findAll({
+      where: { tokoId }, // Menambahkan kondisi where untuk menyaring berdasarkan tokoId
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
+      include: [{
+        model: User,
+        attributes: ['name', 'email']
+      }]
+    });
+    response.forEach(bev => {
+      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
+      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
+      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
+      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
+      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+    })
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 //  -- ## Get Bevs by ID ## --  //
 app.get('/bevs/:id', async (req, res) => {
   try {
@@ -583,7 +647,7 @@ app.post('/bevs', uploadBev.fields([
   { name: 'img4', maxCount: 1 },
   { name: 'img5', maxCount: 1 },
 ]), async (req, res) => {
-  const { name, price, ings, highlight, tsp, tspg, water, temp, time, desc, type, isHidden, userId } = req.body;
+  const { name, price, ings, highlight, tsp, tspg, water, temp, time, desc, type, isHidden, userId, tokoId } = req.body;
   const images = req.files;
 
   let img = [];
@@ -619,6 +683,7 @@ app.post('/bevs', uploadBev.fields([
       type,
       isHidden: isHidden === 'true',
       userId,
+      tokoId,
     });
 
     res.status(201).json({ msg: "Beverage Created Successfully" });
@@ -1273,6 +1338,15 @@ app.post('/toko', async (req, res) => {
     res.status(201).json({ msg: "Registrasi Berhasil" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
+  }
+});
+
+app.get('/toko/maxid', async (req, res) => {
+  try {
+    const maxId = await Toko.max('id');
+    res.status(200).json({ maxId: maxId });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
 });
 

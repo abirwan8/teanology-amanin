@@ -80,8 +80,10 @@ const TeaMenuAdmin = () => {
     type: "",
     isHidden: false,
     userId: "",
+    tokoId: "",
   });
 
+  const tokoId = localStorage.getItem("id_toko");
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const userName = localStorage.getItem("name");
@@ -92,7 +94,7 @@ const TeaMenuAdmin = () => {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/bevs").then((response) => {
+    Axios.get(`http://localhost:5000/bevs/${tokoId}`).then((response) => {
       //console.log(response.data);
       setBevList(response.data);
     });
@@ -114,6 +116,7 @@ const TeaMenuAdmin = () => {
       formData.append("type", type);
       formData.append("isHidden", isHidden);
       formData.append("userId", userId);
+      formData.append("tokoId", tokoId);
       formData.append("img1", files[0]);
       formData.append("img2", files[1]);
       formData.append("img3", files[2]);
@@ -149,29 +152,6 @@ const TeaMenuAdmin = () => {
       formData.append("desc", editData.desc);
       formData.append("type", editData.type);
       formData.append("isHidden", editData.isHidden);
-
-      // for (let i = 0; i < 5; i++) {
-      //   if (editData.files[i]) {
-      //     formData.append(`img${i + 1}`, editData.files[i]);
-      //   }
-      // }
-
-      // if (editData.files[0]) {
-      //   formData.append("img1", editData.files[0]);
-      // }
-      // if (editData.files[1]) {
-      //   formData.append("img2", editData.files[1]);
-      // }
-      // if (editData.files[2]) {
-      //   formData.append("img3", editData.files[2]);
-      // }
-      // if (editData.files[3]) {
-      //   formData.append("img4", editData.files[3]);
-      // }
-      // if (editData.files[4]) {
-      //   formData.append("img5", editData.files[4]);
-      // }
-
       await Axios.put(`http://localhost:5000/bevs/${editId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -482,7 +462,7 @@ const TeaMenuAdmin = () => {
                         <div className="mt-2 d-grid gap-2">
                           <Button size="md" className="pagination-button btn-light text-light"
                             onClick={() => {
-                              submitBevData(userId);
+                              submitBevData(userId, tokoId);
                               handleCloseAdd();
                             }}>
                             Tambahkan
@@ -803,7 +783,7 @@ const TeaMenuAdmin = () => {
                                     <div className="mt-2 d-grid gap-2">
                                       <Button size="md" className="btn-warning text-light" style={{ borderRadius: "100px" }}
                                         onClick={() => {
-                                          handleEdit(userId);
+                                          handleEdit(userId, tokoId);
                                           handleCloseAdd();
                                         }}>
                                         Edit

@@ -23,6 +23,7 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const tokoRole = localStorage.getItem("role_toko");
+  const tokoId = localStorage.getItem("id_toko");
   // const [showError, setShowError] = useState(false);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ function LoginPage() {
     Axios.post("http://localhost:5000/login", {
       email: email,
       password: password,
+      tokoId: tokoId,
     })
       .then((response) => {
         console.log(response.data);

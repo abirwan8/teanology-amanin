@@ -68,19 +68,46 @@ const TokoAdmin = () => {
   }, []);
 
   const submitStaffData = async () => {
-    try {
-      const response = await Axios.post("http://localhost:5000/toko", {
-        name: name,
-        email: email,
-        password: password,
-        role: role,
+  try {
+    const response = await Axios.post("http://localhost:5000/toko", {
+      name: name,
+      email: email,
+      password: password,
+      role: role,
+    });
+    // Jika penambahan staf berhasil
+    if (response.status === 201) {
+      const maxIdResponse = await Axios.get("http://localhost:5000/toko/maxid");
+      const tokoId = maxIdResponse.data.maxId
+      // Tambahkan admin untuk pengguna
+      const adminResponse = await Axios.post("http://localhost:5000/usersauto", {
+        name: "Admin",
+        email: "Admin@gmail.com",
+        password: "secret",
+        role: "Admin",
+        tokoId: tokoId,
       });
-      // alert("Berhasil Insert");
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
+
+      // Jika penambahan admin berhasil
+      if (adminResponse.status === 201) {
+        // Beritahu pengguna bahwa penambahan berhasil
+        alert("Berhasil menambahkan staf dan admin.");
+        // Lakukan reload halaman
+        window.location.reload();
+      } else {
+        // Jika penambahan admin gagal, beritahu pengguna
+        alert("Berhasil menambahkan staf, tetapi gagal menambahkan admin.");
+        // Lakukan reload halaman
+        window.location.reload();
+      }
+    } else {
+      // Jika penambahan staf gagal, beritahu pengguna
+      alert("Gagal menambahkan staf.");
     }
-  };
+  } catch (error) {
+    // Tangani error
+    console.error(error);
+  }};
 
   const handleEdit = async (id) => {
     try {

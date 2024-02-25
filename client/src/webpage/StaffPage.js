@@ -55,14 +55,16 @@ const TeaMenuAdmin = () => {
     name: "",
     email: "",
     role: "",
+    tokoId: "",
   });
 
+  const tokoId = localStorage.getItem("id_toko");
   const userRole = localStorage.getItem("role");
   const userName = localStorage.getItem("name");
 
   // CRUD
   useEffect(() => {
-    Axios.get("http://localhost:5000/users").then((response) => {
+    Axios.get(`http://localhost:5000/users/${tokoId}`).then((response) => {
       //console.log(response.data);
       setStaffList(response.data);
     });
@@ -75,6 +77,7 @@ const TeaMenuAdmin = () => {
         email: email,
         password: password,
         role: role,
+        tokoId: tokoId,
       });
       // alert("Berhasil Insert");
       window.location.reload();
@@ -250,7 +253,7 @@ const TeaMenuAdmin = () => {
               <Button
                 className="pagination-button btn-light text-light"
                 onClick={() => {
-                  submitStaffData();
+                  submitStaffData(tokoId);
                   handleCloseAdd();
                 }}
               >
