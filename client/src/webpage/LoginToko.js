@@ -25,8 +25,8 @@ function LoginTokoPage() {
   // const [showError, setShowError] = useState(false);
 
   useEffect(() => {
-    const idtoko = localStorage.getItem("id_toko");
-    if (idtoko) {
+    const tokoId = localStorage.getItem("id_toko");
+    if (tokoId) {
       navigate("/toko-admin");
     }
   }, []);
@@ -64,9 +64,9 @@ function LoginTokoPage() {
       localStorage.setItem("id_toko", id);
       localStorage.setItem("name_toko", name);
       localStorage.setItem("role_toko", role);
-      console.log(localStorage.getItem("id_toko", id))
-      console.log(localStorage.getItem("name_toko", name))
-      console.log(localStorage.getItem("role_toko", role))
+      console.log("lokal" + localStorage.getItem("id_toko", id))
+      console.log("lokal" + localStorage.getItem("name_toko", name))
+      console.log("lokal" + localStorage.getItem("role_toko", role))
       navigate("/toko-admin");
     })
     .catch((error) => {
