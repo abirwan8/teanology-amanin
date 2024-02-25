@@ -22,6 +22,7 @@ function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const tokoRole = localStorage.getItem("role_toko");
   // const [showError, setShowError] = useState(false);
 
   useEffect(() => {
@@ -88,6 +89,19 @@ function LoginPage() {
     setRememberMe(!rememberMe);
   };
 
+  const handleLogout = async () => {
+    try {
+      // Menghapus token dari localStorage
+      localStorage.removeItem("id_toko");
+      localStorage.removeItem("name_toko");
+      localStorage.removeItem("role_toko");
+      // Mengarahkan pengguna ke halaman login
+      navigate("/login-toko");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="box">
       <Row>
@@ -98,7 +112,7 @@ function LoginPage() {
         <Col md={6}>
           <img className="logo float-end" src={Logo} alt="logo-teanology" />
           <div className="login-box float-end">
-            <p className="heading">Welcome Back..</p>
+            <p className="heading">Welcome {localStorage.getItem("name_toko")}</p>
             <p className="sub">Please enter your email and password!</p>
             <Form onSubmit={handleSubmit}>
               <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
@@ -155,10 +169,17 @@ function LoginPage() {
               </button>
             </Form>
             <div className="mt-2 text-center">
-              <a href="/login-toko" style={{ color: "#539e6d" }}>
-                Sign in as Store
-              </a>
-            </div>
+            {tokoRole === 'Toko' && (
+                <a href="/login-toko" onClick={handleLogout} style={{ color: "#dc3545" }}>
+                    Keluar Dari {localStorage.getItem("name_toko")}
+                </a>
+            )}
+            {tokoRole === 'AdminToko' && (
+                <a href="/toko-admin" style={{ color: "#539e6d" }}>
+                    Back to Store
+                </a>
+            )}
+        </div>
           </div>
         </Col>
       </Row>

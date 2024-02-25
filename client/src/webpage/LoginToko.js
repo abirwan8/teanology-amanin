@@ -26,10 +26,17 @@ function LoginTokoPage() {
 
   useEffect(() => {
     const tokoId = localStorage.getItem("id_toko");
+    const tokoRole = localStorage.getItem("role_toko");
+
     if (tokoId) {
-      navigate("/toko-admin");
+        if (tokoRole === "Toko") {
+            navigate("/login-page");
+        } else if (tokoRole === "AdminToko") {
+            navigate("/toko-admin");
+        }
     }
-  }, []);
+}, []);
+
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("rememberedEmailToko");
@@ -68,7 +75,11 @@ function LoginTokoPage() {
         console.log("lokal" + localStorage.getItem("id_toko", id));
         console.log("lokal" + localStorage.getItem("name_toko", name));
         console.log("lokal" + localStorage.getItem("role_toko", role));
-        navigate("/toko-admin");
+        if (role === 'Toko') {
+          navigate("/login-page");
+      } else if (role === 'AdminToko') {
+          navigate("/toko-admin");
+      }
       })
       .catch((error) => {
         console.error(error);
@@ -154,9 +165,6 @@ function LoginTokoPage() {
                 Sign In
               </button>
             </Form>
-            <div className="mt-2 text-center">
-              <a href="/login-page" style={{ color: "#539e6d" }}>Sign in as Staff</a>
-            </div>
           </div>
         </Col>
       </Row>

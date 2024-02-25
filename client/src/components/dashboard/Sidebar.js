@@ -15,6 +15,20 @@ import logoAdmin from "./Logo.svg";
 const Sidebar = ({ children }) => {
   const userRole = localStorage.getItem("role");
   const tokoRole = localStorage.getItem("role_toko");
+  // const navigate = useNavigate();
+  
+  // const handleLogout = async () => {
+  //   try {
+  //     // Menghapus token dari localStorage
+  //     localStorage.removeItem("id");
+  //     localStorage.removeItem("name");
+  //     localStorage.removeItem("role");
+  //     // Mengarahkan pengguna ke halaman login
+  //     navigate("/login-page");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +36,12 @@ const Sidebar = ({ children }) => {
 
   const menuItem = [
     tokoRole === "AdminToko" ?
+    {
+      path: "/toko-admin",
+      name: "Manage Store",
+      icon: <FaShoppingBag />,
+    }: null,
+    tokoRole === "Toko" ?
     {
       path: "/toko-admin",
       name: "Manage Store",
@@ -69,13 +89,6 @@ const Sidebar = ({ children }) => {
       icon: <IoMdPerson />,
     },
   ].filter(Boolean);
-
-  // Ketika login toko dengan role "toko" maka akan langsung ke home
-  // useEffect(() => {
-  //   if (!userRole || !tokoRole || menuItem.length === 0) {
-  //     navigate('/home');
-  //   }
-  // }, [userRole, tokoRole]);
   
   return (
     <div className="admin-container">
