@@ -221,6 +221,32 @@ app.get('/foods', async (req, res) => {
   }
 });
 
+app.get('/foods/:tokoId', async (req, res) => {
+  try {
+    const { tokoId } = req.params;
+    const response = await Foods.findAll({
+      where: { tokoId },
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'desc', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
+      include: [{
+        model: User,
+        attributes: ['name', 'email']
+      }]
+    });
+
+    response.forEach(bev => {
+      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
+      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
+      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
+      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
+      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+    })
+
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 app.get('/foodss', async (req, res) => {
   try {
     const response = await FoodPairings.findAll({
@@ -254,14 +280,50 @@ app.get('/foodss', async (req, res) => {
   }
 });
 
+app.get('/foodss/:tokoId', async (req, res) => {
+  try {
+    const { tokoId } = req.params;
+    const response = await FoodPairings.findAll({
+      // attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'desc', 'createdAt', 'updatedAt'],
+      include: [{
+        model: Foods,
+        as: 'food',
+      }]
+    });
+    
+    const result = response.map(item => {
+      return {
+        id: item.food.id,
+        bevId: item.bevId,
+        name: item.food.name,
+        price: item.food.price,
+        ings: item.food.ings,
+        img1: item.food.img1,
+        img2: item.food.img2,
+        img3: item.food.img3,
+        img4: item.food.img4,
+        img5: item.food.img5,
+        desc: item.food.desc,
+        isHidden: item.food.isHidden,
+        tokoId: tokoId
+      };
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 //  -- ## Get Food by ID ## --  //
-app.get('/foods/:id', async (req, res) => {
+app.get('/foods/:tokoId/:id', async (req, res) => {
   try {
     const food = await Foods.findOne({
       where: {
+        tokoId: req.params.tokoId,
         id: req.params.id
       },
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'desc', 'isHidden'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'desc', 'isHidden', 'tokoId'],
     });
 
     if (!food) {
@@ -302,7 +364,7 @@ app.post('/foods', upload.fields([
   { name: 'img4', maxCount: 1 },
   { name: 'img5', maxCount: 1 }
 ]), async (req, res) => {
-  const { name, price, ings, desc, isHidden, userId } = req.body;
+  const { name, price, ings, desc, isHidden, userId, tokoId } = req.body;
   const images = req.files;
 
   let food_img = [];
@@ -331,6 +393,7 @@ app.post('/foods', upload.fields([
       desc: desc,
       isHidden: isHidden === 'true',
       userId: userId,
+      tokoId: tokoId,
     });
 
     res.status(201).json({ msg: "Food Created Successfully" });
@@ -868,11 +931,51 @@ app.get('/foodpairings', async (req, res) => {
   }
 });
 
+app.get('/foodpairings/:tokoId', async (req, res) => {
+  try {
+    const { tokoId } = req.params;
+    const response = await FoodPairings.findAll({
+      where: { tokoId },
+      include: [
+        {
+          model: Foods,
+          attributes: ['name'],
+          as: 'food',
+        },
+        {
+          model: User,
+          attributes: ['name'],
+          as: 'user',
+        },
+        {
+          model: Bevs,
+          attributes: ['name'],
+          as: 'bev',
+        },
+      ],
+    });
+
+    const result = response.map(item => {
+      return {
+        id: item.id,
+        foodName: item.food.name,
+        bevName: item.bev.name,
+        userName: item.user.name,
+        updatedAt: item.updatedAt,
+        tokoId: item.tokoId,
+      };
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
 
 //  -- ## Create Foodpairings ## --  //
 app.post("/foodpairings", async (req, res) => {
   try {
-    const { bevId, foodId, userId } = req.body;
+    const { bevId, foodId, userId, tokoId } = req.body;
 
     // Periksa apakah sudah ada entri FoodPairings dengan bevId dan foodId yang sama
     const existingPairing = await FoodPairings.findOne({
@@ -887,6 +990,7 @@ app.post("/foodpairings", async (req, res) => {
       bevId: bevId,
       foodId: foodId,
       userId: userId,
+      tokoId: tokoId,
     });
 
     res.status(200).json({ message: "Food pairing saved successfully!" });

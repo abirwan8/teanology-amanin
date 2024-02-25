@@ -22,7 +22,7 @@ const TopBar2 = ({ name, ...props }) => {
   
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [toko, setToko] = useState([]);
   useEffect(() => {
@@ -37,9 +37,9 @@ const TopBar2 = ({ name, ...props }) => {
       <Container fluid>
         <Row>
           <Col xs={2} md={1}>
-            <a>
+            {/* <a>
               <i onClick={() => navigate(-1)} className="bi bi-arrow-left fs-3 text-dark res-topbar_left"></i>
-            </a>
+            </a> */}
           </Col>
 
           <Col xs={8} md={10}>
