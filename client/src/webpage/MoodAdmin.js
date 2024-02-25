@@ -65,12 +65,13 @@ const TeaMenuAdmin = () => {
     }));
   };
 
+  const tokoId = localStorage.getItem("id_toko");
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const userName = localStorage.getItem("name");
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/bevs").then((response) => {
+    Axios.get(`http://localhost:5000/bevs/${tokoId}`).then((response) => {
       setBevOptions(response.data);
     });
 
@@ -78,7 +79,7 @@ const TeaMenuAdmin = () => {
       setMoodOptions(response.data);
     });
 
-    Axios.get("http://localhost:5000/moodbevs").then((response) => {
+    Axios.get(`http://localhost:5000/moodbevs/${tokoId}`).then((response) => {
       setMoodBevList(response.data);
     });
   }, []);
@@ -92,7 +93,7 @@ const TeaMenuAdmin = () => {
       const moodIds = selectedMoods.map((mood) => mood.id);
 
       // Send POST request to the specified endpoint
-      Axios.post("http://localhost:5000/moodbevs", { bevId, moodIds })
+      Axios.post("http://localhost:5000/moodbevs", { bevId, moodIds, tokoId })
         .then((response) => {
           console.log("Mood and beverage pairing saved successfully!");
           window.location.reload();

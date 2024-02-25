@@ -507,13 +507,40 @@ app.get('/bevs/:id', async (req, res) => {
   }
 });
 
-app.get('/moodbevs/angry', async (req, res) => {
+app.get('/bevs/:tokoId/:id', async (req, res) => {
+  try {
+    const bev = await Bevs.findOne({
+      where: {
+        tokoId: req.params.tokoId,
+        id: req.params.id
+      },
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'tokoId'],
+      include: [{
+        model: User,
+        attributes: ['name', 'email']
+      }]
+    });
+   
+    if (!bev) {
+      return res.status(404).json({ msg: "Data tidak ditemukan" });
+    }
+
+    res.status(200).json(bev);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+app.get('/moodbevs/angry/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
       include: [{
         model: MoodBevs,
-        where: { moodId: 1 }, // Filter MoodBevs based on moodId
+        where: { 
+          moodId: 1, // Filter MoodBevs based on moodId
+          tokoId: req.params.tokoId // Filter based on tokoId
+        },
         attributes: []
       }]
     });
@@ -523,13 +550,17 @@ app.get('/moodbevs/angry', async (req, res) => {
   }
 });
 
-app.get('/moodbevs/disgust', async (req, res) => {
+
+app.get('/moodbevs/disgust/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
       include: [{
         model: MoodBevs,
-        where: { moodId: 2 }, // Filter MoodBevs based on moodId
+        where: { 
+          moodId: 2, // Filter MoodBevs based on moodId
+          tokoId: req.params.tokoId // Filter based on tokoId
+        },
         attributes: []
       }]
     });
@@ -539,13 +570,16 @@ app.get('/moodbevs/disgust', async (req, res) => {
   }
 });
 
-app.get('/moodbevs/fear', async (req, res) => {
+app.get('/moodbevs/fear/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
       include: [{
         model: MoodBevs,
-        where: { moodId: 3 }, // Filter MoodBevs based on moodId
+        where: { 
+          moodId: 3, // Filter MoodBevs based on moodId
+          tokoId: req.params.tokoId // Filter based on tokoId
+        },
         attributes: []
       }]
     });
@@ -555,13 +589,16 @@ app.get('/moodbevs/fear', async (req, res) => {
   }
 });
 
-app.get('/moodbevs/happy', async (req, res) => {
+app.get('/moodbevs/happy/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
       include: [{
         model: MoodBevs,
-        where: { moodId: 4 }, // Filter MoodBevs based on moodId
+        where: { 
+          moodId: 4, // Filter MoodBevs based on moodId
+          tokoId: req.params.tokoId // Filter based on tokoId
+        },
         attributes: []
       }]
     });
@@ -571,13 +608,16 @@ app.get('/moodbevs/happy', async (req, res) => {
   }
 });
 
-app.get('/moodbevs/neutral', async (req, res) => {
+app.get('/moodbevs/neutral/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
       include: [{
         model: MoodBevs,
-        where: { moodId: 5 }, // Filter MoodBevs based on moodId
+        where: { 
+          moodId: 5, // Filter MoodBevs based on moodId
+          tokoId: req.params.tokoId // Filter based on tokoId
+        },
         attributes: []
       }]
     });
@@ -587,13 +627,16 @@ app.get('/moodbevs/neutral', async (req, res) => {
   }
 });
 
-app.get('/moodbevs/sad', async (req, res) => {
+app.get('/moodbevs/sad/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
       include: [{
         model: MoodBevs,
-        where: { moodId: 6 }, // Filter MoodBevs based on moodId
+        where: { 
+          moodId: 6, // Filter MoodBevs based on moodId
+          tokoId: req.params.tokoId // Filter based on tokoId
+        },
         attributes: []
       }]
     });
@@ -603,13 +646,16 @@ app.get('/moodbevs/sad', async (req, res) => {
   }
 });
 
-app.get('/moodbevs/surprise', async (req, res) => {
+app.get('/moodbevs/surprise/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
-      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'uuid', 'name', 'price', 'ings', 'img1', 'img2', 'img3', 'img4', 'img5', 'highlight', 'tsp', 'tspg', 'water', 'temp', 'time', 'desc', 'type', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
       include: [{
         model: MoodBevs,
-        where: { moodId: 7 }, // Filter MoodBevs based on moodId
+        where: { 
+          moodId: 7, // Filter MoodBevs based on moodId
+          tokoId: req.params.tokoId // Filter based on tokoId
+        },
         attributes: []
       }]
     });
@@ -959,11 +1005,47 @@ app.get('/moodbevs', async (req, res) => {
   }
 });
 
+app.get('/moodbevs/:tokoId', async (req, res) => {
+  try {
+    const response = await MoodBevs.findAll({
+      include: [
+        {
+          model: Moods,
+          attributes: ['type'],
+          as: 'mood',
+        },
+        {
+          model: Bevs,
+          attributes: ['id', 'name'],
+          as: 'bev',
+          where: { tokoId: req.params.tokoId } // Menambahkan kondisi berdasarkan tokoId
+        },
+      ],
+    });
+
+    const result = response.map(item => {
+      return {
+        id: item.id,
+        moodType: item.mood.type,
+        bevId: item.bev.id,
+        bevName: item.bev.name,
+        updatedAt: item.updatedAt,
+        tokoId: item.tokoId
+      };
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+
 
 //  -- ## Create MoodBev ## --  //
 app.post("/moodbevs", async (req, res) => {
   try {
-    const { bevId, moodIds } = req.body;
+    const { bevId, moodIds, tokoId } = req.body;
 
     // Retrieve existing MoodBev entries for the given bevId
     const existingMoodBevs = await MoodBevs.findAll({ where: { bevId } });
@@ -977,6 +1059,7 @@ app.post("/moodbevs", async (req, res) => {
       await MoodBevs.create({
         bevId: bevId,
         moodId: moodId,
+        tokoId: tokoId
       });
     }
 
