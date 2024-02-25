@@ -124,11 +124,11 @@ app.post('/users', async (req, res) => {
 
 app.post('/usersauto', async (req, res) => {
   const { name, email, password, role, tokoId } = req.body;
-  const existingUser = await User.findOne({ where: { email: email} });
+  const existingUser = await User.findOne({ where: { email: email, tokoId: tokoId} });
   if (existingUser) {
     return res.status(400).json({ msg: "Email sudah digunakan" });
   }
-  const existingName = await User.findOne({ where: { name: name} });
+  const existingName = await User.findOne({ where: { name: name, tokoId: tokoId} });
   if (existingName) {
     return res.status(400).json({ msg: "Nama sudah digunakan" });
   }

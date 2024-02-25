@@ -102,10 +102,13 @@ const TokoAdmin = () => {
       }
     } else {
       // Jika penambahan staf gagal, beritahu pengguna
+      window.location.reload();
       alert("Gagal menambahkan staf.");
     }
   } catch (error) {
     // Tangani error
+    window.location.reload();
+    alert("Gagal menambahkan.");
     console.error(error);
   }};
 
