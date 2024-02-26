@@ -32,11 +32,7 @@ function Camera() {
 
   const loadModels = () => {
     Promise.all([
-      // Mengambil model
-      // faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
       faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
-      // faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-      // faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
       faceapi.nets.faceExpressionNet.loadFromUri("/models")
 
     ]).then(() => {
@@ -82,13 +78,14 @@ function Camera() {
   const [scanDisgust, setScanDisgust] = useState(0);
   const [scanSurprise, setScanSurprise] = useState(0);
   const [scanNeutral, setScanNeutral] = useState(0);
+  const tokoId = localStorage.getItem("id_toko");
   
   function processExpression() {
     // Pindah ke halaman sesuai dengan jenis ekspresi terbanyak
     if (maxExpression === "neutral") {
       window.location.href = "neutral";
 
-      Axios.post('http://localhost:5000/stats/scan-neutral')
+      Axios.post('http://localhost:5000/stats/scan-neutral', { tokoId: tokoId })
       .then(response => {
         setScanHappy(response.data.scanHappy);
         setScanAngry(response.data.scanAngry);
@@ -105,7 +102,7 @@ function Camera() {
     } else if (maxExpression === "happy") {
       window.location.href = "happy";
 
-      Axios.post('http://localhost:5000/stats/scan-happy')
+      Axios.post('http://localhost:5000/stats/scan-happy', { tokoId: tokoId })
       .then(response => {
         setScanHappy(response.data.scanHappy);
         setScanAngry(response.data.scanAngry);
@@ -122,7 +119,7 @@ function Camera() {
     } else if (maxExpression === "sad") {
       window.location.href = "sad";
 
-      Axios.post('http://localhost:5000/stats/scan-sad')
+      Axios.post('http://localhost:5000/stats/scan-sad', { tokoId: tokoId })
       .then(response => {
         setScanHappy(response.data.scanHappy);
         setScanAngry(response.data.scanAngry);
@@ -139,7 +136,7 @@ function Camera() {
     } else if (maxExpression === "angry") {
       window.location.href = "angry";
 
-      Axios.post('http://localhost:5000/stats/scan-angry')
+      Axios.post('http://localhost:5000/stats/scan-angry', { tokoId: tokoId })
       .then(response => {
         setScanHappy(response.data.scanHappy);
         setScanAngry(response.data.scanAngry);
@@ -156,7 +153,7 @@ function Camera() {
     } else if (maxExpression === "fearful") {
       window.location.href = "fear";
 
-      Axios.post('http://localhost:5000/stats/scan-fear')
+      Axios.post('http://localhost:5000/stats/scan-fear', { tokoId: tokoId })
       .then(response => {
         setScanHappy(response.data.scanHappy);
         setScanAngry(response.data.scanAngry);
@@ -173,7 +170,7 @@ function Camera() {
     } else if (maxExpression === "disgusted") {
       window.location.href = "disgust";
 
-      Axios.post('http://localhost:5000/stats/scan-disgust')
+      Axios.post('http://localhost:5000/stats/scan-disgust', { tokoId: tokoId })
       .then(response => {
         setScanHappy(response.data.scanHappy);
         setScanAngry(response.data.scanAngry);
@@ -190,7 +187,7 @@ function Camera() {
     } else if (maxExpression === "surprised") {
       window.location.href = "surprise";
 
-      Axios.post('http://localhost:5000/stats/scan-surprise')
+      Axios.post('http://localhost:5000/stats/scan-surprise', { tokoId: tokoId })
       .then(response => {
         setScanHappy(response.data.scanHappy);
         setScanAngry(response.data.scanAngry);

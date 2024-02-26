@@ -21,6 +21,7 @@ import Sad from "../components/home/icon-mood/Icon-Sad.svg";
 import Surprised from "../components/home/icon-mood/Icon-Surprised.svg";
 
 const Home = () => {
+  
   const SectionStyle = {
     position: "relative",
     height: "100vh",
@@ -50,7 +51,6 @@ const Home = () => {
     scanImage(imageUrl);
   }, []);
 
-
   const [clickHappy, setClickHappy] = useState(0);
   const [clickAngry, setClickAngry] = useState(0);
   const [clickFear, setClickFear] = useState(0);
@@ -58,25 +58,28 @@ const Home = () => {
   const [clickDisgust, setClickDisgust] = useState(0);
   const [clickSurprise, setClickSurprise] = useState(0);
   const [clickNeutral, setClickNeutral] = useState(0);
+  const tokoId = localStorage.getItem("id_toko");
 
   const handleHappyClick = () => {
-    axios.post('http://localhost:5000/stats/click-happy')
+    axios.post('http://localhost:5000/stats/click-happy', { tokoId: tokoId })
       .then(response => {
-        setClickHappy(response.data.clickHappy);
-        setClickAngry(response.data.clickAngry);
-        setClickFear(response.data.clickFear);
-        setClickSad(response.data.clickSad);
-        setClickDisgust(response.data.clickDisgust);
-        setClickSurprise(response.data.clickSurprise);
-        setClickNeutral(response.data.clickNeutral);
+        const { clickHappy, clickAngry, clickFear, clickSad, clickDisgust, clickSurprise, clickNeutral } = response.data;
+        // Di sini Anda dapat memperbarui nilai-nilai state Anda sesuai dengan respons yang diterima
+        setClickHappy(clickHappy);
+        setClickAngry(clickAngry);
+        setClickFear(clickFear);
+        setClickSad(clickSad);
+        setClickDisgust(clickDisgust);
+        setClickSurprise(clickSurprise);
+        setClickNeutral(clickNeutral);
       })
       .catch(error => {
         console.error('Error updating click count:', error);
       });
   };
-
+  
   const handleAngryClick = () => {
-    axios.post('http://localhost:5000/stats/click-angry')
+    axios.post('http://localhost:5000/stats/click-angry', { tokoId: tokoId })
       .then(response => {
         setClickHappy(response.data.clickHappy);
         setClickAngry(response.data.clickAngry);
@@ -92,7 +95,7 @@ const Home = () => {
   };
 
   const handleFearClick = () => {
-    axios.post('http://localhost:5000/stats/click-fear')
+    axios.post('http://localhost:5000/stats/click-fear', { tokoId: tokoId })
       .then(response => {
         setClickHappy(response.data.clickHappy);
         setClickAngry(response.data.clickAngry);
@@ -108,7 +111,7 @@ const Home = () => {
   };
 
   const handleSadClick = () => {
-    axios.post('http://localhost:5000/stats/click-sad')
+    axios.post('http://localhost:5000/stats/click-sad', { tokoId: tokoId })
       .then(response => {
         setClickHappy(response.data.clickHappy);
         setClickAngry(response.data.clickAngry);
@@ -124,7 +127,7 @@ const Home = () => {
   };
 
   const handleDisgustClick = () => {
-    axios.post('http://localhost:5000/stats/click-disgust')
+    axios.post('http://localhost:5000/stats/click-disgust', { tokoId: tokoId })
       .then(response => {
         setClickHappy(response.data.clickHappy);
         setClickAngry(response.data.clickAngry);
@@ -140,7 +143,7 @@ const Home = () => {
   };
 
   const handleSurpriseClick = () => {
-    axios.post('http://localhost:5000/stats/click-surprise')
+    axios.post('http://localhost:5000/stats/click-surprise', { tokoId: tokoId })
       .then(response => {
         setClickHappy(response.data.clickHappy);
         setClickAngry(response.data.clickAngry);
@@ -156,7 +159,7 @@ const Home = () => {
   };
 
   const handleNeutralClick = () => {
-    axios.post('http://localhost:5000/stats/click-neutral')
+    axios.post('http://localhost:5000/stats/click-neutral', { tokoId: tokoId })
       .then(response => {
         setClickHappy(response.data.clickHappy);
         setClickAngry(response.data.clickAngry);

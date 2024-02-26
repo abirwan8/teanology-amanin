@@ -65,7 +65,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Mendapatkan total klik dari server
-    Axios.get("http://localhost:5000/stats-scan")
+    Axios.get(`http://localhost:5000/stats-scan/${tokoId}`)
   .then((response) => {
     const scanDataArray = response.data;
 
@@ -144,7 +144,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Mendapatkan total klik dari server
-    Axios.get("http://localhost:5000/stats-click")
+    Axios.get(`http://localhost:5000/stats-click/${tokoId}`)
   .then((response) => {
     const clickDataArray = response.data;
 

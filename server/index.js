@@ -1405,7 +1405,7 @@ app.delete('/libs/:id', async (req, res) => {
 });
 
 // STATS
-app.get("/stats-click", async (req, res) => {
+app.get("/stats-click/:tokoId", async (req, res) => {
   try {
     const click = await Stats.findAll();
     res.json(click);
@@ -1415,43 +1415,50 @@ app.get("/stats-click", async (req, res) => {
 });
 
 app.post('/stats/click-happy', async (req, res) => {
-  const click = new Stats({ clickHappy: 1 });
+  const { tokoId } = req.body;
+  const click = new Stats({ clickHappy: 1, tokoId: tokoId });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-angry', async (req, res) => {
-  const click = new Stats({ clickAngry: 1 });
+  const { tokoId } = req.body;
+  const click = new Stats({ clickAngry: 1, tokoId: tokoId });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-fear', async (req, res) => {
-  const click = new Stats({ clickFear: 1 });
+  const { tokoId } = req.body;
+  const click = new Stats({ clickFear: 1, tokoId: tokoId });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-sad', async (req, res) => {
-  const click = new Stats({ clickSad: 1 });
+  const { tokoId } = req.body;
+  const click = new Stats({ clickSad: 1, tokoId: tokoId });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-disgust', async (req, res) => {
-  const click = new Stats({ clickDisgust: 1 });
+  const { tokoId } = req.body;
+  const click = new Stats({ clickDisgust: 1, tokoId: tokoId });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-surprise', async (req, res) => {
-  const click = new Stats({ clickSurprise: 1 });
+  const { tokoId } = req.body;
+  const click = new Stats({ clickSurprise: 1, tokoId: tokoId });
   await click.save();
   res.json(getClickResponse(click));
 });
 
 app.post('/stats/click-neutral', async (req, res) => {
-  const click = new Stats({ clickNeutral: 1 });
+  const { tokoId } = req.body;
+  const click = new Stats({ clickNeutral: 1, tokoId: tokoId });
   await click.save();
   res.json(getClickResponse(click));
 });
@@ -1480,7 +1487,7 @@ function getScanResponse(scan) {
   };
 }
 
-app.get("/stats-scan", async (req, res) => {
+app.get("/stats-scan/:tokoId", async (req, res) => {
   try {
     const scan = await Stats.findAll();
     res.json(scan);
@@ -1490,43 +1497,50 @@ app.get("/stats-scan", async (req, res) => {
 });
 
 app.post('/stats/scan-happy', async (req, res) => {
-  const scan = new Stats({ scanHappy: 1 });
+  const { tokoId } = req.body;
+  const scan = new Stats({ scanHappy: 1, tokoId: tokoId });
   await scan.save();
   res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-angry', async (req, res) => {
-  const scan = new Stats({ scanAngry: 1 });
+  const { tokoId } = req.body;
+  const scan = new Stats({ scanAngry: 1, tokoId: tokoId });
   await scan.save();
   res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-fear', async (req, res) => {
-  const scan = new Stats({ scanFear: 1 });
+  const { tokoId } = req.body;
+  const scan = new Stats({ scanFear: 1, tokoId: tokoId });
   await scan.save();
   res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-sad', async (req, res) => {
-  const scan = new Stats({ scanSad: 1 });
+  const { tokoId } = req.body;
+  const scan = new Stats({ scanSad: 1, tokoId: tokoId });
   await scan.save();
   res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-disgust', async (req, res) => {
-  const scan = new Stats({ scanDisgust: 1 });
+  const { tokoId } = req.body;
+  const scan = new Stats({ scanDisgust: 1, tokoId: tokoId });
   await scan.save();
   res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-surprise', async (req, res) => {
-  const scan = new Stats({ scanSurprise: 1 });
+  const { tokoId } = req.body;
+  const scan = new Stats({ scanSurprise: 1, tokoId: tokoId });
   await scan.save();
   res.json(getScanResponse(scan));
 });
 
 app.post('/stats/scan-neutral', async (req, res) => {
-  const scan = new Stats({ scanNeutral: 1 });
+  const { tokoId } = req.body;
+  const scan = new Stats({ scanNeutral: 1, tokoId: tokoId });
   await scan.save();
   res.json(getScanResponse(scan));
 });
