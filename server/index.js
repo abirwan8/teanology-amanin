@@ -613,7 +613,6 @@ app.get('/moodbevs/angry/:tokoId', async (req, res) => {
   }
 });
 
-
 app.get('/moodbevs/disgust/:tokoId', async (req, res) => {
   try {
     const response = await Bevs.findAll({
@@ -1195,6 +1194,29 @@ app.get('/libs', async (req, res) => {
   }
 });
 
+app.get('/libs/:tokoId', async (req, res) => {
+  try {
+    const { tokoId } = req.params;
+    const response = await Libs.findAll({
+      where: { tokoId }, // Menambahkan kondisi where untuk menyaring berdasarkan tokoId
+      attributes: ['id', 'uuid', 'title', 'desc', 'cover', 'pdfFile', 'isHidden', 'createdAt', 'updatedAt', 'tokoId'],
+      include: [{
+        model: User,
+        attributes: ['name', 'email']
+      }]
+    });
+
+    response.forEach(lib => {
+      lib.cover = 'http://localhost:5000/' + lib.cover;
+      lib.pdfFile = 'http://localhost:5000/' + lib.pdfFile;
+    })
+
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 //  -- ## Get Libs by ID ## --  //
 app.get('/libs/:id', async (req, res) => {
   try {
@@ -1210,6 +1232,30 @@ app.get('/libs/:id', async (req, res) => {
     }
 
     res.status(200).json(lib);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+app.get('/libs/:tokoId/:id', async (req, res) => {
+  try {
+    const bev = await Bevs.findOne({
+      where: {
+        tokoId: req.params.tokoId,
+        id: req.params.id
+      },
+      attributes: ['id', 'uuid', 'title', 'desc', 'cover', 'pdfFile', 'isHidden', 'tokoId'],
+      include: [{
+        model: User,
+        attributes: ['name', 'email']
+      }]
+    });
+   
+    if (!bev) {
+      return res.status(404).json({ msg: "Data tidak ditemukan" });
+    }
+
+    res.status(200).json(bev);
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
@@ -1235,7 +1281,7 @@ app.post('/libs', uploadLib.fields([
   { name: 'cover', maxCount: 1 },
   { name: 'pdfFile', maxCount: 1 }
 ]), async (req, res) => {
-  const { title, desc, userId } = req.body;
+  const { title, desc, userId, tokoId  } = req.body;
   const libFile = req.files;
 
   try {
@@ -1251,6 +1297,7 @@ app.post('/libs', uploadLib.fields([
       cover: cover,
       pdfFile: pdfFile,
       userId: userId,
+      tokoId: tokoId,
     });
 
     res.status(201).json({ 

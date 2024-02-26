@@ -2,13 +2,12 @@ import "./App.css";
 import "../components/loginPage/LoginPage.css";
 
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 
 import Orbit2 from "../components/loginPage/img/orbit-cover.svg";
 import Mascot2 from "../components/loginPage/img/MascotHappy2.png";

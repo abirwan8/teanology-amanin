@@ -63,8 +63,14 @@ const TopBar1 = ({ name, ...props }) => {
           <Figure>
             <Figure.Image width={140} height={140} alt="171x180" src={pic} style={{ borderRadius: "50%", marginLeft: "110px" }} />
           </Figure>
-          <ul className="mt-4 " style={{ listStyle: "none" }}>
-            <li>
+          <ul style={{ listStyle: "none" }}>
+            <li className="mt-4 " href="#">
+              <a>
+                <i class="bi bi-shop-window me-1 fs-4" style={{ color: "#539e6d" }}></i>
+                <span style={{ marginLeft: "12px" }}>{localStorage.getItem("name_toko")}</span>
+              </a>
+            </li>
+            <li className="mt-4">
               <a href="#">
                 <img alt="mt-profil" src={profil} style={{ width: "28px" }} />
                 <span style={{ marginLeft: "12px" }}>About Us</span>
