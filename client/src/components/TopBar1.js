@@ -10,6 +10,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Figure from "react-bootstrap/Figure";
 import Dropdown from "react-bootstrap/Dropdown";
 import Axios from "axios";
+import { BASE_URL } from '../config.js';
 
 import pic from "./assets/Picture.png";
 import profil from "./assets/profil.svg";
@@ -25,7 +26,7 @@ const TopBar1 = ({ name, ...props }) => {
   const [toko, setToko] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/toko").then((response) => {
+    Axios.get(`${BASE_URL}/toko`).then((response) => {
       //console.log(response.data);
       setToko(response.data);
     });
@@ -67,7 +68,11 @@ const TopBar1 = ({ name, ...props }) => {
             <li className="mt-4 " href="#">
               <a>
                 <i class="bi bi-shop-window me-1 fs-4" style={{ color: "#539e6d" }}></i>
-                <span style={{ marginLeft: "12px" }}>{localStorage.getItem("name_toko")}</span>
+                <span style={{ marginLeft: "12px" }}>
+                {localStorage.getItem("name_toko") !== null
+                  ? localStorage.getItem("name_toko")
+                  : "Guest"}  
+                </span>
               </a>
             </li>
             <li className="mt-4">
@@ -89,7 +94,7 @@ const TopBar1 = ({ name, ...props }) => {
               </a>
             </li>
           </ul>
-          <a href="/login-page">
+          <a href="/login-toko">
             <div className="d-flex justify-content-center">
               <button className="btn btn-login">Sign in</button>
             </div>

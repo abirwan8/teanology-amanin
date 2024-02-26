@@ -12,6 +12,7 @@ import Table from "react-bootstrap/Table";
 import Pagination from 'react-bootstrap/Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Sidebar from "../components/dashboard/Sidebar.js";
+import { BASE_URL } from '../config.js';
 
 const TokoAdmin = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -61,7 +62,7 @@ const TokoAdmin = () => {
 
   // CRUD
   useEffect(() => {
-    Axios.get("http://localhost:5000/toko").then((response) => {
+    Axios.get(`${BASE_URL}/toko`).then((response) => {
       //console.log(response.data);
       setStaffList(response.data);
     });
@@ -69,7 +70,7 @@ const TokoAdmin = () => {
 
   const submitStaffData = async () => {
   try {
-    const response = await Axios.post("http://localhost:5000/toko", {
+    const response = await Axios.post(`${BASE_URL}/toko`, {
       name: name,
       email: email,
       password: password,
@@ -77,10 +78,10 @@ const TokoAdmin = () => {
     });
     // Jika penambahan staf berhasil
     if (response.status === 201) {
-      const maxIdResponse = await Axios.get("http://localhost:5000/toko/maxid");
+      const maxIdResponse = await Axios.get(`${BASE_URL}/toko/maxid`);
       const tokoId = maxIdResponse.data.maxId
       // Tambahkan admin untuk pengguna
-      const adminResponse = await Axios.post("http://localhost:5000/usersauto", {
+      const adminResponse = await Axios.post(`${BASE_URL}/usersauto`, {
         name: "Admin",
         email: "Admin@gmail.com",
         password: "secret",
@@ -114,7 +115,7 @@ const TokoAdmin = () => {
 
   const handleEdit = async (id) => {
     try {
-      await Axios.put(`http://localhost:5000/toko/${editId}`, {
+      await Axios.put(`${BASE_URL}/toko/${editId}`, {
         name: editData.name,
         email: editData.email,
         password: password,
@@ -130,7 +131,7 @@ const TokoAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/toko/${deleteId}`);
+      await Axios.delete(`${BASE_URL}/toko/${deleteId}`);
       window.location.reload();
     } catch (error) {
       console.error(error);

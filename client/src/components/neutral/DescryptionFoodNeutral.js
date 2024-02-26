@@ -5,6 +5,7 @@ import Axios from "axios";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import { useParams } from "react-router-dom";
+import { BASE_URL } from '../../config.js';
 
 const DescryptionFoodNeutral = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const DescryptionFoodNeutral = () => {
   const tokoId = localStorage.getItem("id_toko");
   
   useEffect(() => {
-    Axios.get(`http://localhost:5000/foods/${tokoId}/${product.id}`).then((response) => {
+    Axios.get(`${BASE_URL}/foods/${tokoId}/${product.id}`).then((response) => {
       setProduct(response.data);
     }).catch((error) => {
       console.error(error);

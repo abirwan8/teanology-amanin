@@ -12,6 +12,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import Table from "react-bootstrap/Table";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Sidebar from "../components/dashboard/Sidebar.js";
+import { BASE_URL } from '../config.js';
 
 const TeaMenuAdmin = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -71,15 +72,15 @@ const TeaMenuAdmin = () => {
   const userName = localStorage.getItem("name");
 
   useEffect(() => {
-    Axios.get(`http://localhost:5000/bevs/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/bevs/${tokoId}`).then((response) => {
       setBevOptions(response.data);
     });
 
-    Axios.get("http://localhost:5000/moods").then((response) => {
+    Axios.get(`${BASE_URL}/moods`).then((response) => {
       setMoodOptions(response.data);
     });
 
-    Axios.get(`http://localhost:5000/moodbevs/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/moodbevs/${tokoId}`).then((response) => {
       setMoodBevList(response.data);
     });
   }, []);
@@ -93,7 +94,7 @@ const TeaMenuAdmin = () => {
       const moodIds = selectedMoods.map((mood) => mood.id);
 
       // Send POST request to the specified endpoint
-      Axios.post("http://localhost:5000/moodbevs", { bevId, moodIds, tokoId })
+      Axios.post(`${BASE_URL}/moodbevs`, { bevId, moodIds, tokoId })
         .then((response) => {
           console.log("Mood and beverage pairing saved successfully!");
           window.location.reload();
@@ -146,7 +147,7 @@ const TeaMenuAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/moodbevs/${deleteId}`);
+      await Axios.delete(`${BASE_URL}/moodbevs/${deleteId}`);
       window.location.reload();
     } catch (error) {
       console.error(error);

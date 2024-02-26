@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
 import { FaTh, FaBars, FaUserAlt, FaRegChartBar, FaCommentAlt, FaShoppingBag, FaThList } from "react-icons/fa";
 import { BsCupHotFill } from "react-icons/bs";
 import { GiBowlOfRice } from "react-icons/gi";

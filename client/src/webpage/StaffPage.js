@@ -12,6 +12,7 @@ import Table from "react-bootstrap/Table";
 import Pagination from 'react-bootstrap/Pagination';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Sidebar from "../components/dashboard/Sidebar.js";
+import { BASE_URL } from '../config.js';
 
 const TeaMenuAdmin = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -64,7 +65,7 @@ const TeaMenuAdmin = () => {
 
   // CRUD
   useEffect(() => {
-    Axios.get(`http://localhost:5000/users/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/users/${tokoId}`).then((response) => {
       //console.log(response.data);
       setStaffList(response.data);
     });
@@ -72,7 +73,7 @@ const TeaMenuAdmin = () => {
 
   const submitStaffData = async () => {
     try {
-      const response = await Axios.post("http://localhost:5000/users", {
+      const response = await Axios.post(`${BASE_URL}/users`, {
         name: name,
         email: email,
         password: password,
@@ -88,7 +89,7 @@ const TeaMenuAdmin = () => {
 
   const handleEdit = async (id) => {
     try {
-      await Axios.put(`http://localhost:5000/users/${editId}`, {
+      await Axios.put(`${BASE_URL}/users/${editId}`, {
         name: editData.name,
         email: editData.email,
         password: password,
@@ -104,7 +105,7 @@ const TeaMenuAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/users/${deleteId}`);
+      await Axios.delete(`${BASE_URL}/users/${deleteId}`);
       window.location.reload();
     } catch (error) {
       console.error(error);

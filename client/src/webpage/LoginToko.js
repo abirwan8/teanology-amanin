@@ -8,7 +8,7 @@ import { Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+import { BASE_URL } from '../config.js';
 
 import Orbit2 from "../components/loginPage/img/orbit-cover.svg";
 import Mascot2 from "../components/loginPage/img/MascotHappy2.png";
@@ -51,7 +51,7 @@ function LoginTokoPage() {
   }, []);
 
   const handleLogin = () => {
-    Axios.post("http://localhost:5000/logintoko", {
+    Axios.post(`${BASE_URL}/logintoko`, {
       email: email,
       password: password,
     })

@@ -8,6 +8,7 @@ import { Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Modal from "react-bootstrap/Modal";
+import { BASE_URL } from '../config.js';
 
 import Orbit2 from "../components/loginPage/img/orbit-cover.svg";
 import Mascot2 from "../components/loginPage/img/MascotHappy2.png";
@@ -45,7 +46,7 @@ function LoginPage() {
   }, []);
 
   const handleLogin = () => {
-    Axios.post("http://localhost:5000/login", {
+    Axios.post(`${BASE_URL}/login`, {
       email: email,
       password: password,
       tokoId: tokoId,

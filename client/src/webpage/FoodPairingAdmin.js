@@ -12,6 +12,7 @@ import Table from "react-bootstrap/Table";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Pagination from 'react-bootstrap/Pagination';
 import Sidebar from "../components/dashboard/Sidebar.js";
+import { BASE_URL } from '../config.js';
 
 const TeaMenuAdmin = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -71,15 +72,15 @@ const TeaMenuAdmin = () => {
   const userName = localStorage.getItem("name");
 
   useEffect(() => {
-    Axios.get(`http://localhost:5000/bevs/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/bevs/${tokoId}`).then((response) => {
       setBevOptions(response.data);
     });
 
-    Axios.get(`http://localhost:5000/foods/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/foods/${tokoId}`).then((response) => {
       setFoodOptions(response.data);
     });
 
-    Axios.get(`http://localhost:5000/foodpairings/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/foodpairings/${tokoId}`).then((response) => {
       setFoodPairingList(response.data);
     });
   }, []);
@@ -92,7 +93,7 @@ const TeaMenuAdmin = () => {
       const foodId = selectedFood.id;
 
       // Mengirim permintaan POST ke endpoint yang ditentukan
-      Axios.post("http://localhost:5000/foodpairings", { bevId, foodId, userId, tokoId })
+      Axios.post(`${BASE_URL}/foodpairings`, { bevId, foodId, userId, tokoId })
         .then((response) => {
           console.log("Food pairing saved successfully!");
           window.location.reload();
@@ -115,7 +116,7 @@ const TeaMenuAdmin = () => {
         const bevId = selectedBev.id;
         const foodId = selectedFood.id;
 
-        await Axios.put(`http://localhost:5000/foodpairings/${editId}`, {
+        await Axios.put(`${BASE_URL}/foodpairings/${editId}`, {
           bevId: bevId,
           foodId: foodId,
           userId: userId,
@@ -136,7 +137,7 @@ const TeaMenuAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/foodpairings/${deleteId}`);
+      await Axios.delete(`${BASE_URL}/foodpairings/${deleteId}`);
       window.location.reload();
     } catch (error) {
       console.error(error);

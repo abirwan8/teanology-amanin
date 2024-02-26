@@ -15,6 +15,7 @@ import Alert from 'react-bootstrap/Alert';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Badge } from 'react-bootstrap';
 import Sidebar from "../components/dashboard/Sidebar.js";
+import { BASE_URL } from '../config.js';
 
 const FoodMenuAdmin = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -80,7 +81,7 @@ const FoodMenuAdmin = () => {
   };
 
   useEffect(() => {
-    Axios.get(`http://localhost:5000/foods/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/foods/${tokoId}`).then((response) => {
       //console.log(response.data);
       setFoodList(response.data);
     });
@@ -101,7 +102,7 @@ const FoodMenuAdmin = () => {
       formData.append("desc", desc);
       formData.append("userId", userId);
 
-      await Axios.post("http://localhost:5000/foods", formData, {
+      await Axios.post(`${BASE_URL}/foods`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -122,7 +123,7 @@ const FoodMenuAdmin = () => {
       formData.append("desc", editData.desc);
       formData.append("isHidden", editData.isHidden);
 
-      await Axios.put(`http://localhost:5000/foods/${editId}`, formData, {
+      await Axios.put(`${BASE_URL}/foods/${editId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -137,7 +138,7 @@ const FoodMenuAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/foods/${deleteId}`);
+      await Axios.delete(`${BASE_URL}/foods/${deleteId}`);
       window.location.reload();
     } catch (error) {
       console.error(error);

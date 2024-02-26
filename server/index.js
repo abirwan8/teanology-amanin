@@ -13,6 +13,7 @@ import Libs from "./models/LibModel.js";
 import Stats from "./models/StatModel.js";
 import fs from "fs";
 import path from "path";
+import { BASE_URL } from './config.js';
 
 import bcrypt from "bcrypt";
 const saltRounds = 10;
@@ -208,11 +209,11 @@ app.get('/foods', async (req, res) => {
     });
 
     response.forEach(bev => {
-      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
-      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
-      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
-      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
-      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+      bev.img1 = bev.img1 ? `${BASE_URL}` + bev.img1 : null;
+      bev.img2 = bev.img2 ? `${BASE_URL}` + bev.img2 : null;
+      bev.img3 = bev.img3 ? `${BASE_URL}` + bev.img3 : null;
+      bev.img4 = bev.img4 ? `${BASE_URL}` + bev.img4 : null;
+      bev.img5 = bev.img5 ? `${BASE_URL}` + bev.img5 : null;
     })
 
     res.status(200).json(response);
@@ -234,11 +235,11 @@ app.get('/foods/:tokoId', async (req, res) => {
     });
 
     response.forEach(bev => {
-      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
-      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
-      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
-      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
-      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+      bev.img1 = bev.img1 ? `${BASE_URL}` + bev.img1 : null;
+      bev.img2 = bev.img2 ? `${BASE_URL}` + bev.img2 : null;
+      bev.img3 = bev.img3 ? `${BASE_URL}` + bev.img3 : null;
+      bev.img4 = bev.img4 ? `${BASE_URL}` + bev.img4 : null;
+      bev.img5 = bev.img5 ? `${BASE_URL}` + bev.img5 : null;
     })
 
     res.status(200).json(response);
@@ -510,11 +511,11 @@ app.get('/bevs', async (req, res) => {
       }]
     });
     response.forEach(bev => {
-      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
-      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
-      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
-      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
-      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+      bev.img1 = bev.img1 ? `${BASE_URL}` + bev.img1 : null;
+      bev.img2 = bev.img2 ? `${BASE_URL}` + bev.img2 : null;
+      bev.img3 = bev.img3 ? `${BASE_URL}` + bev.img3 : null;
+      bev.img4 = bev.img4 ? `${BASE_URL}` + bev.img4 : null;
+      bev.img5 = bev.img5 ? `${BASE_URL}` + bev.img5 : null;
     })
     res.status(200).json(response);
   } catch (error) {
@@ -534,11 +535,11 @@ app.get('/bevs/:tokoId', async (req, res) => {
       }]
     });
     response.forEach(bev => {
-      bev.img1 = bev.img1 ? 'http://localhost:5000/' + bev.img1 : null;
-      bev.img2 = bev.img2 ? 'http://localhost:5000/' + bev.img2 : null;
-      bev.img3 = bev.img3 ? 'http://localhost:5000/' + bev.img3 : null;
-      bev.img4 = bev.img4 ? 'http://localhost:5000/' + bev.img4 : null;
-      bev.img5 = bev.img5 ? 'http://localhost:5000/' + bev.img5 : null;
+      bev.img1 = bev.img1 ? `${BASE_URL}` + bev.img1 : null;
+      bev.img2 = bev.img2 ? `${BASE_URL}` + bev.img2 : null;
+      bev.img3 = bev.img3 ? `${BASE_URL}` + bev.img3 : null;
+      bev.img4 = bev.img4 ? `${BASE_URL}` + bev.img4 : null;
+      bev.img5 = bev.img5 ? `${BASE_URL}` + bev.img5 : null;
     })
     res.status(200).json(response);
   } catch (error) {
@@ -1184,8 +1185,8 @@ app.get('/libs', async (req, res) => {
     });
 
     response.forEach(lib => {
-      lib.cover = 'http://localhost:5000/' + lib.cover;
-      lib.pdfFile = 'http://localhost:5000/' + lib.pdfFile;
+      lib.cover = `${BASE_URL}` + lib.cover;
+      lib.pdfFile = `${BASE_URL}` + lib.pdfFile;
     })
 
     res.status(200).json(response);
@@ -1207,8 +1208,8 @@ app.get('/libs/:tokoId', async (req, res) => {
     });
 
     response.forEach(lib => {
-      lib.cover = 'http://localhost:5000/' + lib.cover;
-      lib.pdfFile = 'http://localhost:5000/' + lib.pdfFile;
+      lib.cover = `${BASE_URL}` + lib.cover;
+      lib.pdfFile = `${BASE_URL}` + lib.pdfFile;
     })
 
     res.status(200).json(response);

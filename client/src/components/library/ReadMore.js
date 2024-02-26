@@ -3,15 +3,14 @@ import './Library.css';
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
-
+import { BASE_URL } from '../../config.js';
 
 const ReadMore = () => {
     const { id } = useParams();
     const [val, setVal] = useState({id});
-    const pdfUrl = "http://localhost:5000/";
     
     useEffect(() => {
-      Axios.get(`http://localhost:5000/libs/${val.id}`).then((response) => {
+      Axios.get(`${BASE_URL}/libs/${val.id}`).then((response) => {
         console.log(response.data);
         setVal(response.data);
       });
@@ -29,7 +28,7 @@ const ReadMore = () => {
             <div style={{ width: '100%', height: '100vh' }} className="d-flex justify-content-center">
                 {val.pdfFile && (
                     <iframe
-                    src={`${pdfUrl}${val.pdfFile}`}
+                    src={`${BASE_URL}${val.pdfFile}`}
                     style={{ width: '92%', height: '100%', border: 'none' }}
                     title="PDF View"
                     >

@@ -15,6 +15,7 @@ import Tea from "../components/dashboard/Tea.svg";
 import Dropdown from "react-bootstrap/Dropdown";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, ResponsiveContainer, LabelList } from "recharts";
+import { BASE_URL } from '../config.js';
 
 // Fungsi untuk menghasilkan warna berdasarkan data atau indeks
 function getCustomColor(entry) {
@@ -65,7 +66,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Mendapatkan total klik dari server
-    Axios.get(`http://localhost:5000/stats-scan/${tokoId}`)
+    Axios.get(`${BASE_URL}/stats-scan/${tokoId}`)
   .then((response) => {
     const scanDataArray = response.data;
 
@@ -144,7 +145,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Mendapatkan total klik dari server
-    Axios.get(`http://localhost:5000/stats-click/${tokoId}`)
+    Axios.get(`${BASE_URL}/stats-click/${tokoId}`)
   .then((response) => {
     const clickDataArray = response.data;
 
@@ -224,7 +225,7 @@ const Dashboard = () => {
 
   // Mengambil data makanan dari backend
   useEffect(() => {
-    Axios.get(`http://localhost:5000/foods/${tokoId}`)
+    Axios.get(`${BASE_URL}/foods/${tokoId}`)
       .then((response) => {
         setTotalFoods(response.data);
       })
@@ -237,7 +238,7 @@ const Dashboard = () => {
 
   // Mengambil data staff dari backend
   useEffect(() => {
-    Axios.get(`http://localhost:5000/users/${tokoId}`)
+    Axios.get(`${BASE_URL}/users/${tokoId}`)
       .then((response) => {
         setTotalStaff(response.data);
       })
@@ -250,7 +251,7 @@ const Dashboard = () => {
 
   // Mengambil data FP dari backend
   useEffect(() => {
-    Axios.get(`http://localhost:5000/bevs/${tokoId}`)
+    Axios.get(`${BASE_URL}/bevs/${tokoId}`)
       .then((response) => {
         setTotalBevs(response.data);
       })
@@ -263,7 +264,7 @@ const Dashboard = () => {
 
   // Mengambil data FP dari backend
   useEffect(() => {
-    Axios.get(`http://localhost:5000/foodpairings/${tokoId}`)
+    Axios.get(`${BASE_URL}/foodpairings/${tokoId}`)
       .then((response) => {
         setTotalFP(response.data);
       })

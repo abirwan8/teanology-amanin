@@ -4,15 +4,15 @@ import Carousel from 'react-bootstrap/Carousel';
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import { BASE_URL } from '../../config.js';
 
 const Carousel2 = () => {
   const { id } = useParams();
   const [val, setVal] = useState({id});
-  const imageBaseUrl = "http://localhost:5000/";
   const tokoId = localStorage.getItem("id_toko");
   
   useEffect(() => {
-    Axios.get(`http://localhost:5000/bevs/${tokoId}/${val.id}`).then((response) => {
+    Axios.get(`${BASE_URL}/bevs/${tokoId}/${val.id}`).then((response) => {
       //console.log(response.data);
       setVal(response.data);
     });
@@ -25,7 +25,7 @@ const Carousel2 = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${val.img1}`}
+              src={`${BASE_URL}/${val.img1}`}
               alt="First Pic"
             />
           </Carousel.Item>
@@ -36,7 +36,7 @@ const Carousel2 = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${val.img2}`}
+              src={`${BASE_URL}/${val.img2}`}
               alt="Second Pic"
             />
           </Carousel.Item>
@@ -47,7 +47,7 @@ const Carousel2 = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${val.img3}`}
+              src={`${BASE_URL}/${val.img3}`}
               alt="Third Pic"
             />
           </Carousel.Item>
@@ -57,7 +57,7 @@ const Carousel2 = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${val.img4}`}
+              src={`${BASE_URL}/${val.img4}`}
               alt="Fourth Pic"
             />
           </Carousel.Item>
@@ -67,7 +67,7 @@ const Carousel2 = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${val.img5}`}
+              src={`${BASE_URL}/${val.img5}`}
               alt="Fifth Pic"
             />
           </Carousel.Item>

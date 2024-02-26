@@ -4,15 +4,15 @@ import Carousel from 'react-bootstrap/Carousel';
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import { BASE_URL } from '../../config.js';
 
 const CarouselFoodSurprise = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({id});
-  const imageBaseUrl = "http://localhost:5000/";
   const tokoId = localStorage.getItem("id_toko");
   
   useEffect(() => {
-    Axios.get(`http://localhost:5000/foods/${tokoId}/${product.id}`).then((response) => {
+    Axios.get(`${BASE_URL}/foods/${tokoId}/${product.id}`).then((response) => {
       //console.log(response.data);
       setProduct(response.data);
     });
@@ -25,7 +25,7 @@ const CarouselFoodSurprise = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${product.img1}`}
+              src={`${BASE_URL}/${product.img1}`}
               alt="First Pic"
             />
           </Carousel.Item>
@@ -36,7 +36,7 @@ const CarouselFoodSurprise = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${product.img2}`}
+              src={`${BASE_URL}/${product.img2}`}
               alt="Second Pic"
             />
           </Carousel.Item>
@@ -47,7 +47,7 @@ const CarouselFoodSurprise = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${product.img3}`}
+              src={`${BASE_URL}/${product.img3}`}
               alt="Third Pic"
             />
           </Carousel.Item>
@@ -57,7 +57,7 @@ const CarouselFoodSurprise = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${product.img4}`}
+              src={`${BASE_URL}/${product.img4}`}
               alt="Fourth Pic"
             />
           </Carousel.Item>
@@ -67,7 +67,7 @@ const CarouselFoodSurprise = () => {
             <img
               className="w-100 cropped-image"
               style={{ height: '480px' }}
-              src={`${imageBaseUrl}${product.img5}`}
+              src={`${BASE_URL}/${product.img5}`}
               alt="Fifth Pic"
             />
           </Carousel.Item>

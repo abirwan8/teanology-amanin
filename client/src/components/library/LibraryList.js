@@ -4,12 +4,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { BASE_URL } from '../../config.js';
 
 const LibraryList = () => {
   const [libList, setLibList] = useState([]);
+  const tokoId = localStorage.getItem("id_toko");
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/libs").then((response) => {
+    Axios.get(`${BASE_URL}/libs/${tokoId}`).then((response) => {
       //console.log(response.data);
       setLibList(response.data);
     });

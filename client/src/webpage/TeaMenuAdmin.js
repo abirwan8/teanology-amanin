@@ -15,6 +15,7 @@ import Alert from 'react-bootstrap/Alert';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Badge } from 'react-bootstrap';
 import Sidebar from "../components/dashboard/Sidebar.js";
+import { BASE_URL } from '../config.js';
 
 const TeaMenuAdmin = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -94,7 +95,7 @@ const TeaMenuAdmin = () => {
   };
 
   useEffect(() => {
-    Axios.get(`http://localhost:5000/bevs/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/bevs/${tokoId}`).then((response) => {
       //console.log(response.data);
       setBevList(response.data);
     });
@@ -123,7 +124,7 @@ const TeaMenuAdmin = () => {
       formData.append("img4", files[3]);
       formData.append("img5", files[4]);
 
-      await Axios.post("http://localhost:5000/bevs", formData, {
+      await Axios.post(`${BASE_URL}/bevs`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -152,7 +153,7 @@ const TeaMenuAdmin = () => {
       formData.append("desc", editData.desc);
       formData.append("type", editData.type);
       formData.append("isHidden", editData.isHidden);
-      await Axios.put(`http://localhost:5000/bevs/${editId}`, formData, {
+      await Axios.put(`${BASE_URL}/bevs/${editId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -170,7 +171,7 @@ const TeaMenuAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`http://localhost:5000/bevs/${deleteId}`);
+      await Axios.delete(`${BASE_URL}/bevs/${deleteId}`);
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -546,7 +547,7 @@ const TeaMenuAdmin = () => {
                   <td>{val.ings.split(' ').slice(0, 2).join(' ')}{val.ings.split(' ').length > 2 ? '...' : ''}</td>
                   <td>
                     <td className="d-flex justify-content-start">
-                      {val.img1 && <img src={val.img1} alt="Food1" className="rounded" style={{ width: "40px" }} />}
+                      {val.img1 && <img src={`${BASE_URL}/${val.img1}`} alt="Food1" className="rounded" style={{ width: "40px" }} />}
                       {val.img2 && <img src={val.img2} alt="Food2" className="ms-1 rounded" style={{ width: "40px" }} />}
                       {val.img3 && <img src={val.img3} alt="Food3" className="ms-1 rounded" style={{ width: "40px" }} />}
                       {val.img4 && <img src={val.img4} alt="Food4" className="ms-1 rounded" style={{ width: "40px" }} />}

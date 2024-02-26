@@ -4,13 +4,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { BASE_URL } from '../../config.js';
 
 const CatalogueList = () => {
-
   const [bevList, setBevList] = useState([]);
+  const tokoId = localStorage.getItem("id_toko");
   
   useEffect(() => {
-    Axios.get("http://localhost:5000/bevs").then((response) => {
+    Axios.get(`${BASE_URL}/bevs/${tokoId}`).then((response) => {
       //console.log(response.data);
       setBevList(response.data);
     })
@@ -65,7 +66,7 @@ const CatalogueList = () => {
                         className="position-relative"
                         style={{ height: "88px" }}
                       >
-                        <img
+                         <img
                           alt={val.name}
                           src={val.img1}
                           width={"88px"}
@@ -73,6 +74,7 @@ const CatalogueList = () => {
                           className="float-end"
                           style={{ borderRadius: "20px" }}
                         />
+                        
                       </div>
                     </Col>
                   </Row>

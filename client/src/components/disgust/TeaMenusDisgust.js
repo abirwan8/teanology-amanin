@@ -4,14 +4,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { BASE_URL } from '../../config.js';
 
 const TeaMenusDisgust = () => {
   const [bevList, setBevList] = useState([]);
-  const imageBaseUrl = "http://localhost:5000/";
   const tokoId = localStorage.getItem("id_toko");
   
   useEffect(() => {
-    Axios.get(`http://localhost:5000/moodbevs/disgust/${tokoId}`).then((response) => {
+    Axios.get(`${BASE_URL}/moodbevs/disgust/${tokoId}`).then((response) => {
       //console.log(response.data);
       setBevList(response.data);
     })
@@ -68,7 +68,7 @@ const TeaMenusDisgust = () => {
                       >
                         <img
                           alt={val.name}
-                          src={`${imageBaseUrl}${val.img1}`}
+                          src={`${BASE_URL}/${val.img1}`}
                           width={"88px"}
                           height={"88px"}
                           className="float-end"
