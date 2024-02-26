@@ -190,7 +190,7 @@ const TeaMenuAdmin = () => {
       <Container fluid>
         <Row  style={{ marginTop: "24px" }}>
           <Col md={7} xs={12}>
-            <h3 className="topbar-dashboard fw-bold margin-topbar-dashboard">Teanology Food Pairing Data</h3>
+            <h3 className="topbar-dashboard fw-bold margin-topbar-dashboard">Teanology Food Pairing Data {localStorage.getItem("name_toko")}</h3>
             <p className="text-muted teanology-menu-update">
                 Manage your food pairing data on this page.
             </p>

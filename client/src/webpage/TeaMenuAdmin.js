@@ -261,7 +261,7 @@ const TeaMenuAdmin = () => {
       <Container fluid>
         <Row style={{ marginTop: "24px" }}>
           <Col md={7} xs={12}>
-            <h3 className="topbar-dashboard fw-bold margin-topbar-dashboard">Teanology Beverage Data</h3>
+            <h3 className="topbar-dashboard fw-bold margin-topbar-dashboard">Teanology Beverage Data {localStorage.getItem("name_toko")}</h3>
             <p className="text-muted teanology-menu-update">Manage your beverage data on this page.</p>
           </Col>
           <Col md={5} xs={12} className="user-admin d-flex justify-content-end align-items-center">
