@@ -8,9 +8,10 @@ import Axios from "axios";
 const TeaMenusDisgust = () => {
   const [bevList, setBevList] = useState([]);
   const imageBaseUrl = "http://localhost:5000/";
+  const tokoId = localStorage.getItem("id_toko");
   
   useEffect(() => {
-    Axios.get("http://localhost:5000/moodbevs/disgust").then((response) => {
+    Axios.get(`http://localhost:5000/moodbevs/disgust/${tokoId}`).then((response) => {
       //console.log(response.data);
       setBevList(response.data);
     })

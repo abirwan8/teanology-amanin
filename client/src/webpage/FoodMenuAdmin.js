@@ -65,9 +65,11 @@ const FoodMenuAdmin = () => {
     img5: "",
     desc: "",
     isHidden: false,
-    userId: ""
+    userId: "",
+    tokoId: "",
   });
 
+  const tokoId = localStorage.getItem("id_toko");
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const userName = localStorage.getItem("name");
@@ -78,7 +80,7 @@ const FoodMenuAdmin = () => {
   };
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/foods").then((response) => {
+    Axios.get(`http://localhost:5000/foods/${tokoId}`).then((response) => {
       //console.log(response.data);
       setFoodList(response.data);
     });
@@ -90,6 +92,7 @@ const FoodMenuAdmin = () => {
       formData.append("name", name);
       formData.append("price", price);
       formData.append("ings", ings);
+      formData.append("tokoId", tokoId);
       formData.append("img1", files[0]);
       formData.append("img2", files[1]);
       formData.append("img3", files[2]);
@@ -363,7 +366,7 @@ const FoodMenuAdmin = () => {
                         <div className="mt-2 d-grid gap-2">
                           <Button size="md" className="pagination-button btn-light text-light"
                             onClick={() => {
-                              submitFoodData(userId);
+                              submitFoodData(userId, tokoId);
                               handleCloseAdd();
                             }}
                             >
@@ -584,7 +587,7 @@ const FoodMenuAdmin = () => {
                                     <div className="mt-2 d-grid gap-2">
                                       <Button size="md" className="btn-warning text-light" style={{ borderRadius: "100px" }}
                                         onClick={() => {
-                                          handleEdit(userId);
+                                          handleEdit(userId, tokoId);
                                           handleCloseAdd();
                                         }}
                                         >

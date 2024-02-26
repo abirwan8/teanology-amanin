@@ -49,6 +49,8 @@ const Dashboard = () => {
   const [value1, onChange1] = useState([new Date(), new Date()]);
   const [value2, onChange2] = useState([new Date(), new Date()]);
 
+  const tokoId = localStorage.getItem("id_toko");
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 600);
@@ -222,7 +224,7 @@ const Dashboard = () => {
 
   // Mengambil data makanan dari backend
   useEffect(() => {
-    Axios.get("http://localhost:5000/foods")
+    Axios.get(`http://localhost:5000/foods/${tokoId}`)
       .then((response) => {
         setTotalFoods(response.data);
       })
@@ -235,7 +237,7 @@ const Dashboard = () => {
 
   // Mengambil data staff dari backend
   useEffect(() => {
-    Axios.get("http://localhost:5000/users")
+    Axios.get(`http://localhost:5000/users/${tokoId}`)
       .then((response) => {
         setTotalStaff(response.data);
       })
@@ -248,7 +250,7 @@ const Dashboard = () => {
 
   // Mengambil data FP dari backend
   useEffect(() => {
-    Axios.get("http://localhost:5000/bevs")
+    Axios.get(`http://localhost:5000/bevs/${tokoId}`)
       .then((response) => {
         setTotalBevs(response.data);
       })
@@ -261,7 +263,7 @@ const Dashboard = () => {
 
   // Mengambil data FP dari backend
   useEffect(() => {
-    Axios.get("http://localhost:5000/foodpairings")
+    Axios.get(`http://localhost:5000/foodpairings/${tokoId}`)
       .then((response) => {
         setTotalFP(response.data);
       })

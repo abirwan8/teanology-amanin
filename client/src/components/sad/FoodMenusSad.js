@@ -9,9 +9,10 @@ import { Link } from "react-router-dom";
 const FoodMenusSad = () => {
   const [foodList, setFoodList] = useState([]);
   const imageBaseUrl = "http://localhost:5000/";
+  const tokoId = localStorage.getItem("id_toko");
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/foodss").then((response) => {
+    Axios.get(`http://localhost:5000/foodss/${tokoId}`).then((response) => {
       setFoodList(response.data);
     });
   }, []);

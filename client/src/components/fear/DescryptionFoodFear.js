@@ -9,9 +9,10 @@ import { useParams } from "react-router-dom";
 const DescryptionFoodFear = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({id});
+  const tokoId = localStorage.getItem("id_toko");
 
   useEffect(() => {
-    Axios.get(`http://localhost:5000/foods/${product.id}`).then((response) => {
+    Axios.get(`http://localhost:5000/foods/${tokoId}/${product.id}`).then((response) => {
       //console.log(response.data);
       setProduct(response.data);
     }).catch((error) => {

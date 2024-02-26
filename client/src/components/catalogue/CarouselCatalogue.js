@@ -9,9 +9,10 @@ const Carousel2 = () => {
   const { id } = useParams();
   const [val, setVal] = useState({id});
   const imageBaseUrl = "http://localhost:5000/";
+  const tokoId = localStorage.getItem("id_toko");
   
   useEffect(() => {
-    Axios.get(`http://localhost:5000/bevs/${val.id}`).then((response) => {
+    Axios.get(`http://localhost:5000/bevs/${tokoId}/${val.id}`).then((response) => {
       // console.log(response.data)
       setVal(response.data);
     });

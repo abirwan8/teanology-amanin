@@ -65,20 +65,21 @@ const TeaMenuAdmin = () => {
     }));
   };
 
+  const tokoId = localStorage.getItem("id_toko");
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const userName = localStorage.getItem("name");
 
   useEffect(() => {
-    Axios.get("http://localhost:5000/bevs").then((response) => {
+    Axios.get(`http://localhost:5000/bevs/${tokoId}`).then((response) => {
       setBevOptions(response.data);
     });
 
-    Axios.get("http://localhost:5000/foods").then((response) => {
+    Axios.get(`http://localhost:5000/foods/${tokoId}`).then((response) => {
       setFoodOptions(response.data);
     });
 
-    Axios.get("http://localhost:5000/foodpairings").then((response) => {
+    Axios.get(`http://localhost:5000/foodpairings/${tokoId}`).then((response) => {
       setFoodPairingList(response.data);
     });
   }, []);
@@ -91,7 +92,7 @@ const TeaMenuAdmin = () => {
       const foodId = selectedFood.id;
 
       // Mengirim permintaan POST ke endpoint yang ditentukan
-      Axios.post("http://localhost:5000/foodpairings", { bevId, foodId, userId })
+      Axios.post("http://localhost:5000/foodpairings", { bevId, foodId, userId, tokoId })
         .then((response) => {
           console.log("Food pairing saved successfully!");
           window.location.reload();
