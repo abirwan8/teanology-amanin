@@ -547,7 +547,7 @@ const TeaMenuAdmin = () => {
                   <td>{val.ings.split(' ').slice(0, 2).join(' ')}{val.ings.split(' ').length > 2 ? '...' : ''}</td>
                   <td>
                     <td className="d-flex justify-content-start">
-                      {val.img1 && <img src={`${BASE_URL}/${val.img1}`} alt="Food1" className="rounded" style={{ width: "40px" }} />}
+                      {val.img1 && <img src={val.img1} alt="Food1" className="rounded" style={{ width: "40px" }} />}
                       {val.img2 && <img src={val.img2} alt="Food2" className="ms-1 rounded" style={{ width: "40px" }} />}
                       {val.img3 && <img src={val.img3} alt="Food3" className="ms-1 rounded" style={{ width: "40px" }} />}
                       {val.img4 && <img src={val.img4} alt="Food4" className="ms-1 rounded" style={{ width: "40px" }} />}
