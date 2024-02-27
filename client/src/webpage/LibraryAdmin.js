@@ -58,8 +58,10 @@ const LibraryAdmin = () => {
     pdfFile: "",
     isHidden: false,
     userId: "",
+    tokoId: "",
   });
 
+  const tokoId = localStorage.getItem("id_toko");
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const userName = localStorage.getItem("name");
@@ -71,7 +73,7 @@ const LibraryAdmin = () => {
 
   // CRUD
   useEffect(() => {
-    Axios.get(`${BASE_URL}/libs`).then((response) => {
+    Axios.get(`${BASE_URL}/libs/${tokoId}`).then((response) => {
       //console.log(response.data);
       setLibList(response.data);
     });
@@ -85,6 +87,7 @@ const LibraryAdmin = () => {
       formData.append("cover", cover);
       formData.append("pdfFile", pdfFile);
       formData.append("userId", userId);
+      formData.append("tokoId", tokoId);
 
       await Axios.post(`${BASE_URL}/libs`, formData, {
         headers: {
@@ -258,7 +261,7 @@ const LibraryAdmin = () => {
               <Button
                 className="pagination-button btn-light text-light"
                 onClick={() => {
-                  submitLibData(userId);
+                  submitLibData(userId, tokoId);
                   handleCloseAdd();
                 }}
               >
@@ -395,7 +398,7 @@ const LibraryAdmin = () => {
                           className="btn-warning text-light"
                           style={{ borderRadius: "100px" }}
                           onClick={() => {
-                            handleEdit(val.id);
+                            handleEdit(userId, tokoId);
                             handleCloseEdit();
                           }}
                         >

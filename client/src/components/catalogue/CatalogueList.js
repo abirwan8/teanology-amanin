@@ -50,6 +50,10 @@ const CatalogueList = () => {
               <h3 className="type-menu-neutral">{type}</h3>
               {filteredList.map((val) => (
                 <Link to={`/product-details-catalogue/${val.id}`} key={val.id}>
+                  {console.log("BASE_URL:", BASE_URL)}
+                  {console.log("val.img1:", val.img1)}
+                  {console.log("Link:", `${BASE_URL}/${val.img1.replace(/^\//, '')}}`)}
+
                   <h4 className="dash-neutral" aria-hidden="true"></h4>
                   <Row className="list-menu-neutral">
                     <Col md={10} xs={8}>
@@ -74,7 +78,6 @@ const CatalogueList = () => {
                           className="float-end"
                           style={{ borderRadius: "20px" }}
                         />
-                        
                       </div>
                     </Col>
                   </Row>

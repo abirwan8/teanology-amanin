@@ -14,6 +14,7 @@ const LibraryList = () => {
     Axios.get(`${BASE_URL}/libs/${tokoId}`).then((response) => {
       //console.log(response.data);
       setLibList(response.data);
+      console.log(response.data);
     });
   }, []);
 
